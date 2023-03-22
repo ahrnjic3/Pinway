@@ -8,12 +8,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="NotificationService" />
         <module name="CollectionService" />
-        <module name="PinwayUserService" />
         <module name="UserService" />
+        <module name="PostService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="UserService" target="17" />
+      <module name="PinwayUserService" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -21,6 +21,7 @@
       <module name="CollectionService" options="-parameters" />
       <module name="NotificationService" options="-parameters" />
       <module name="PinwayUserService" options="-parameters" />
+      <module name="PostService" options="-parameters" />
       <module name="UserService" options="-parameters" />
     </option>
   </component>
