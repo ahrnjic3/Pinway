@@ -12,14 +12,12 @@ public class CollectionController {
     private CollectionRepository collectionRepository;
 
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewCollection (@RequestParam String name
-            , @RequestParam String email) {
+    public @ResponseBody String addNewCollection (@RequestParam String name) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
         Collection n = new Collection();
         n.setName(name);
-        n.setEmail(email);
         collectionRepository.save(n);
         return "Saved";
     }

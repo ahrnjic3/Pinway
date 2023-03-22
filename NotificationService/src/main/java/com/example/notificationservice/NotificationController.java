@@ -12,14 +12,12 @@ public class NotificationController {
     private NotificationRepository notificationRepository;
 
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewNotification (@RequestParam String name
-            , @RequestParam String email) {
+    public @ResponseBody String addNewNotification (@RequestParam String content) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
         Notification n = new Notification();
-        n.setName(name);
-        n.setEmail(email);
+        n.setContent(content);
         notificationRepository.save(n);
         return "Saved";
     }
