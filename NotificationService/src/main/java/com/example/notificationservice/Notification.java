@@ -1,9 +1,6 @@
 package com.example.notificationservice;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Notification {
@@ -12,6 +9,8 @@ public class Notification {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name="typeId")
     private NotificationType notificationType;
 
     private Boolean open;
@@ -20,6 +19,8 @@ public class Notification {
     private Integer actionUserId;
     private Integer pinnedPost;
     private Integer likedComment;
+
+
     private Integer sharedCollection;
     private String content;
 
