@@ -1,5 +1,7 @@
-package com.example.postservice;
+package com.example.postservice.Controllers;
 
+import com.example.postservice.Repositories.PostRepository;
+import com.example.postservice.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
