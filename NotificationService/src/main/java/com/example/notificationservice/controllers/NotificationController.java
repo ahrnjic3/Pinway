@@ -2,14 +2,11 @@ package com.example.notificationservice.controllers;
 
 import com.example.notificationservice.models.Notification;
 import com.example.notificationservice.models.NotificationType;
-import com.example.notificationservice.repositories.NotificationRepository;
 import com.example.notificationservice.services.NotificationService;
-import com.example.notificationservice.validation.NotificationResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
