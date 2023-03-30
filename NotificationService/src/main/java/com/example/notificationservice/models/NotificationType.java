@@ -2,6 +2,7 @@ package com.example.notificationservice.models;
 
 import com.example.notificationservice.models.Notification;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -22,7 +23,7 @@ public class NotificationType {
     @Pattern(regexp = "^[A-Z]*$", message = "Type must contain only uppercase letters")
     private String type;
 
-    @JsonIgnore
+    @JsonIgnoreProperties("notificationType")
     @OneToMany(mappedBy = "notificationType")
     private List<Notification> notifications;
 
