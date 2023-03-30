@@ -108,10 +108,12 @@ public class PotServiceDBSeeder {
             Comment com1 = new Comment();
             com1.setPost(post);
             com1.setContent("Some comment");
+            com1.setUser_id(Long.valueOf(1));
 
             Comment com2 = new Comment();
             com2.setPost(post);
             com2.setContent("Another comment");
+            com1.setUser_id(Long.valueOf(1));
 
             commentRepository.save(com1);
             commentRepository.save(com2);

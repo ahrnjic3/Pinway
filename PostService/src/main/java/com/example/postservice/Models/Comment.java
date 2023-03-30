@@ -1,6 +1,7 @@
 package com.example.postservice.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -18,11 +19,11 @@ public class Comment {
     }
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name ="post_id", nullable = false)
     private Post post;
 
 
+    @JsonIgnoreProperties("comment")
     @OneToMany(mappedBy = "comment",  cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Like> likes;
 

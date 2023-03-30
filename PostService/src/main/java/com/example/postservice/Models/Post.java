@@ -1,6 +1,7 @@
 package com.example.postservice.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -30,8 +31,6 @@ public class Post {
     private LocalDateTime created_at;
 
 
-
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name ="hashtag_post",
@@ -39,6 +38,8 @@ public class Post {
             inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
     Set<Hashtag> hashtags;
 
+
+    @JsonIgnoreProperties("post")
     @OneToMany(mappedBy = "post",  cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments;
     public Long getId() {
@@ -101,5 +102,13 @@ public class Post {
 
     public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }

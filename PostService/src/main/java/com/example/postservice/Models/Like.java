@@ -15,7 +15,6 @@ public class Like {
 
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name ="comment_id", nullable = false)
     private Comment comment;
 
