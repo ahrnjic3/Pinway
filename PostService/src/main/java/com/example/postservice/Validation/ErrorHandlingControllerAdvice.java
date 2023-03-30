@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ErrorHandlingControllerAdvice {
 
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     ValidationErrorResponse onConstraintValidationException(
             ConstraintViolationException e) {
@@ -35,6 +34,7 @@ public class ErrorHandlingControllerAdvice {
         for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
             error.getViolations().add(
                     new Violation(fieldError.getField(), fieldError.getDefaultMessage()));
+            break;
         }
         return error;
     }
