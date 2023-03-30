@@ -35,8 +35,8 @@ public class NotificationServiceImp implements NotificationService {
 
     @Override
     public  Optional<Notification> Details(Integer id) {
-
         Optional<Notification> notification = notificationRepository.findById(id);
+
         return notification;
     }
 
