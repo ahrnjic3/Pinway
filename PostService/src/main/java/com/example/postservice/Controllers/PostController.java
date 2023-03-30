@@ -1,10 +1,20 @@
 package com.example.postservice.Controllers;
 
 import com.example.postservice.Repositories.PostRepository;
-import com.example.postservice.models.Post;
+import com.example.postservice.Models.Post;
+import com.example.postservice.DTO.PostDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/api/post") // This means URL's start with /demo (after Application path)
@@ -14,21 +24,53 @@ public class PostController {
     private PostRepository postRepository;
 
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewPost (@RequestParam String title
-            , @RequestParam String description) {
+    public @ResponseBody ResponseEntity<String> addNewPost (@Valid @RequestBody PostDTO postDTO) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
-        Post n = new Post();
-        n.setTitle(title);
-        n.setDescription(description);
-        postRepository.save(n);
-        return "Saved";
+        Post new_post = new Post();
+        new_post.setTitle(postDTO.getTitle());
+        new_post.setDescription(postDTO.getDescription());
+        new_post.setImage_path(postDTO.getImage_path());
+        new_post.setUser_id(Long.valueOf(1));
+        new_post.setPin_counter(0);
+        new_post.setCreated_at(LocalDateTime.now());
+
+        postRepository.save(new_post);
+        return new ResponseEntity<>("Post saved successfully", HttpStatus.OK);
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody Iterable<Post> getAllPosts() {
+    public @ResponseBody ResponseEntity<Iterable<Post>> getAllPosts() {
         // This returns a JSON or XML with the users
-        return postRepository.findAll();
+
+        Iterable<Post> a =  postRepository.findAll();
+
+        return  ResponseEntity.status(200).body(a);
+    }
+    @GetMapping(path="/findByIds")
+    public @ResponseBody ResponseEntity<Iterable<Post>> getPost( @NotNull @DecimalMin("0") @RequestParam Set<Long> Ids) {
+        // This returns a JSON or XML with the users
+        Iterable<Post> a = postRepository.findAllById(Ids);
+        return  ResponseEntity.status(200).body(a);
+    }
+    @DeleteMapping("/delete")
+    public @ResponseBody ResponseEntity<Boolean> deletePost(@RequestParam Long id){
+        var a = postRepository.findById(id).orElse(null);
+        if(a == null)
+            return ResponseEntity.status(400).body(false);
+        postRepository.deleteById(id);
+        return ResponseEntity.status(204).body(true);
+    }
+    @PutMapping("/put")
+    public @ResponseBody ResponseEntity<Boolean> updatePost(@Valid @RequestBody PostDTO postDTO){
+        var a = postRepository.findById(postDTO.getId()).orElse(null);
+        if(a == null)
+            return ResponseEntity.status(204).body(false);
+        a.setTitle(postDTO.getTitle());
+        a.setImage_path(postDTO.getImage_path());
+        a.setDescription(postDTO.getDescription());
+        postRepository.save(a);
+        return ResponseEntity.status(200).body(true);
     }
 }

@@ -1,10 +1,11 @@
-package com.example.postservice.models;
+package com.example.postservice.Models;
 
-import com.example.postservice.models.Comment;
-import com.example.postservice.models.Hashtag;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -13,19 +14,24 @@ public class Post {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Title must contain at least 1 character")
+    @Size(max = 50, message = "Title must contain less than 50 characters")
     private String title;
-
+    @Size(max = 500, message = "Title must contain less than 50 characters")
     private String description;
 
+    @NotBlank(message = "Image is mandatory")
     private String image_path;
 
     private Long user_id;
 
     private Integer pin_counter;
 
-    private LocalDate created_at;
+    private LocalDateTime created_at;
 
 
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name ="hashtag_post",
@@ -33,7 +39,7 @@ public class Post {
             inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
     Set<Hashtag> hashtags;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",  cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments;
     public Long getId() {
         return id;
@@ -89,11 +95,11 @@ public class Post {
     public void setHashtags(Set<Hashtag> hashtags) {
         this.hashtags = hashtags;
     }
-    public LocalDate getCreated_at() {
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDate created_at) {
+    public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
     }
 }

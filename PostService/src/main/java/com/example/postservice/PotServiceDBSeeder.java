@@ -4,17 +4,17 @@ import com.example.postservice.Repositories.CommentRepository;
 import com.example.postservice.Repositories.HashtagRepository;
 import com.example.postservice.Repositories.LikeRepository;
 import com.example.postservice.Repositories.PostRepository;
-import com.example.postservice.models.Comment;
-import com.example.postservice.models.Hashtag;
-import com.example.postservice.models.Like;
-import com.example.postservice.models.Post;
+import com.example.postservice.Models.Comment;
+import com.example.postservice.Models.Hashtag;
+import com.example.postservice.Models.Like;
+import com.example.postservice.Models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -47,7 +47,7 @@ public class PotServiceDBSeeder {
             p1.setImage_path("some/path");
             p1.setUser_id(Long.valueOf(1));
             p1.setPin_counter(0);
-            p1.setCreated_at(LocalDate.now());
+            p1.setCreated_at(LocalDateTime.now());
 
             Post p2 = new Post();
             p2.setTitle("Awesome stuff");
@@ -55,7 +55,7 @@ public class PotServiceDBSeeder {
             p2.setImage_path("some/path2");
             p2.setUser_id(Long.valueOf(1));
             p2.setPin_counter(0);
-            p2.setCreated_at(LocalDate.now());
+            p2.setCreated_at(LocalDateTime.now());
 
             postRepository.save(p1);
             postRepository.save(p2);

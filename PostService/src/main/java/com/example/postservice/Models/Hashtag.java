@@ -1,5 +1,6 @@
-package com.example.postservice.models;
+package com.example.postservice.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -14,6 +15,7 @@ public class Hashtag {
     private Integer hash_counter;
     private Integer pin_counter;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "hashtags")
     Set<Post> posts;
     public Long getId() {

@@ -1,6 +1,6 @@
-package com.example.postservice.models;
+package com.example.postservice.Models;
 
-import com.example.postservice.models.Comment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,6 +15,7 @@ public class Like {
 
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name ="comment_id", nullable = false)
     private Comment comment;
 
