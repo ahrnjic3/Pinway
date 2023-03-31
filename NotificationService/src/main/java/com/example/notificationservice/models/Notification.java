@@ -15,6 +15,7 @@ public class Notification {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+
     @NotNull
     @ManyToOne
     @JoinColumn(name="typeId")

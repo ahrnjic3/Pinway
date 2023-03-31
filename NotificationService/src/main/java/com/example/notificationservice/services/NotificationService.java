@@ -12,13 +12,11 @@ public interface NotificationService {
 
     Iterable<Notification> List();
 
-    Optional<Notification> Details(Integer id);
+    Notification Details(Integer id);
 
-    boolean Delete(Integer id);
+    Boolean Delete(Integer id);
 
-    boolean Update(Integer id, Notification notification);
-
-    NotificationType CreateNotificationType(NotificationType notificationType);
+    Notification Update(Integer id, Notification notification);
 
     Iterable<NotificationType> ListNotificationTypes();
 

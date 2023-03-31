@@ -1,4 +1,4 @@
-package com.example.notificationservice.validation;
+package com.example.notificationservice.exception;
 
 public class Violation {
 
