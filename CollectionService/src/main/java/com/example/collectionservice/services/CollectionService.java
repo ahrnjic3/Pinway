@@ -1,0 +1,20 @@
+package com.example.collectionservice.services;
+import com.example.collectionservice.models.Collection;
+import com.example.collectionservice.models.CollectionVisibilityType;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface CollectionService {
+    Collection Create(Collection collection);
+
+    Iterable<Collection> List();
+
+    Collection Details(Integer id);
+
+    Boolean Delete(Integer id);
+
+    Collection Update(Integer id, Collection collection);
+
+    Iterable<CollectionVisibilityType> ListVisibilityTypes();
+}
