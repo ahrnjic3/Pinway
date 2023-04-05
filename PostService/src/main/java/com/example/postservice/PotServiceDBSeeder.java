@@ -1,13 +1,13 @@
 package com.example.postservice;
 
-import com.example.postservice.Repositories.CommentRepository;
-import com.example.postservice.Repositories.HashtagRepository;
-import com.example.postservice.Repositories.LikeRepository;
-import com.example.postservice.Repositories.PostRepository;
-import com.example.postservice.Models.Comment;
-import com.example.postservice.Models.Hashtag;
-import com.example.postservice.Models.Like;
-import com.example.postservice.Models.Post;
+import com.example.postservice.repositories.CommentRepository;
+import com.example.postservice.repositories.HashtagRepository;
+import com.example.postservice.repositories.LikeRepository;
+import com.example.postservice.repositories.PostRepository;
+import com.example.postservice.models.Comment;
+import com.example.postservice.models.Hashtag;
+import com.example.postservice.models.Like;
+import com.example.postservice.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;

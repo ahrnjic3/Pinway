@@ -1,20 +1,21 @@
-package com.example.postservice.Models;
+package com.example.postservice.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private Long user_id;
     private String content;
-    public Integer getId() {
+    private LocalDateTime createdAt;
+    public Long getId() {
         return id;
     }
 
@@ -27,7 +28,7 @@ public class Comment {
     @OneToMany(mappedBy = "comment",  cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Like> likes;
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -59,5 +60,13 @@ public class Comment {
 
     public void setLikes(Set<Like> likes) {
         this.likes = likes;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

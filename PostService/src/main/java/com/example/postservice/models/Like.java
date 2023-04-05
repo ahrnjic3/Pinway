@@ -1,6 +1,5 @@
-package com.example.postservice.Models;
+package com.example.postservice.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity

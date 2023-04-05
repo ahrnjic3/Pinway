@@ -1,7 +1,9 @@
-package com.example.postservice.DTO;
+package com.example.postservice.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.util.Set;
 
 public class PostDTO {
     private Long Id;
@@ -13,6 +15,8 @@ public class PostDTO {
 
     @NotBlank(message = "Image is mandatory")
     private String image_path;
+
+    private Set<String> hashtagNames;
 
     public Long getId() {
         return Id;
@@ -44,5 +48,12 @@ public class PostDTO {
 
     public void setImage_path(String image_path) {
         this.image_path = image_path;
+    }
+    public Set<String> getHashtagNames() {
+        return hashtagNames;
+    }
+
+    public void setHashtagNames(Set<String> hashtagNames) {
+        this.hashtagNames = hashtagNames;
     }
 }
