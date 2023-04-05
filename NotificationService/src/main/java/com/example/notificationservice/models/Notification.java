@@ -1,9 +1,12 @@
-package com.example.notificationservice;
+package com.example.notificationservice.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Notification {
@@ -12,15 +15,25 @@ public class Notification {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name="typeId")
     private NotificationType notificationType;
 
+    @NotNull
     private Boolean open;
 
+    @NotNull
     private Integer userId;
+
+    @NotNull
     private Integer actionUserId;
     private Integer pinnedPost;
     private Integer likedComment;
     private Integer sharedCollection;
+    @NotBlank(message = "Content is mandatory")
+    @Size(max = 50, message = "Content must contain less than 50 characters")
     private String content;
 
     public Integer getId() {
