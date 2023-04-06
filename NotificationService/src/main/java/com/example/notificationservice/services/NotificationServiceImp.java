@@ -56,6 +56,7 @@ public class NotificationServiceImp implements NotificationService {
 
     }
 
+
     @Override
     public Notification Update(Integer id, Notification n) {
         Optional<Notification> notification = notificationRepository.findById(id);
@@ -83,5 +84,11 @@ public class NotificationServiceImp implements NotificationService {
     public Iterable<NotificationType> ListNotificationTypes() {
         Iterable<NotificationType> notificationTypeList = notificationTypeRepository.findAll();
         return notificationTypeList;
+    }
+
+    @Override
+    public Iterable<Notification> List10NotificationsByOpen() {
+        Iterable<Notification> notifications = notificationRepository.get10NotificationsByOpen();
+        return notifications;
     }
 }

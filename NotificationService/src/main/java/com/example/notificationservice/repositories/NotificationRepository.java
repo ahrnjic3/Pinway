@@ -2,6 +2,7 @@ package com.example.notificationservice.repositories;
 
 import com.example.notificationservice.models.Notification;
 import com.example.notificationservice.models.NotificationType;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -13,4 +14,8 @@ import java.util.Optional;
 
 public interface NotificationRepository extends CrudRepository<Notification, Integer> {
     List<Notification> findAll();
+
+    @Query("SELECT n FROM Notification n WHERE n.open=true ORDER BY n.id DESC LIMIT 10")
+    Iterable<Notification> get10NotificationsByOpen();
+
 }

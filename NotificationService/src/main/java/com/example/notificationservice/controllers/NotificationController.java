@@ -32,6 +32,12 @@ public class NotificationController {
         return ResponseEntity.status(200).body(notificationList);
     }
 
+    @GetMapping(path="/notifications/open")
+    public @ResponseBody ResponseEntity Get10NotificationsByOpen() {
+        Iterable<Notification> notificationList = notificationService.List10NotificationsByOpen();
+        return ResponseEntity.status(200).body(notificationList);
+    }
+
     @GetMapping(path="/notifications/{id}")
     public @ResponseBody ResponseEntity GetDetails( @PathVariable("id") Integer id) {
         Notification notification = notificationService.Details(id);
@@ -52,10 +58,13 @@ public class NotificationController {
 
     }
 
+
     @GetMapping(path="/notificationtypes")
     public @ResponseBody ResponseEntity GetAllNotificationTypes() {
         Iterable<NotificationType> notificationTypeList = notificationService.ListNotificationTypes();
         return ResponseEntity.status(200).body(notificationTypeList);
 
     }
+
+
 }

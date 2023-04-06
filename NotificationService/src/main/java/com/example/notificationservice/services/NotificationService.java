@@ -20,5 +20,7 @@ public interface NotificationService {
 
     Iterable<NotificationType> ListNotificationTypes();
 
+    Iterable<Notification> List10NotificationsByOpen();
+
 
 }
