@@ -9,6 +9,7 @@
         <module name="EurekaServer" />
         <module name="NotificationService" />
         <module name="CollectionService" />
+        <module name="ConfigServer" />
         <module name="UserService" />
         <module name="PostService" />
       </profile>
@@ -20,6 +21,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="CollectionService" options="-parameters" />
+      <module name="ConfigServer" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
       <module name="NotificationService" options="-parameters" />
       <module name="PinwayUserService" options="-parameters" />
