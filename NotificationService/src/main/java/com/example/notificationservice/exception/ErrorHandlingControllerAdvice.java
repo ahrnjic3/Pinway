@@ -1,6 +1,7 @@
 package com.example.notificationservice.exception;
 
 
+import com.github.fge.jsonpatch.JsonPatchException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -83,4 +84,18 @@ public class ErrorHandlingControllerAdvice {
 
         return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+//    @ExceptionHandler(JsonPatchException.class)
+//    public ResponseEntity<ErrorMessage> jsonPatchExceptionHandler(JsonPatchException jsonPatchException, WebRequest request) {
+//        List<String> messages = new ArrayList<String>();
+//        messages.add(jsonPatchException.getMessage());
+//
+//        ErrorMessage message = new ErrorMessage(
+//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                new Date(),
+//                messages,
+//                request.getDescription(false));
+//
+//        return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 }

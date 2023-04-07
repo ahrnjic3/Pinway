@@ -3,6 +3,11 @@ package com.example.notificationservice.controllers;
 import com.example.notificationservice.models.Notification;
 import com.example.notificationservice.models.NotificationType;
 import com.example.notificationservice.services.NotificationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/api") // This means URL's start with /api/notification (after Application path)
 public class NotificationController {
 
+    private ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private NotificationService notificationService;
 
@@ -51,12 +57,31 @@ public class NotificationController {
 
     }
 
-    @PutMapping("/notifications/{id}")
-    public @ResponseBody ResponseEntity Update(@PathVariable("id") Integer id, @Valid @RequestBody Notification requestBody) {
-        Notification updated = notificationService.Update(id, requestBody);
-        return ResponseEntity.status(200).body(updated);
+//    @PutMapping("/notifications/{id}")
+//    public @ResponseBody ResponseEntity Update(@PathVariable("id") Integer id, @Valid @RequestBody Notification requestBody) {
+//        Notification updated = notificationService.Update(id, requestBody);
+//        return ResponseEntity.status(200).body(updated);
+//
+//    }
+
+    @PatchMapping(path = "/notifications/{id}", consumes = "application/json-patch+json")
+    public @ResponseBody ResponseEntity Update(@PathVariable("id") Integer id, @RequestBody JsonPatch patch) throws JsonPatchException, JsonProcessingException {
+        Notification notification = notificationService.Details(id);
+        Notification notificationPatched = applyPatchToNotification(patch, notification);
+        notificationService.Update(notificationPatched);
+        return ResponseEntity.status(200).body(notificationPatched);
 
     }
+
+//    Pitati irfana
+//    [
+//    {"op":"replace","path":"/open","value":true}
+//    ]
+    private Notification applyPatchToNotification(JsonPatch patch, Notification targetNotification) throws JsonProcessingException, JsonPatchException {
+        JsonNode patched = patch.apply(objectMapper.convertValue(targetNotification, JsonNode.class));
+        return objectMapper.treeToValue(patched, Notification.class);
+    }
+
 
 
     @GetMapping(path="/notificationtypes")

@@ -23,7 +23,7 @@ public class NotificationType {
     @Pattern(regexp = "^[A-Z]*$", message = "Type must contain only uppercase letters")
     private String type;
 
-    @JsonIgnoreProperties("notificationType")
+    @JsonIgnore
     @OneToMany(mappedBy = "notificationType")
     private List<Notification> notifications;
 

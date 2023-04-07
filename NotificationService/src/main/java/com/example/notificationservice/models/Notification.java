@@ -36,6 +36,21 @@ public class Notification {
     @Size(max = 50, message = "Content must contain less than 50 characters")
     private String content;
 
+    public Notification(Integer id, NotificationType notificationType, Boolean open, Integer userId, Integer actionUserId, Integer pinnedPost, Integer likedComment, Integer sharedCollection, String content) {
+        this.id = id;
+        this.notificationType = notificationType;
+        this.open = open;
+        this.userId = userId;
+        this.actionUserId = actionUserId;
+        this.pinnedPost = pinnedPost;
+        this.likedComment = likedComment;
+        this.sharedCollection = sharedCollection;
+        this.content = content;
+    }
+
+    public Notification() {
+    }
+
     public Integer getId() {
         return id;
     }
