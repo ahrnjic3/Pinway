@@ -21,7 +21,7 @@ public class Notification {
     @JoinColumn(name="typeId")
     private NotificationType notificationType;
 
-    @NotNull
+    @NotNull(message = "Field open must not be null")
     private Boolean open;
 
     @NotNull
