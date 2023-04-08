@@ -47,7 +47,7 @@ public class UserVisibilityType {
         return users;
     }
 
-    public void setNotifications(List<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 

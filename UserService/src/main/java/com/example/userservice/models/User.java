@@ -1,9 +1,6 @@
 package com.example.userservice.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -33,13 +30,18 @@ public class User {
     private String email;
 
     @NotEmpty
-    @Pattern(regexp = "^(0$|[^0]\\d{0,19}$)", flags = Pattern.Flag.MULTILINE)
+    //@Pattern(regexp = "^(0$|[^0]\\d{0,19}$)", flags = Pattern.Flag.MULTILINE)
     @Size(min = 5, max = 20, message = "Password must contain minimum 5 characters")
     private String password;
 
 
     private LocalDate createdAt;
-    private UserVisibilityType visibilityType;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name="typeId")
+    private UserVisibilityType userVisibilityType;
+
     private Integer numOfFollowing;
     private Integer numOfFollowers;
 
@@ -106,12 +108,12 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public UserVisibilityType getVisibilityType() {
-        return visibilityType;
+    public UserVisibilityType getUserVisibilityType() {
+        return userVisibilityType;
     }
 
-    public void setVisibilityType(UserVisibilityType visibilityType) {
-        this.visibilityType = visibilityType;
+    public void setUserVisibilityType(UserVisibilityType userVisibilityType) {
+        this.userVisibilityType = userVisibilityType;
     }
 
     public Integer getNumOfFollowing() {

@@ -19,7 +19,7 @@ public class UserController {
 
 
     @PostMapping(path = "/users") // Map ONLY POST Requests
-    public @ResponseBody ResponseEntity AddNotification (@Valid @RequestBody User requestBody) {
+    public @ResponseBody ResponseEntity AddUser (@Valid @RequestBody User requestBody) {
         User user = userService.Create(requestBody);
         return ResponseEntity.status(201).body(user);
 
@@ -36,8 +36,7 @@ public class UserController {
         User user = userService.Details(id);
         return ResponseEntity.status(200).body(user);
     }
-    @GetMapping(path = "/users/{id}")
-    //////////////////////////////
+    @DeleteMapping(path = "/users/{id}")
     public @ResponseBody ResponseEntity Delete(@PathVariable("id") Integer id) {
         userService.Delete(id);
         return ResponseEntity.status(204).build();
@@ -52,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping(path="/userVisibilityType")
-    public @ResponseBody ResponseEntity GetAllNotificationTypes() {
+    public @ResponseBody ResponseEntity GetAllUserVisibilityTypes() {
         Iterable<UserVisibilityType> userVisibilityTypes = userService.ListUserVisibilityTypes();
         return ResponseEntity.status(200).body(userVisibilityTypes);
 
