@@ -25,7 +25,6 @@ public class UserVisibilityType {
 
     @JsonIgnoreProperties("userVisibilityType")
     @OneToMany(mappedBy = "userVisibilityType")
-    private List<User> users;
 
     public Integer getId() {
         return id;
@@ -43,12 +42,5 @@ public class UserVisibilityType {
         this.type = type;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 
 }

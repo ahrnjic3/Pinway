@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.willDoNothing;
@@ -64,6 +65,7 @@ public class UserServiceTest {
         user1.setUsername("ebasic");
         user1.setEmail("ebasic@etf.unsa.ba");
         user1.setPassword("emina123");
+        user1.setCreatedAt(LocalDate.now());
         user1.setUserVisibilityType(userVisibilityType);
 
         optionalUserVisibilityType = userVisibilityTypeRepository.findOneByType("FOLLOWED");
@@ -79,6 +81,7 @@ public class UserServiceTest {
         user2.setUsername("aamer");
         user2.setEmail("amer@etf.unsa.ba");
         user2.setPassword("amer123");
+        user2.setCreatedAt(LocalDate.now());
         user2.setUserVisibilityType(userVisibilityType);
 
         optionalUserVisibilityType = userVisibilityTypeRepository.findOneByType("PRIVATE");
@@ -89,11 +92,12 @@ public class UserServiceTest {
 
         User user3 = new User();
         user2.setId(1);
-        user3.setName("FAris");
+        user3.setName("Sajra");
         user3.setSurname("Turko");
         user3.setUsername("sturko");
         user3.setEmail("sturko@etf.unsa.ba");
         user3.setPassword("sajra123");
+        user3.setCreatedAt(LocalDate.now());
         user3.setUserVisibilityType(userVisibilityType);
 
         user1 = userRepository.save(user1);
@@ -109,7 +113,9 @@ public class UserServiceTest {
                                 "    \"name\":\"Sajra\",\n" +
                                 "    \"surname\": \"Turko\",\n" +
                                 "    \"username\": \"sturko\",\n" +
+                                "    \"email\": \"sturko@etf.unsa.ba\",\n" +
                                 "    \"password\": \"sturko\",\n" +
+                                "    \"createdAt\": \"2023-04-04\",\n" +
                                 "     \"userVisibilityType\": {\"id\": 2, \"type\": \"PRIVATE\"}\n" +
                                 "}")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -124,6 +130,7 @@ public class UserServiceTest {
                                 "    \"surname\": \"\",\n" +
                                 "    \"username\": \"sturko\",\n" +
                                 "    \"password\": \"sturko\",\n" +
+                                "    \"createdAt\": \"2023-04-05\",\n" +
                                 "     \"userVisibilityType\": {\"id\": 2, \"type\": \"PRIVATE\"}\n" +
                                 "}")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -139,6 +146,7 @@ public class UserServiceTest {
                                 "    \"surname\": \"Turko\",\n" +
                                 "    \"username\": \"sturko\",\n" +
                                 "    \"password\": \"stu\",\n" +
+                                "    \"createdAt\": \"2023-04-07\",\n" +
                                 "     \"userVisibilityType\": {\"id\": 2, \"type\": \"PRIVATE\"}\n" +
                                 "}")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -154,6 +162,7 @@ public class UserServiceTest {
                                 "    \"surname\": \"Turko\",\n" +
                                 "    \"username\": \"sturko\",\n" +
                                 "    \"password\": \"sturko\",\n" +
+                                "    \"createdAt\": \"2023-04-04\",\n" +
                                 "     \"userVisibilityType\": {\"id\": 2, \"type\": \"PRIVATE\"}\n" +
                                 "}")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -169,10 +178,6 @@ public class UserServiceTest {
                 .andExpect(jsonPath("$.message").value("Not found User with id = -1"));
     }
 
-    @Test
-    void AddUserSuccessfully() throws Exception {
-
-    }
 
 
     @Test

@@ -2,6 +2,7 @@ package com.example.userservice.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 
@@ -35,7 +36,9 @@ public class User {
     private String password;
 
 
+    @CreatedDate
     private LocalDate createdAt;
+
 
     @NotNull
     @ManyToOne
