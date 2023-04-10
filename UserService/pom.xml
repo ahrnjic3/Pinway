@@ -60,6 +60,7 @@
             <artifactId>json-patch</artifactId>
             <version>1.12</version>
         </dependency>
+        //eureka
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -88,11 +89,6 @@
             <scope>compile</scope>
         </dependency>
 
-        //eureka
-        <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-    </dependency>
     </dependencies>
 
     <dependencyManagement>
