@@ -56,26 +56,32 @@ public class NotificationServiceImp implements NotificationService {
 
     }
 
+
+//    @Override
+//    public Notification Update(Integer id, Notification n) {
+//        Optional<Notification> notification = notificationRepository.findById(id);
+//
+//        if (!notification.isPresent())
+//            throw new PinwayError("Not found Notification with id = " + id);
+//
+//        Notification newNotification = notification.get();
+//
+//        newNotification.setContent(n.getContent());
+//        newNotification.setLikedComment(n.getLikedComment());
+//        newNotification.setOpen(n.getOpen());
+//        newNotification.setPinnedPost(n.getPinnedPost());
+//        newNotification.setSharedCollection(n.getSharedCollection());
+//        newNotification.setUserId(n.getUserId());
+//        newNotification.setActionUserId(n.getActionUserId());
+//        newNotification.setNotificationType(n.getNotificationType());
+//
+//        notificationRepository.save(newNotification);
+//        return newNotification;
+//    }
+
     @Override
-    public Notification Update(Integer id, Notification n) {
-        Optional<Notification> notification = notificationRepository.findById(id);
-
-        if (!notification.isPresent())
-            throw new PinwayError("Not found Notification with id = " + id);
-
-        Notification newNotification = notification.get();
-
-        newNotification.setContent(n.getContent());
-        newNotification.setLikedComment(n.getLikedComment());
-        newNotification.setOpen(n.getOpen());
-        newNotification.setPinnedPost(n.getPinnedPost());
-        newNotification.setSharedCollection(n.getSharedCollection());
-        newNotification.setUserId(n.getUserId());
-        newNotification.setActionUserId(n.getActionUserId());
-        newNotification.setNotificationType(n.getNotificationType());
-
-        notificationRepository.save(newNotification);
-        return newNotification;
+    public Notification Update(Notification notificationPatched) {
+        return notificationRepository.save(notificationPatched);
     }
 
 
@@ -83,5 +89,11 @@ public class NotificationServiceImp implements NotificationService {
     public Iterable<NotificationType> ListNotificationTypes() {
         Iterable<NotificationType> notificationTypeList = notificationTypeRepository.findAll();
         return notificationTypeList;
+    }
+
+    @Override
+    public Iterable<Notification> List10NotificationsByOpen() {
+        Iterable<Notification> notifications = notificationRepository.get10NotificationsByOpen();
+        return notifications;
     }
 }

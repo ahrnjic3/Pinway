@@ -16,9 +16,12 @@ public interface NotificationService {
 
     Boolean Delete(Integer id);
 
-    Notification Update(Integer id, Notification notification);
+//    Notification Update(Integer id, Notification notification);
+    Notification Update(Notification notificationPatched);
 
     Iterable<NotificationType> ListNotificationTypes();
+
+    Iterable<Notification> List10NotificationsByOpen();
 
 
 }
