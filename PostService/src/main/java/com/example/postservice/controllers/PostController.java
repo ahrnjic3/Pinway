@@ -1,6 +1,7 @@
 package com.example.postservice.controllers;
 
 import com.example.postservice.dto.PostDTO;
+import com.example.postservice.dto.PostResponseDTO;
 import com.example.postservice.models.Hashtag;
 import com.example.postservice.models.Post;
 import com.example.postservice.services.HashtagService;
@@ -50,17 +51,17 @@ public class PostController {
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody ResponseEntity<Iterable<Post>> getAllPosts() {
+    public @ResponseBody ResponseEntity<Iterable<PostResponseDTO>> getAllPosts() {
         // This returns a JSON or XML with the users
 
-        Iterable<Post> allPosts =  postService.List();
+        Iterable<PostResponseDTO> allPosts =  postService.List();
 
         return  ResponseEntity.status(200).body(allPosts);
     }
     @GetMapping(path="/findByIds")
-    public @ResponseBody ResponseEntity<Iterable<Post>> getPost( @NotNull @DecimalMin("0") @RequestParam Set<Long> Ids) {
+    public @ResponseBody ResponseEntity<Iterable<PostResponseDTO>> getPost( @NotNull @DecimalMin("0") @RequestParam Set<Long> Ids) {
         // This returns a JSON or XML with the users
-        Iterable<Post> a = postService.FindAllByIds(Ids);
+        Iterable<PostResponseDTO> a = postService.FindAllByIds(Ids);
         return  ResponseEntity.status(200).body(a);
     }
     @DeleteMapping("/delete")

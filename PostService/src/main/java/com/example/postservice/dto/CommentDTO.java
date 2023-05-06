@@ -1,5 +1,11 @@
 package com.example.postservice.dto;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 public class CommentDTO {
 
     private Long id;
