@@ -11,6 +11,7 @@
         <module name="CollectionService" />
         <module name="ConfigServer" />
         <module name="UserService" />
+        <module name="PostService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
