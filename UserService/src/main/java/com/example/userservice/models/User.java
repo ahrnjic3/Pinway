@@ -1,9 +1,8 @@
-package com.example.userservice;
+package com.example.userservice.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 
@@ -12,14 +11,40 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
+
     private String guid;
+
+    @NotBlank(message = "Name is mandatory")
+    @Size(max = 20, message = "Name must contain less than 20 characters")
     private String name;
+
+    @NotBlank(message = "Surname is mandatory")
+    @Size(max = 20, message = "Surname must contain less than 20 characters")
     private String surname;
+
+    @NotBlank(message = "Username is mandatory")
+    @Size(max = 20, message = "Username must contain less than 20 characters")
     private String username;
+
+    @Email(regexp = ".+[@].+[\\.].+")
+    @Email(message="Please provide a valid email address")
     private String email;
+
+    @NotEmpty
+    //@Pattern(regexp = "^(0$|[^0]\\d{0,19}$)", flags = Pattern.Flag.MULTILINE)
+    @Size(min = 5, max = 20, message = "Password must contain minimum 5 characters")
     private String password;
+
+
+    @CreatedDate
     private LocalDate createdAt;
-    private UserVisibilityType visibilityType;
+
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name="typeId")
+    private UserVisibilityType userVisibilityType;
+
     private Integer numOfFollowing;
     private Integer numOfFollowers;
 
@@ -86,12 +111,12 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public UserVisibilityType getVisibilityType() {
-        return visibilityType;
+    public UserVisibilityType getUserVisibilityType() {
+        return userVisibilityType;
     }
 
-    public void setVisibilityType(UserVisibilityType visibilityType) {
-        this.visibilityType = visibilityType;
+    public void setUserVisibilityType(UserVisibilityType userVisibilityType) {
+        this.userVisibilityType = userVisibilityType;
     }
 
     public Integer getNumOfFollowing() {
