@@ -11,11 +11,12 @@
         <module name="CollectionService" />
         <module name="ConfigServer" />
         <module name="UserService" />
-        <module name="PostService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="PinwayUserService" target="17" />
+      <module name="PostService (1)" target="17" />
+      <module name="PostService (2)" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -26,6 +27,8 @@
       <module name="NotificationService" options="-parameters" />
       <module name="PinwayUserService" options="-parameters" />
       <module name="PostService" options="-parameters" />
+      <module name="PostService (1)" options="-parameters" />
+      <module name="PostService (2)" options="-parameters" />
       <module name="UserService" options="-parameters" />
     </option>
   </component>
