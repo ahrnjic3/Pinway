@@ -37,10 +37,11 @@ public class CommentServiceImp implements CommentService{
         return comment;
     }
 
+    @Override
     public Iterable<CommentResponseDTO>  FindByPost(Long postId){
         Optional<Post> post = postRepository.findById(postId);
         if(!post.isPresent()) return new ArrayList<CommentResponseDTO>();
-        List<Comment> comments = commentRepository.findByPost(post.get());
+        List<Comment> comments = commentRepository.findByPost(postId);
         ArrayList<CommentResponseDTO> res = new ArrayList<CommentResponseDTO>();
         for (Comment comment: comments) {
             Long param = comment.getUser_id();

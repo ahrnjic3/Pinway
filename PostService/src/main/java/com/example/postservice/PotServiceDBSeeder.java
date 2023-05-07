@@ -113,7 +113,7 @@ public class PotServiceDBSeeder {
             Comment com2 = new Comment();
             com2.setPost(post);
             com2.setContent("Another comment");
-            com1.setUser_id(Long.valueOf(1));
+            com2.setUser_id(Long.valueOf(1));
 
             commentRepository.save(com1);
             commentRepository.save(com2);
