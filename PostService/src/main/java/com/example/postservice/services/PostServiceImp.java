@@ -1,19 +1,27 @@
 package com.example.postservice.services;
 
 import com.example.postservice.dto.PostDTO;
+import com.example.postservice.dto.PostResponseDTO;
+import com.example.postservice.dto.UserDTO;
 import com.example.postservice.exception.PinwayError;
 import com.example.postservice.models.Hashtag;
 import com.example.postservice.models.Post;
 import com.example.postservice.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImp implements PostService{
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public Post Create(Post post){
@@ -21,18 +29,59 @@ public class PostServiceImp implements PostService{
         return  newPost;
     }
     @Override
-    public  Iterable<Post> List(){
+    public  Iterable<PostResponseDTO> List(){
         Iterable<Post> posts = postRepository.findAll();
-        return  posts;
+        ArrayList<PostResponseDTO> res = new ArrayList<PostResponseDTO>();
+        for (Post post: posts) {
+            Long param = post.getUser_id();
+            ResponseEntity<UserDTO> responseEntity = restTemplate.getForEntity("http://user-service/api/users/{id}",
+                    UserDTO.class, param);
+            UserDTO userDTO = responseEntity.getBody();
+            PostDTO postDTO = new PostDTO();
+            postDTO.setId(post.getId());
+            postDTO.setImage_path(post.getImage_path());
+            postDTO.setTitle(post.getTitle());
+            postDTO.setDescription(post.getDescription());
+            postDTO.setHashtagNames(post.getHashtags().stream().map(hashtag -> {
+                return hashtag.getName();
+            } ).collect(Collectors.toSet()));
+            PostResponseDTO postResponseDTO = new PostResponseDTO();
+            postResponseDTO.setPostDTO(postDTO);
+            postResponseDTO.setUserDTO(userDTO);
+            res.add(postResponseDTO);
+        }
+        Iterable<PostResponseDTO>  response = res;
+        return  response;
     }
     @Override
-    public  Iterable<Post> FindAllByIds(Iterable<Long> ids){
+    public  Iterable<PostResponseDTO> FindAllByIds(Iterable<Long> ids){
         Iterable<Post> posts = postRepository.findAllById(ids);
-        return  posts;
+        ArrayList<PostResponseDTO> res = new ArrayList<PostResponseDTO>();
+        for (Post post: posts) {
+            Long param = post.getUser_id();
+            ResponseEntity<UserDTO> responseEntity = restTemplate.getForEntity("http://user-service/api/users/{id}",
+                            UserDTO.class, param);
+            UserDTO userDTO = responseEntity.getBody();
+            PostDTO postDTO = new PostDTO();
+            postDTO.setId(post.getId());
+            postDTO.setImage_path(post.getImage_path());
+            postDTO.setTitle(post.getTitle());
+            postDTO.setDescription(post.getDescription());
+            postDTO.setHashtagNames(post.getHashtags().stream().map(hashtag -> {
+                return hashtag.getName();
+            } ).collect(Collectors.toSet()));
+            PostResponseDTO postResponseDTO = new PostResponseDTO();
+            postResponseDTO.setPostDTO(postDTO);
+            postResponseDTO.setUserDTO(userDTO);
+            res.add(postResponseDTO);
+        }
+        Iterable<PostResponseDTO>  response = res;
+        return  response;
     }
     @Override
     public Post FindById( Long id){
         Post post = postRepository.findById(id).orElse(null);
+
         return post;
     }
     @Override

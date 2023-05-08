@@ -26,7 +26,7 @@ public class ErrorHandlingControllerAdvice {
     ErrorMessage onConstraintValidationException(ConstraintViolationException e, WebRequest request) {
         List<String> messages = new ArrayList<String>();
         for (ConstraintViolation violation : e.getConstraintViolations()) {
-            messages.add(violation.getPropertyPath().toString() + " " + violation.getMessage());
+            messages.add(violation.getMessage());
         }
         ErrorMessage violation = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
@@ -43,7 +43,7 @@ public class ErrorHandlingControllerAdvice {
     ErrorMessage onMethodArgumentNotValidException(MethodArgumentNotValidException e, WebRequest request) {
         List<String> messages = new ArrayList<String>();
         for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
-            messages.add("Field " + fieldError.getField() + " " + fieldError.getDefaultMessage());
+            messages.add(fieldError.getDefaultMessage());
         }
         ErrorMessage violation = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),

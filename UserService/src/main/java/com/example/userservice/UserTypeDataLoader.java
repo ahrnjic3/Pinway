@@ -66,13 +66,13 @@ public class UserTypeDataLoader {
             if(optionalUserVisiblityType.isPresent())
                 userVisibilityType = optionalUserVisiblityType.get();
 
-            User u1 = new User();
-            u1.setName("Emina");
-            u1.setSurname("Basic");
-            u1.setUsername("ebasic");
-            u1.setEmail("ebasic@etf.unsa.ba");
-            u1.setPassword("emina123");
-            u1.setUserVisibilityType(userVisibilityType);
+            User user1 = new User();
+            user1.setName("Emina");
+            user1.setSurname("Basic");
+            user1.setUsername("ebasic");
+            user1.setEmail("ebasic@etf.unsa.ba");
+            user1.setPassword("emina123");
+            user1.setUserVisibilityType(userVisibilityType);
 
             optionalUserVisiblityType = userTypeRepository.findOneByType("FOLLOWED");
             userVisibilityType = new UserVisibilityType();
@@ -80,13 +80,13 @@ public class UserTypeDataLoader {
             if(optionalUserVisiblityType.isPresent())
                 userVisibilityType = optionalUserVisiblityType.get();
 
-            User u2 = new User();
-            u2.setName("Amer");
-            u2.setSurname("Basic");
-            u2.setUsername("aamer");
-            u2.setEmail("amer@etf.unsa.ba");
-            u2.setPassword("amer123");
-            u2.setUserVisibilityType(userVisibilityType);
+            User user2 = new User();
+            user2.setName("Amer");
+            user2.setSurname("Basic");
+            user2.setUsername("aamer");
+            user2.setEmail("amer@etf.unsa.ba");
+            user2.setPassword("amer123");
+            user2.setUserVisibilityType(userVisibilityType);
 
             optionalUserVisiblityType = userTypeRepository.findOneByType("PRIVATE");
             userVisibilityType = new UserVisibilityType();
@@ -94,17 +94,17 @@ public class UserTypeDataLoader {
             if(optionalUserVisiblityType.isPresent())
                 userVisibilityType = optionalUserVisiblityType.get();
 
-            User u3 = new User();
-            u3.setName("Sajra");
-            u3.setSurname("Turko");
-            u3.setUsername("sturko");
-            u3.setEmail("sturko@etf.unsa.ba");
-            u3.setPassword("sajra123");
-            u3.setUserVisibilityType(userVisibilityType);
+            User user3 = new User();
+            user3.setName("Sajra");
+            user3.setSurname("Turko");
+            user3.setUsername("sturko");
+            user3.setEmail("sturko@etf.unsa.ba");
+            user3.setPassword("sajra123");
+            user3.setUserVisibilityType(userVisibilityType);
 
-            userRepository.save(u1);
-            userRepository.save(u2);
-            userRepository.save(u3);
+            userRepository.save(user1);
+            userRepository.save(user2);
+            userRepository.save(user3);
 
 
         }

@@ -26,7 +26,7 @@ public class PostDTO {
         Id = id;
     }
 
-        public String getTitle() {
+    public String getTitle() {
         return title;
     }
 
