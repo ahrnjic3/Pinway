@@ -1,5 +1,6 @@
 package com.example.notificationservice.services;
 
+import com.example.notificationservice.dto.NotificationOpenOnlyDTO;
 import com.example.notificationservice.exception.PinwayError;
 import com.example.notificationservice.models.Notification;
 import com.example.notificationservice.models.NotificationType;
@@ -8,6 +9,7 @@ import com.example.notificationservice.repositories.NotificationTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -82,6 +84,11 @@ public class NotificationServiceImp implements NotificationService {
     @Override
     public Notification Update(Notification notificationPatched) {
         return notificationRepository.save(notificationPatched);
+    }
+
+    @Override
+    public Integer partialUpdateOpen(Integer id, Boolean open) {
+        return notificationRepository.partialUpdateOpen(id, open);
     }
 
 

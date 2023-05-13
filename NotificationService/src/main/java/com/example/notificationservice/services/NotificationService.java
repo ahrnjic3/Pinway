@@ -1,10 +1,12 @@
 package com.example.notificationservice.services;
 
 
+import com.example.notificationservice.dto.NotificationOpenOnlyDTO;
 import com.example.notificationservice.models.Notification;
 import com.example.notificationservice.models.NotificationType;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface NotificationService {
@@ -18,6 +20,8 @@ public interface NotificationService {
 
 //    Notification Update(Integer id, Notification notification);
     Notification Update(Notification notificationPatched);
+
+    Integer partialUpdateOpen(Integer id, Boolean open);
 
     Iterable<NotificationType> ListNotificationTypes();
 

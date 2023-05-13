@@ -26,7 +26,6 @@ public class Notification {
 
     @NotNull
     private Integer userId;
-
     @NotNull
     private Integer actionUserId;
     private Integer pinnedPost;

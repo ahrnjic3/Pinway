@@ -1,9 +1,12 @@
 package com.example.collectionservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Collection {
@@ -21,13 +24,29 @@ public class Collection {
     @JoinColumn(name="typeId")
     private CollectionVisibilityType collectionVisibilityType;
 
+    @JsonIgnoreProperties("collection")
+    @OneToMany(mappedBy = "collection")
+    private List<CollectionPost> collectionPosts;
+
     @PastOrPresent
     @NotNull
     private LocalDate createdAt;
 
-    @Positive(message = "Number of posts must be positive ")
+    @Min(value = 0, message = "Number of posts must be positive")
     @NotNull
     private Integer numOfPosts;
+
+
+    public Collection() {
+    }
+
+    public Collection(Integer id, String name, CollectionVisibilityType collectionVisibilityType, LocalDate createdAt, Integer numOfPosts, Set<CollectionPost> posts) {
+        this.id = id;
+        this.name = name;
+        this.collectionVisibilityType = collectionVisibilityType;
+        this.createdAt = createdAt;
+        this.numOfPosts = numOfPosts;
+    }
 
     public Integer getId() {
         return id;
@@ -67,5 +86,13 @@ public class Collection {
 
     public void setNumOfPosts(Integer numOfPosts) {
         this.numOfPosts = numOfPosts;
+    }
+
+    public List<CollectionPost> getCollectionPosts() {
+        return collectionPosts;
+    }
+
+    public void setCollectionPosts(List<CollectionPost> collectionPosts) {
+        this.collectionPosts = collectionPosts;
     }
 }

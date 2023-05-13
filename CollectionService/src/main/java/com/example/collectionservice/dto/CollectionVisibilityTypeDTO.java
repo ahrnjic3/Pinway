@@ -1,21 +1,11 @@
-package com.example.userservice.models;
+package com.example.collectionservice.dto;
 
-import com.example.userservice.models.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
+public class CollectionVisibilityTypeDTO {
 
-@Entity // This tells Hibernate to make a table out of this class
-public class UserVisibilityType {
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
     @NotBlank(message = "Type is mandatory")
@@ -23,9 +13,10 @@ public class UserVisibilityType {
     @Pattern(regexp = "^[A-Z]*$", message = "Type must contain only uppercase letters")
     private String type;
 
-    @JsonIgnoreProperties("userVisibilityType")
-    @OneToMany(mappedBy = "userVisibilityType")
-    private List<User> users;
+    public CollectionVisibilityTypeDTO(Integer id, String type) {
+        this.id = id;
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;
@@ -42,6 +33,4 @@ public class UserVisibilityType {
     public void setType(String type) {
         this.type = type;
     }
-
-
 }

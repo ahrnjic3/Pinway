@@ -1,62 +1,42 @@
-package com.example.userservice.models;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import org.springframework.data.annotation.CreatedDate;
+package com.example.userservice.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
-@Entity // This tells Hibernate to make a table out of this class
-public class User {
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+public class UserDTO {
+
     private Integer id;
-
     private String guid;
-
-    @NotBlank(message = "Name is mandatory")
-    @Size(max = 20, message = "Name must contain less than 20 characters")
     private String name;
-
-    @NotBlank(message = "Surname is mandatory")
-    @Size(max = 20, message = "Surname must contain less than 20 characters")
     private String surname;
-
-    @NotBlank(message = "Username is mandatory")
-    @Size(max = 20, message = "Username must contain less than 20 characters")
     private String username;
-
-    @Email(regexp = ".+[@].+[\\.].+")
-    @Email(message="Please provide a valid email address")
     private String email;
-
-    @NotEmpty
-    //@Pattern(regexp = "^(0$|[^0]\\d{0,19}$)", flags = Pattern.Flag.MULTILINE)
-    @Size(min = 5, max = 20, message = "Password must contain minimum 5 characters")
     private String password;
-
-
-    @CreatedDate
     private LocalDate createdAt;
-
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name="typeId")
-    private UserVisibilityType userVisibilityType;
-
+    private UserVisibilityTypeDTO userVisibilityType;
     private Integer numOfFollowing;
     private Integer numOfFollowers;
 
-    @JsonIgnoreProperties("user")
-    @OneToMany(mappedBy = "user")
-    private List<UserCollection> userCollections;
+    public UserDTO() {
+    }
+
+    public UserDTO(Integer id, String guid, String name, String surname, String username, String email, String password, LocalDate createdAt, UserVisibilityTypeDTO userVisibilityType, Integer numOfFollowing, Integer numOfFollowers) {
+        this.id = id;
+        this.guid = guid;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.createdAt = createdAt;
+        this.userVisibilityType = userVisibilityType;
+        this.numOfFollowing = numOfFollowing;
+        this.numOfFollowers = numOfFollowers;
+    }
 
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -117,11 +97,11 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public UserVisibilityType getUserVisibilityType() {
+    public UserVisibilityTypeDTO getUserVisibilityType() {
         return userVisibilityType;
     }
 
-    public void setUserVisibilityType(UserVisibilityType userVisibilityType) {
+    public void setUserVisibilityType(UserVisibilityTypeDTO userVisibilityType) {
         this.userVisibilityType = userVisibilityType;
     }
 
@@ -140,13 +120,4 @@ public class User {
     public void setNumOfFollowers(Integer numOfFollowers) {
         this.numOfFollowers = numOfFollowers;
     }
-
-    public List<UserCollection> getUserCollections() {
-        return userCollections;
-    }
-
-    public void setUserCollections(List<UserCollection> userCollections) {
-        this.userCollections = userCollections;
-    }
-
 }
