@@ -1,4 +1,4 @@
-package com.example.gatewayserver;
+package com.pinway.gatewayserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
