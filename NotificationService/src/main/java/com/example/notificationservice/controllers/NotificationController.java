@@ -1,7 +1,9 @@
 package com.example.notificationservice.controllers;
 
+import com.example.notificationservice.dto.NotificationOpenOnlyDTO;
 import com.example.notificationservice.models.Notification;
 import com.example.notificationservice.models.NotificationType;
+import com.example.notificationservice.repositories.NotificationRepository;
 import com.example.notificationservice.services.NotificationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,10 +12,12 @@ import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 
 
 @Controller // This means that this class is a Controller
@@ -23,6 +27,7 @@ public class NotificationController {
     private ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private NotificationService notificationService;
+
 
     @PostMapping(path="/notifications") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity AddNotification (@Valid @RequestBody Notification requestBody) {
@@ -77,9 +82,17 @@ public class NotificationController {
 //    [
 //    {"op":"replace","path":"/open","value":true}
 //    ]
+
     private Notification applyPatchToNotification(JsonPatch patch, Notification targetNotification) throws JsonProcessingException, JsonPatchException {
         JsonNode patched = patch.apply(objectMapper.convertValue(targetNotification, JsonNode.class));
         return objectMapper.treeToValue(patched, Notification.class);
+    }
+
+    @PatchMapping("/notifications")
+    public @ResponseBody ResponseEntity partialUpdateOpen(
+            @RequestBody NotificationOpenOnlyDTO partialUpdate) {
+        notificationService.partialUpdateOpen(partialUpdate.getId(), partialUpdate.getOpen());
+        return ResponseEntity.status(200).body("Resource open updated");
     }
 
 

@@ -1,10 +1,12 @@
 package com.example.userservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
@@ -47,6 +49,10 @@ public class User {
 
     private Integer numOfFollowing;
     private Integer numOfFollowers;
+
+    @JsonIgnoreProperties("user")
+    @OneToMany(mappedBy = "user")
+    private List<UserCollection> userCollections;
 
     public Integer getId() {
         return id;
@@ -134,4 +140,13 @@ public class User {
     public void setNumOfFollowers(Integer numOfFollowers) {
         this.numOfFollowers = numOfFollowers;
     }
+
+    public List<UserCollection> getUserCollections() {
+        return userCollections;
+    }
+
+    public void setUserCollections(List<UserCollection> userCollections) {
+        this.userCollections = userCollections;
+    }
+
 }

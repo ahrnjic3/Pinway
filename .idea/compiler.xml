@@ -8,10 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="EurekaServer" />
-        <module name="gatewayserver" />
         <module name="CollectionService" />
         <module name="UserService" />
         <module name="PostService" />
+        <module name="SystemEventsService" />
         <module name="NotificationService" />
         <module name="ConfigServer" />
       </profile>
@@ -32,8 +32,8 @@
       <module name="PostService" options="-parameters" />
       <module name="PostService (1)" options="-parameters" />
       <module name="PostService (2)" options="-parameters" />
+      <module name="SystemEventsService" options="-parameters" />
       <module name="UserService" options="-parameters" />
-      <module name="gatewayserver" options="-parameters" />
     </option>
   </component>
 </project>

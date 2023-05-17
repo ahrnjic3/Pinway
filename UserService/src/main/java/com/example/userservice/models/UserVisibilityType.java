@@ -25,6 +25,7 @@ public class UserVisibilityType {
 
     @JsonIgnoreProperties("userVisibilityType")
     @OneToMany(mappedBy = "userVisibilityType")
+    private List<User> users;
 
     public Integer getId() {
         return id;
