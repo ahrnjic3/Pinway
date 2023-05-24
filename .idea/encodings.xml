@@ -12,7 +12,11 @@
     <file url="file://$PROJECT_DIR$/PostService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/PostService/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SystemEventsService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SystemEventsService/target/generated-sources/protobuf/grpc-java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SystemEventsService/target/generated-sources/protobuf/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/UserService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gatewayserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gatewayserver/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
   </component>
 </project>
