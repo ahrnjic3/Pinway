@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import HomeMenu from "components/HomeMenu";
+import Collections from "./Collections/Collections";
 
 const Root = () => (
   <div>
@@ -22,13 +23,10 @@ const Root = () => (
     />
     <Router>
       <HomeMenu />
-      {/* <Routes>
-        <Route path="/" element={<Navigate to="/patients" />} />
-        <Route path="/patients" element={<Patients />} />
-        <Route path="/patients/create" element={<PatientCreate />} />
-        <Route path="/patients/:slug" element={<PatientDetail />} />
-        <Route path="/patients/edit/:slug" element={<PatientEdit />} />
-      </Routes> */}
+      <Routes>
+        <Route path="/" element={<Navigate to="/collections" />} />
+        <Route path="/collections" element={<Collections />} />
+      </Routes> 
     </Router>
   </div>
 );
