@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import HomeMenu from "components/HomeMenu";
 import Collections from "./Collections/Collections";
+import UserDetails from "components/Users/UserDetails"
 
 const Root = () => (
   <div>
@@ -26,6 +27,7 @@ const Root = () => (
       <Routes>
         <Route path="/" element={<Navigate to="/collections" />} />
         <Route path="/collections" element={<Collections />} />
+        <Route path="/users" element={<UserDetails/>} />
       </Routes> 
     </Router>
   </div>
