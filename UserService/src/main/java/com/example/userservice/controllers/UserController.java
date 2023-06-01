@@ -1,5 +1,6 @@
 package com.example.userservice.controllers;
 
+import com.example.userservice.dto.UserDTO;
 import com.example.userservice.models.User;
 import com.example.userservice.models.UserVisibilityType;
 import com.example.userservice.services.UserService;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/api") // This means URL's start with /demo (after Application path)
@@ -56,4 +59,19 @@ public class UserController {
         return ResponseEntity.status(200).body(userVisibilityTypes);
 
     }
+
+    // FOLLOWERS AND FOLLOWING
+
+    @PostMapping(path="/users/{id}/followers")
+    public @ResponseBody ResponseEntity AddFollower (@PathVariable("id") Integer id, @Valid @RequestBody Integer requestBody) {
+        User user = userService.AddFollower(id, requestBody);
+        return ResponseEntity.status(201).body(user);
+    }
+
+    @GetMapping(path="/users/{id}/followers")
+    public @ResponseBody ResponseEntity getAllFollowersForUser (@PathVariable("id") Integer id) {
+        List<UserDTO> userDTO = userService.GetAllFollowersForUser(id);
+        return ResponseEntity.status(200).body(userDTO);
+    }
+
 }

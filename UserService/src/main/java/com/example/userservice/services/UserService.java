@@ -1,5 +1,6 @@
 package com.example.userservice.services;
 
+import com.example.userservice.dto.UserDTO;
 import com.example.userservice.models.User;
 import com.example.userservice.models.UserVisibilityType;
 
@@ -19,6 +20,10 @@ public interface UserService {
     User Update(Integer id, User user);
 
     Iterable<UserVisibilityType> ListUserVisibilityTypes();
+
+    User AddFollower(Integer userId, Integer followingId);
+
+    List<UserDTO> GetAllFollowersForUser(Integer userId);
 
 
 }

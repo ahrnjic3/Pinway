@@ -33,6 +33,17 @@ public class UserDTO {
         this.numOfFollowers = numOfFollowers;
     }
 
+    public UserDTO(Integer id, String guid, String name, String surname, String username, String email, String password, LocalDate createdAt) {
+        this.id = id;
+        this.guid = guid;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.createdAt = createdAt;
+    }
+
     public Integer getId() {
         return id;
     }

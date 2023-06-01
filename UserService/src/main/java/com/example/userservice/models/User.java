@@ -6,7 +6,9 @@ import jakarta.validation.constraints.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
@@ -46,6 +48,26 @@ public class User {
     @ManyToOne
     @JoinColumn(name="typeId")
     private UserVisibilityType userVisibilityType;
+
+
+//    @ManyToMany(cascade={CascadeType.ALL})
+//    @JoinTable(name="EMPLOYEE_COLLEAGUE",
+//            joinColumns={@JoinColumn(name="EMPLOYEE_ID")},
+//            inverseJoinColumns={@JoinColumn(name="COLLEAGUE_ID")})
+//    private Set<User> colleagues = new HashSet<User>();
+//
+//    @ManyToMany(mappedBy="colleagues")
+//    private Set<User> teammates = new HashSet<User>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "relation",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id"))
+    private List<User> following;
+
+    @JsonIgnoreProperties("following")
+    @ManyToMany(mappedBy = "following")
+    private List<User> followers;
 
     private Integer numOfFollowing;
     private Integer numOfFollowers;
@@ -149,4 +171,19 @@ public class User {
         this.userCollections = userCollections;
     }
 
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
 }

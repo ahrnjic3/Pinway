@@ -1,5 +1,6 @@
 package com.example.userservice.services;
 
+import com.example.userservice.dto.UserDTO;
 import com.example.userservice.exception.PinwayError;
 import com.example.userservice.models.User;
 import com.example.userservice.models.UserVisibilityType;
@@ -8,7 +9,7 @@ import com.example.userservice.repositories.UserVisibilityTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -77,6 +78,54 @@ public class UserServiceImpl implements UserService{
     public Iterable<UserVisibilityType> ListUserVisibilityTypes() {
         Iterable<UserVisibilityType> userVisibilityTypes = userVisibilityTypeRepository.findAll();
         return userVisibilityTypes;
+    }
+
+    @Override
+    public User AddFollower(Integer userId, Integer followingId) {
+        Optional<User> optUser = userRepository.findById(userId);
+        if (!optUser.isPresent())
+            throw new PinwayError("Not found User with id = " + userId);
+        // prvjera da li ima user sa IDem ovim datim
+
+        Optional<User> optFollower = userRepository.findById(followingId);
+        if (!optFollower.isPresent())
+            throw new PinwayError("Not found User with id = " + followingId);
+
+        User user = optUser.get();
+        User follower = optFollower.get();
+
+        user.getFollowing().add(follower);
+
+        userRepository.save(user);
+        //collectionRepository.increaseNumOfPosts(collection.getId());
+        return  user;
+    }
+
+    @Override
+    public List<UserDTO> GetAllFollowersForUser(Integer userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (!optionalUser.isPresent())
+            throw new PinwayError("Not found User with id = " + userId);
+
+        User user = optionalUser.get();
+
+        List<Integer> ids = new ArrayList<>();
+        for (User follower : user.getFollowers()) {
+            Optional<User> optFollower = userRepository.findById(follower.getId());
+            if (!optFollower.isPresent())
+                throw new PinwayError("Not found User with id = " + follower.getId());
+            ids.add(follower.getId());
+        }
+
+        Iterable<User> users = userRepository.findAllById(ids);
+        ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
+
+        for (User u: users) {
+            UserDTO userDTO = new UserDTO(u.getId(), u.getGuid(), u.getName(), u.getSurname(), u.getUsername(), u.getEmail(), u.getPassword(), u.getCreatedAt());
+            userDTOS.add(userDTO);
+        }
+
+        return userDTOS;
     }
 }
 
