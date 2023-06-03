@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping(path="/api")
 public class UserCollectionController {
@@ -20,13 +22,13 @@ public class UserCollectionController {
     private UserCollectionService userCollectionService;
 
     @PostMapping(path="/users/{id}/collection") // Map ONLY POST Requests
-    public @ResponseBody ResponseEntity AddUserCollection (@PathVariable("id") Integer id, @Valid @RequestBody UserCollectionCreateDTO requestBody) {
+    public @ResponseBody ResponseEntity AddUserCollection (@PathVariable("id") UUID id, @Valid @RequestBody UserCollectionCreateDTO requestBody) {
         User user = userCollectionService.AddCollection(id, requestBody);
         return ResponseEntity.status(201).body(user);
     }
 
     @GetMapping(path = "/users/{id}/collection")
-    public  @ResponseBody ResponseEntity GetAllCollectionsForUser(@PathVariable("id") Integer id) {
+    public  @ResponseBody ResponseEntity GetAllCollectionsForUser(@PathVariable("id") UUID id) {
         UserResponseDTO userResponseDTO = userCollectionService.GetAllCollectionsForUser(id);
         return ResponseEntity.status(200).body(userResponseDTO);
     }

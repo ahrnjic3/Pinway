@@ -9,14 +9,16 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "user")
 public class User {
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
 
-    private String guid;
+    @Id
+    @Column(nullable = false, updatable = false, columnDefinition = "binary(16)")
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private UUID id;
 
     @NotBlank(message = "Name is mandatory")
     @Size(max = 20, message = "Name must contain less than 20 characters")
@@ -35,29 +37,28 @@ public class User {
     private String email;
 
     @NotEmpty
-    //@Pattern(regexp = "^(0$|[^0]\\d{0,19}$)", flags = Pattern.Flag.MULTILINE)
     @Size(min = 5, max = 20, message = "Password must contain minimum 5 characters")
     private String password;
 
-
     @CreatedDate
     private LocalDate createdAt;
-
 
     @NotNull
     @ManyToOne
     @JoinColumn(name="typeId")
     private UserVisibilityType userVisibilityType;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = true)
+    private Role role;
 
-//    @ManyToMany(cascade={CascadeType.ALL})
-//    @JoinTable(name="EMPLOYEE_COLLEAGUE",
-//            joinColumns={@JoinColumn(name="EMPLOYEE_ID")},
-//            inverseJoinColumns={@JoinColumn(name="COLLEAGUE_ID")})
-//    private Set<User> colleagues = new HashSet<User>();
-//
-//    @ManyToMany(mappedBy="colleagues")
-//    private Set<User> teammates = new HashSet<User>();
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "relation",
@@ -76,19 +77,26 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserCollection> userCollections;
 
-    public Integer getId() {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+
+    private Set<Role> roles = new HashSet<>();
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+
+    //getters and setters
+    public UUID getId() {
         return id;
     }
-    public void setId(Integer id) {
+
+    public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getGuid() {
-        return guid;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
     }
 
     public String getName() {

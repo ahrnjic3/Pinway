@@ -1,11 +1,16 @@
 package com.example.userservice.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class UserDTO {
 
-    private Integer id;
-    private String guid;
+    @NotNull
+    private UUID role;
+
+    private UUID id;
     private String name;
     private String surname;
     private String username;
@@ -16,12 +21,19 @@ public class UserDTO {
     private Integer numOfFollowing;
     private Integer numOfFollowers;
 
+    public UUID getRole() {
+        return role;
+    }
+
+    public void setRole(UUID role) {
+        this.role = role;
+    }
+
     public UserDTO() {
     }
 
-    public UserDTO(Integer id, String guid, String name, String surname, String username, String email, String password, LocalDate createdAt, UserVisibilityTypeDTO userVisibilityType, Integer numOfFollowing, Integer numOfFollowers) {
+    public UserDTO(UUID id, String name, String surname, String username, String email, String password, LocalDate createdAt, UserVisibilityTypeDTO userVisibilityType, Integer numOfFollowing, Integer numOfFollowers) {
         this.id = id;
-        this.guid = guid;
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -33,9 +45,8 @@ public class UserDTO {
         this.numOfFollowers = numOfFollowers;
     }
 
-    public UserDTO(Integer id, String guid, String name, String surname, String username, String email, String password, LocalDate createdAt) {
+    public UserDTO(UUID id, String name, String surname, String username, String email, String password, LocalDate createdAt) {
         this.id = id;
-        this.guid = guid;
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -44,20 +55,12 @@ public class UserDTO {
         this.createdAt = createdAt;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getGuid() {
-        return guid;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
     }
 
     public String getName() {

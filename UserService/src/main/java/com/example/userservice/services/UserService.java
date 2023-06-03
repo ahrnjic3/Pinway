@@ -6,6 +6,7 @@ import com.example.userservice.models.UserVisibilityType;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserService {
 
@@ -13,17 +14,17 @@ public interface UserService {
 
     Iterable<User> List();
 
-    User Details(Integer id);
+    User Details(UUID id);
 
-    Boolean Delete(Integer id);
+    Boolean Delete(UUID id);
 
-    User Update(Integer id, User user);
+    User Update(UUID id, User user);
 
     Iterable<UserVisibilityType> ListUserVisibilityTypes();
 
-    User AddFollower(Integer userId, Integer followingId);
+    User AddFollower(UUID userId, UUID followingId);
 
-    List<UserDTO> GetAllFollowersForUser(Integer userId);
+    List<UserDTO> GetAllFollowersForUser(UUID userId);
 
 
 }

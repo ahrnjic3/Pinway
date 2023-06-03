@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static org.aspectj.runtime.internal.Conversions.intValue;
+
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired // This means to get the bean called userRepository
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User Details(Integer id) {
+    public User Details(UUID id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return user.get();
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean Delete(Integer id) {
+    public Boolean Delete(UUID id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             userRepository.deleteById(id);
@@ -53,7 +55,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User Update(Integer id, User user) {
+    public User Update(UUID id, User user) {
         Optional<User> u = userRepository.findById(id);
 
         if (!u.isPresent())
@@ -80,8 +82,9 @@ public class UserServiceImpl implements UserService{
         return userVisibilityTypes;
     }
 
+
     @Override
-    public User AddFollower(Integer userId, Integer followingId) {
+    public User AddFollower(UUID userId, UUID followingId) {
         Optional<User> optUser = userRepository.findById(userId);
         if (!optUser.isPresent())
             throw new PinwayError("Not found User with id = " + userId);
@@ -102,14 +105,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<UserDTO> GetAllFollowersForUser(Integer userId) {
+    public List<UserDTO> GetAllFollowersForUser(UUID userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent())
             throw new PinwayError("Not found User with id = " + userId);
 
         User user = optionalUser.get();
 
-        List<Integer> ids = new ArrayList<>();
+        List<UUID> ids = new ArrayList<>();
         for (User follower : user.getFollowers()) {
             Optional<User> optFollower = userRepository.findById(follower.getId());
             if (!optFollower.isPresent())
@@ -121,7 +124,7 @@ public class UserServiceImpl implements UserService{
         ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
 
         for (User u: users) {
-            UserDTO userDTO = new UserDTO(u.getId(), u.getGuid(), u.getName(), u.getSurname(), u.getUsername(), u.getEmail(), u.getPassword(), u.getCreatedAt());
+            UserDTO userDTO = new UserDTO(u.getId(), u.getName(), u.getSurname(), u.getUsername(), u.getEmail(), u.getPassword(), u.getCreatedAt());
             userDTOS.add(userDTO);
         }
 

@@ -59,7 +59,7 @@ public class UserServiceTest {
             userVisibilityType = optionalUserVisibilityType.get();
 
         User user1 = new User();
-        user1.setId(3);
+        //user1.setId(3);
         user1.setName("Emina");
         user1.setSurname("Basic");
         user1.setUsername("ebasic");
@@ -75,7 +75,7 @@ public class UserServiceTest {
             userVisibilityType = optionalUserVisibilityType.get();
 
         User user2 = new User();
-        user2.setId(0);
+        //user2.setId(0);
         user2.setName("Minela");
         user2.setSurname("Basic");
         user2.setUsername("aamer");
@@ -91,7 +91,7 @@ public class UserServiceTest {
             userVisibilityType = optionalUserVisibilityType.get();
 
         User user3 = new User();
-        user2.setId(1);
+        //user2.setId(1);
         user3.setName("Sajra");
         user3.setSurname("Turko");
         user3.setUsername("sturko");

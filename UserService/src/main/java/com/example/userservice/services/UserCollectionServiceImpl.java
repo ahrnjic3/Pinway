@@ -11,10 +11,7 @@ import com.example.userservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserCollectionServiceImpl implements UserCollectionService{
@@ -30,7 +27,7 @@ public class UserCollectionServiceImpl implements UserCollectionService{
     private CollectionService collectionService;
 
     @Override
-    public User AddCollection(Integer id, UserCollectionCreateDTO userCollectionCreateDTO) {
+    public User AddCollection(UUID id, UserCollectionCreateDTO userCollectionCreateDTO) {
         Optional<User> userOpt = userRepository.findById(id);
         if (!userOpt.isPresent())
             throw new PinwayError("Not found User with id = " + id);
@@ -52,7 +49,7 @@ public class UserCollectionServiceImpl implements UserCollectionService{
     }
 
     @Override
-    public UserResponseDTO GetAllCollectionsForUser(Integer id) {
+    public UserResponseDTO GetAllCollectionsForUser(UUID id) {
         Optional<User> userOpt = userRepository.findById(id);
         if (!userOpt.isPresent())
             throw new PinwayError("Not found User with id = " + id);
@@ -68,7 +65,7 @@ public class UserCollectionServiceImpl implements UserCollectionService{
 
         List<CollectionDTO> collectionDTOS = collectionService.GetAllCollectionsForUser(ids);
         UserVisibilityTypeDTO userVisibilityTypeDTO = new UserVisibilityTypeDTO(user.getUserVisibilityType().getId(), user.getUserVisibilityType().getType());
-        UserDTO userDTO = new UserDTO(user.getId(), user.getGuid(), user.getName(), user.getSurname(), user.getUsername(), user.getEmail(), user.getPassword(), user.getCreatedAt(), userVisibilityTypeDTO, user.getNumOfFollowing(), user.getNumOfFollowers());
+        UserDTO userDTO = new UserDTO(user.getId(), user.getName(), user.getSurname(), user.getUsername(), user.getEmail(), user.getPassword(), user.getCreatedAt(), userVisibilityTypeDTO, user.getNumOfFollowing(), user.getNumOfFollowers());
 
         UserResponseDTO userResponseDTO = new UserResponseDTO(userDTO, collectionDTOS);
 

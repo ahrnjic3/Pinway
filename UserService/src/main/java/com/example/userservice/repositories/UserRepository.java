@@ -1,18 +1,20 @@
 package com.example.userservice.repositories;
 
-import com.example.userservice.dto.UserDTO;
+import java.util.UUID;
+
 import com.example.userservice.models.User;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Set;
+@Repository
+public interface UserRepository extends JpaRepository<User, UUID> {
 
-// This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
-// CRUD refers Create, Read, Update, Delete
+    boolean existsByUsernameIgnoreCase(String username);
 
-public interface UserRepository extends CrudRepository<User, Integer> {
+    boolean existsByEmailIgnoreCase(String email);
 
-    List<User> findAll();
+    User getUserByUsername(String username);
 
+    // User save(User newUser);
 
 }

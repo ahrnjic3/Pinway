@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/api") // This means URL's start with /demo (after Application path)
@@ -35,19 +36,19 @@ public class UserController {
     }
 
     @GetMapping(path="/users/{id}")
-    public @ResponseBody ResponseEntity GetDetails( @PathVariable("id") Integer id) {
+    public @ResponseBody ResponseEntity GetDetails( @PathVariable("id") UUID id) {
         User user = userService.Details(id);
         return ResponseEntity.status(200).body(user);
     }
     @DeleteMapping(path = "/users/{id}")
-    public @ResponseBody ResponseEntity Delete(@PathVariable("id") Integer id) {
+    public @ResponseBody ResponseEntity Delete(@PathVariable("id") UUID id) {
         userService.Delete(id);
         return ResponseEntity.status(204).build();
 
     }
 
     @PutMapping("/users/{id}")
-    public @ResponseBody ResponseEntity Update(@PathVariable("id") Integer id, @Valid @RequestBody User requestBody) {
+    public @ResponseBody ResponseEntity Update(@PathVariable("id") UUID id, @Valid @RequestBody User requestBody) {
         User updated = userService.Update(id, requestBody);
         return ResponseEntity.status(200).body(updated);
 
@@ -63,13 +64,13 @@ public class UserController {
     // FOLLOWERS AND FOLLOWING
 
     @PostMapping(path="/users/{id}/followers")
-    public @ResponseBody ResponseEntity AddFollower (@PathVariable("id") Integer id, @Valid @RequestBody Integer requestBody) {
+    public @ResponseBody ResponseEntity AddFollower (@PathVariable("id") UUID id, @Valid @RequestBody UUID requestBody) {
         User user = userService.AddFollower(id, requestBody);
         return ResponseEntity.status(201).body(user);
     }
 
     @GetMapping(path="/users/{id}/followers")
-    public @ResponseBody ResponseEntity getAllFollowersForUser (@PathVariable("id") Integer id) {
+    public @ResponseBody ResponseEntity getAllFollowersForUser (@PathVariable("id") UUID id) {
         List<UserDTO> userDTO = userService.GetAllFollowersForUser(id);
         return ResponseEntity.status(200).body(userDTO);
     }
