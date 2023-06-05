@@ -12,6 +12,8 @@ public interface UserService {
 
     User Create(User user);
 
+    UUID create(UserDTO userDTO);
+
     Iterable<User> List();
 
     User Details(UUID id);
@@ -25,6 +27,8 @@ public interface UserService {
     User AddFollower(UUID userId, UUID followingId);
 
     List<UserDTO> GetAllFollowersForUser(UUID userId);
+
+    UserDTO getUserByUsername(String username);
 
 
 }

@@ -1,8 +1,10 @@
 package com.example.userservice;
 
 
+import com.example.userservice.models.Role;
 import com.example.userservice.models.User;
 import com.example.userservice.models.UserVisibilityType;
+import com.example.userservice.repositories.RoleRepository;
 import com.example.userservice.repositories.UserRepository;
 import com.example.userservice.repositories.UserVisibilityTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +25,15 @@ public class UserTypeDataLoader {
 
     private JdbcTemplate jdbcTemplate;
 
+    private RoleRepository roleRepository;
     @Autowired
     public UserTypeDataLoader(UserVisibilityTypeRepository userTypeRepository,
-                                      UserRepository userRepository,
+                                      UserRepository userRepository, RoleRepository roleRepository,
                                       JdbcTemplate jdbcTemplate){
         this.userTypeRepository = userTypeRepository;
         this.userRepository = userRepository;
         this.jdbcTemplate = jdbcTemplate;
+        this.roleRepository = roleRepository;
     }
 
     private  void seedUserVisibilityType() {
@@ -73,6 +77,9 @@ public class UserTypeDataLoader {
             user1.setEmail("ebasic@etf.unsa.ba");
             user1.setPassword("emina123");
             user1.setUserVisibilityType(userVisibilityType);
+            Role rola = new Role("admin");
+            roleRepository.save(rola);
+            user1.setRole(rola);
 
             optionalUserVisiblityType = userTypeRepository.findOneByType("FOLLOWED");
             userVisibilityType = new UserVisibilityType();

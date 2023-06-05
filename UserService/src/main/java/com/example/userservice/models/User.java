@@ -48,8 +48,10 @@ public class User {
     @JoinColumn(name="typeId")
     private UserVisibilityType userVisibilityType;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = true)
+    @JsonIgnoreProperties("users")
     private Role role;
 
     public Role getRole() {
@@ -59,6 +61,7 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "relation",
@@ -73,7 +76,7 @@ public class User {
     private Integer numOfFollowing;
     private Integer numOfFollowers;
 
-    @JsonIgnoreProperties("user")
+    @JsonIgnoreProperties("role")
     @OneToMany(mappedBy = "user")
     private List<UserCollection> userCollections;
 

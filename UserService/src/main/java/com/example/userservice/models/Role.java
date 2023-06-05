@@ -1,5 +1,6 @@
 package com.example.userservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "role")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Role {
 
     @Id
@@ -20,7 +22,9 @@ public class Role {
     @NotBlank(message = "Name can't be blank")
     private String role;
 
+
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("role")
     private Set<User> users;
 
     public Role(UUID id, String role) {
@@ -32,9 +36,7 @@ public class Role {
         this.role = role;
     }
 
-    public Role() {
-
-    }
+    public Role() {    }
 
     public UUID getId() {
         return id;
@@ -48,7 +50,7 @@ public class Role {
         return role;
     }
 
-    public void setRole(final String role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
