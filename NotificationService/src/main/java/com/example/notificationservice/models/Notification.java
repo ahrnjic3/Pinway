@@ -47,6 +47,17 @@ public class Notification {
         this.content = content;
     }
 
+    public Notification(NotificationType notificationType, Boolean open, Integer userId, Integer actionUserId, Integer pinnedPost, Integer likedComment, Integer sharedCollection, String content) {
+        this.notificationType = notificationType;
+        this.open = open;
+        this.userId = userId;
+        this.actionUserId = actionUserId;
+        this.pinnedPost = pinnedPost;
+        this.likedComment = likedComment;
+        this.sharedCollection = sharedCollection;
+        this.content = content;
+    }
+
     public Notification() {
     }
 

@@ -6,6 +6,7 @@ import com.example.notificationservice.models.Notification;
 import com.example.notificationservice.models.NotificationType;
 import com.example.notificationservice.repositories.NotificationRepository;
 import com.example.notificationservice.repositories.NotificationTypeRepository;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -99,8 +100,19 @@ public class NotificationServiceImp implements NotificationService {
     }
 
     @Override
+    public NotificationType GetNotificationType(String type) {
+        Optional<NotificationType> optionalNotificationType = notificationTypeRepository.findOneByType(type);
+
+        if(optionalNotificationType.isPresent())
+            return optionalNotificationType.get();
+
+        return  null;
+    }
+
+    @Override
     public Iterable<Notification> List10NotificationsByOpen() {
         Iterable<Notification> notifications = notificationRepository.get10NotificationsByOpen();
         return notifications;
     }
+
 }

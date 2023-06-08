@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
-import { getPostsForCollection } from "api/collections";
+import { getPostsForCollection, deleteCollection } from "api/collections";
 import Loader from "components/Loader";
+import CollectionDelete from "components/Collections/CollectionDelete";
 
 import placeholder from  "images/place_holder.png";
 
@@ -17,6 +20,25 @@ const Collections = () => {
 
     const [data, setData] = useState();
     const [posts, setPosts] = useState();
+    const [modal, setModal] = useState(false);
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+      setModal(!modal);
+    };
+
+    const handleDelete = async () => {
+      try {
+        await deleteCollection(params.id);
+        toast.success("Collection deleted!");
+        navigate("/users/");
+      } catch (err) {
+        toast.error("Unable to delete collection!");
+      } finally {
+        setModal(!modal);
+      }
+    };
 
     useEffect(() => {
         const fetch = async () => {
@@ -47,6 +69,8 @@ const Collections = () => {
 
     return (
         <div className="container" style={{padding: '20px'}}>
+          <CollectionDelete visible={modal} handleClick={handleClick} handleDelete={handleDelete}></CollectionDelete>
+          {/* <CollectionDelete show={modal} handleClick={handleClick} handleDelete={handleDelete}></CollectionDelete> */}
           <Loader isLoading={loading} />
           {posts && (
             <div className="row">
@@ -63,7 +87,7 @@ const Collections = () => {
                           <button className="btn btn-light text-secondary mb-1 btn-sm">Share</button>
                         </div>
                         <div className="col-md-6 text-center">
-                          <button className="btn btn-light text-secondary mb-1 btn-sm">Delete</button>
+                          <button className="btn btn-light text-secondary mb-1 btn-sm" onClick={handleClick}>Delete</button>
                         </div>
                     </div>
                   </div>

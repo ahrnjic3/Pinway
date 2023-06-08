@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import HomeMenu from "components/HomeMenu";
 import Collections from "./Collections/Collections";
 import UserDetails from "components/Users/UserDetails"
+import CollectionDelete from "./Collections/CollectionDelete";
 
 const Root = () => (
   <div>

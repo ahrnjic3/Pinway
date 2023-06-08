@@ -1,16 +1,12 @@
 package com.example.postservice.services;
+import com.example.postservice.dto.*;
+import com.example.postservice.infrastructure.EventService;
 
-
-import com.example.postservice.dto.CommentDTO;
-import com.example.postservice.dto.CommentResponseDTO;
-import com.example.postservice.dto.PostResponseDTO;
-import com.example.postservice.dto.UserDTO;
 import com.example.postservice.exception.PinwayError;
 import com.example.postservice.models.Comment;
 import com.example.postservice.models.Post;
 import com.example.postservice.repositories.CommentRepository;
 import com.example.postservice.repositories.PostRepository;
-import jdk.jfr.RecordingState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,6 +26,11 @@ public class CommentServiceImp implements CommentService{
     private PostRepository postRepository;
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private EventService eventService;
+
+
 
     @Override
     public Comment FindById(Long id) {
@@ -63,14 +64,24 @@ public class CommentServiceImp implements CommentService{
 
     @Override
     public Comment Create(CommentDTO commentDTO){
-        Comment new_comment = new Comment();
-        new_comment.setContent(commentDTO.getContent());
-        Post post = postRepository.findById(commentDTO.getPost_id()).orElse(null);
-        new_comment.setPost(post);
-        new_comment.setCreatedAt(LocalDateTime.now());
+        try {
+            Comment new_comment = new Comment();
+            new_comment.setContent(commentDTO.getContent());
+            Post post = postRepository.findById(commentDTO.getPost_id()).orElse(null);
+            new_comment.setPost(post);
+            new_comment.setCreatedAt(LocalDateTime.now());
 
-        Comment newComment = commentRepository.save(new_comment);
-        return  newComment;
+            Comment newComment = commentRepository.save(new_comment);
+
+            eventService.CommentCreated(newComment);
+
+//            CommentInfo info = new CommentInfo(newComment.getId(), newComment.getContent(), "add");
+//            rabbitTemplate.convertAndSend(MessagingConfig.EXCHANGE, MessagingConfig.ROUTING_KEY, info);
+            return  newComment;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return  null;
     }
 
     @Override
