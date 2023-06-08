@@ -18,6 +18,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="apigateway" target="17" />
       <module name="NotificationService (1)" target="17" />
       <module name="PinwayUserService" target="17" />
       <module name="PostService (1)" target="17" />

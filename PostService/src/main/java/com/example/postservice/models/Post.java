@@ -110,4 +110,11 @@ public class Post {
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
+
+    @Transient
+    public String getFullImagePath() {
+        if (image_path == null || id == null) return null;
+
+        return "/post-photos/" + id + "/" + image_path;
+    }
 }
