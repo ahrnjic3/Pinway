@@ -11,6 +11,7 @@ import com.example.postservice.models.Post;
 import com.example.postservice.repositories.CommentRepository;
 import com.example.postservice.repositories.PostRepository;
 import jdk.jfr.RecordingState;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,7 @@ public class CommentServiceImp implements CommentService{
         new_comment.setContent(commentDTO.getContent());
         Post post = postRepository.findById(commentDTO.getPost_id()).orElse(null);
         new_comment.setPost(post);
+        new_comment.setUser_id(commentDTO.getUser_id());
         new_comment.setCreatedAt(LocalDateTime.now());
 
         Comment newComment = commentRepository.save(new_comment);

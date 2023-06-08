@@ -13,6 +13,8 @@ import java.util.Set;
 public interface UserRepository extends CrudRepository<User, Integer> {
 
     List<User> findAll();
+    List<User> findByUsernameOrEmail(String username, String email);
+    User findByUsername(String username);
 
 
 }

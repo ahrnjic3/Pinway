@@ -74,4 +74,17 @@ public class UserController {
         return ResponseEntity.status(200).body(userDTO);
     }
 
+    @PostMapping("/user/{username}/role/{name}")
+    public ResponseEntity<User> addRoleToUser(@PathVariable String username, @PathVariable String name) {
+        User user = userService.addRoleToUser(username, name);
+        return ResponseEntity.status(200).body(user);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        User newUser = userService.registerUser(user);
+        return ResponseEntity.status(201).body(newUser);
+    }
+
+
 }

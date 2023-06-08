@@ -1,17 +1,20 @@
 package com.example.userservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
@@ -36,7 +39,7 @@ public class User {
 
     @NotEmpty
     //@Pattern(regexp = "^(0$|[^0]\\d{0,19}$)", flags = Pattern.Flag.MULTILINE)
-    @Size(min = 5, max = 20, message = "Password must contain minimum 5 characters")
+    //@Size(min = 5, max = 20, message = "Password must contain minimum 5 characters")
     private String password;
 
 
@@ -75,6 +78,18 @@ public class User {
     @JsonIgnoreProperties("user")
     @OneToMany(mappedBy = "user")
     private List<UserCollection> userCollections;
+
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE
+            })
+    @JoinTable(
+            name = "USER_ROLE",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    )
+    private List<Role> roles = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -186,4 +201,25 @@ public class User {
     public void setFollowers(List<User> followers) {
         this.followers = followers;
     }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public List<String> getRolesByName() {
+        List<String> roleNames = new ArrayList<>();
+        for (Role r: getRoles()) {
+            roleNames.add(r.getName());
+        }
+        return roleNames;
+    }
+
 }
