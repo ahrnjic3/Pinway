@@ -4,14 +4,45 @@ import { useNavigate } from "react-router-dom";
 
 
 import { getPostsForCollection, deleteCollection } from "api/collections";
+import { getFollowersForUser } from "api/users";
 import Loader from "components/Loader";
 import CollectionDelete from "components/Collections/CollectionDelete";
 
 import placeholder from  "images/place_holder.png";
 
 const params = {
-  id: 1
+  id: 1,
+  userId: 1
 }
+
+const followers = [
+  {
+    "id": 1,
+    "guid": null,
+    "name": "Emina",
+    "surname": "Basic",
+    "username": "ebasic",
+    "email": "ebasic@etf.unsa.ba",
+    "password": "emina123",
+    "createdAt": null,
+    "userVisibilityType": null,
+    "numOfFollowing": null,
+    "numOfFollowers": null
+  },
+  {
+    "id": 2,
+    "guid": null,
+    "name": "Amer",
+    "surname": "Basic",
+    "username": "aamer",
+    "email": "amer@etf.unsa.ba",
+    "password": "amer123",
+    "createdAt": null,
+    "userVisibilityType": null,
+    "numOfFollowing": null,
+    "numOfFollowers": null
+  }
+];
 
 const Collections = () => {
 
@@ -20,6 +51,7 @@ const Collections = () => {
 
     const [data, setData] = useState();
     const [posts, setPosts] = useState();
+    //const [followers, setFollowers] = useState();
     const [modal, setModal] = useState(false);
 
     const navigate = useNavigate();
@@ -45,8 +77,11 @@ const Collections = () => {
           try {
             setLoading(true);
             const response = await getPostsForCollection(params.id);
+            // followers
+            //const followers = await getFollowersForUser(params.userId);
             setData(response.collectionDTO);
             setPosts(response.postDTO);
+            //setFollowers(followers);
           } catch (e) {
             setError("Unable to fetch collections!");
           } finally {
@@ -55,7 +90,7 @@ const Collections = () => {
         };
     
         fetch();
-      }, [params.id]);
+      }, [params]);
 
     if (error) {
       return (
@@ -84,7 +119,17 @@ const Collections = () => {
                     </div>
                     <div className="row">
                         <div className="col-md-6 text-center">
-                          <button className="btn btn-light text-secondary mb-1 btn-sm">Share</button>
+                        <div className="dropdown">
+                          <button className="btn btn-light text-secondary mb-1 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Share
+                          </button>
+                          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a className="dropdown-item" href="#">Action</a></li>
+                            <li><a className="dropdown-item" href="#">Another action</a></li>
+                            <li><a className="dropdown-item" href="#">Something else here</a></li>
+                          </ul>
+                        </div>
+                          {/* <button className="btn btn-light text-secondary mb-1 btn-sm">Share</button> */}
                         </div>
                         <div className="col-md-6 text-center">
                           <button className="btn btn-light text-secondary mb-1 btn-sm" onClick={handleClick}>Delete</button>
