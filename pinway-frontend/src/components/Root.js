@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import HomeMenu from "components/HomeMenu";
 import Collections from "./Collections/Collections";
+import LogIn from "./Users/LogIn"
+import Registration from "./Users/Registration"
 import UserDetails from "components/Users/UserDetails"
 
 const Root = () => (
@@ -28,6 +30,8 @@ const Root = () => (
         <Route path="/" element={<Navigate to="/collections" />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/users" element={<UserDetails/>} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/registration" element={<Registration />} />
       </Routes> 
     </Router>
   </div>

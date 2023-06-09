@@ -31,7 +31,7 @@ const Collections = () => {
             setLoading(false);
           }
         };
-    
+
         fetch();
       }, [params.id]);
 
