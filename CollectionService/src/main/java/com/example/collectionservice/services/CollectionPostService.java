@@ -10,4 +10,6 @@ public interface CollectionPostService {
 
 
     CollectionResponseDTO GetAllPostsForCollection(Integer id);
+
+    void RemovePost(Integer collectionId, Long postId);
 }

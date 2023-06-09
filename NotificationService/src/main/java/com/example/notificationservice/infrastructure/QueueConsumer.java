@@ -3,6 +3,7 @@ package com.example.notificationservice.infrastructure;
 
 import com.example.notificationservice.dto.CommentInfo;
 import com.example.notificationservice.dto.LikeInfo;
+import com.example.notificationservice.dto.PinInfo;
 import com.example.notificationservice.infrastructure.MessagingConfig;
 import com.example.notificationservice.models.Notification;
 import com.example.notificationservice.models.NotificationType;
@@ -75,5 +76,31 @@ public class QueueConsumer {
             }
         }
     }
+
+    @RabbitListener(queues = MessagingConfig.QUEUE_PIN)
+    public void receivePin(PinInfo pinInfo){
+        if (pinInfo.getMessage().equals("add")) {
+            try {
+                NotificationType notificationType = notificationService.GetNotificationType("PINNED");
+                Notification notification = new Notification();
+                notification.setOpen(false);
+                notification.setContent("User? Pinned your Post.");
+                notification.setActionUserId(2);
+                notification.setUserId(1);
+                notification.setPinnedPost(pinInfo.getId().intValue());
+                notification.setNotificationType(notificationType);
+                notificationService.Create(notification);
+
+            }
+            catch (Exception e) {
+                System.out.println("Greska u dodavanju notifikacije!");
+                System.out.println(e.getMessage());
+
+                PinInfo info = new PinInfo(pinInfo.getId(), pinInfo.getCollectionId(), "delete");
+                rabbitTemplate.convertAndSend(MessagingConfig.REVERSE_EXCHANGE_PIN, MessagingConfig.REVERSE_ROUTING_KEY_PIN, info);
+            }
+        }
+    }
+
 
 }

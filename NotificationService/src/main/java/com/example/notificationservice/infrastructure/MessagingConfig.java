@@ -76,9 +76,17 @@ public class MessagingConfig {
     public static final String EXCHANGE_LIKE = "like_exchange";
     public static final String ROUTING_KEY_LIKE = "like_routingKey";
 
-    public static final String REVERSE_QUEUE_LIKE = "like";
-    public static final String REVERSE_EXCHANGE_LIKE = "like_exchange";
-    public static final String REVERSE_ROUTING_KEY_LIKE = "like_routingKey";
+    public static final String REVERSE_QUEUE_LIKE = "revert_like";
+    public static final String REVERSE_EXCHANGE_LIKE = "revert_like_exchange";
+    public static final String REVERSE_ROUTING_KEY_LIKE = "revert_like_routingKey";
+
+    public static final String QUEUE_PIN = "pin";
+    public static final String EXCHANGE_PIN = "pin_exchange";
+    public static final String ROUTING_KEY_PIN = "pin_routingKey";
+
+    public static final String REVERSE_QUEUE_PIN = "revert_pin";
+    public static final String REVERSE_EXCHANGE_PIN = "revert_pin_exchange";
+    public static final String REVERSE_ROUTING_KEY_PIN = "revert_pin_routingKey";
 
     // comment
     @Bean
@@ -139,6 +147,35 @@ public class MessagingConfig {
     @Bean
     public Binding bindingLikeReverse(Queue queueLikeReverse, DirectExchange exchangeLikeReverse) {
         return BindingBuilder.bind(queueLikeReverse).to(exchangeLikeReverse).with(REVERSE_ROUTING_KEY_LIKE);
+    }
+
+    // pin
+    @Bean
+    public Queue queuePin() { return new Queue(QUEUE_PIN); }
+
+    @Bean
+    public DirectExchange exchangePin() {
+        return new DirectExchange(EXCHANGE_PIN);
+    }
+
+    @Bean
+    public Binding bindingPin(Queue queuePin, DirectExchange exchangePin) {
+        return BindingBuilder.bind(queuePin).to(exchangePin).with(ROUTING_KEY_PIN);
+    }
+
+    // pin reverse
+
+    @Bean
+    public Queue queuePinReverse() { return new Queue(REVERSE_QUEUE_PIN); }
+
+    @Bean
+    public DirectExchange exchangePinReverse() {
+        return new DirectExchange(REVERSE_EXCHANGE_PIN);
+    }
+
+    @Bean
+    public Binding bindingPinReverse(Queue queuePinReverse, DirectExchange exchangePinReverse) {
+        return BindingBuilder.bind(queuePinReverse).to(exchangePinReverse).with(REVERSE_ROUTING_KEY_PIN);
     }
 
 
