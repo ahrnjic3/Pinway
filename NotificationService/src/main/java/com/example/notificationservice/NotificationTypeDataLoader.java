@@ -49,11 +49,15 @@ public class NotificationTypeDataLoader {
             NotificationType nt4 = new NotificationType();
             nt4.setType("PINNED");
 
+            NotificationType nt5 = new NotificationType();
+            nt5.setType("COMMENTED");
+
 
             notificationTypeRepository.save(nt1);
             notificationTypeRepository.save(nt2);
             notificationTypeRepository.save(nt3);
             notificationTypeRepository.save(nt4);
+            notificationTypeRepository.save(nt5);
         }
         System.out.println(notificationTypeRepository.count());
     }

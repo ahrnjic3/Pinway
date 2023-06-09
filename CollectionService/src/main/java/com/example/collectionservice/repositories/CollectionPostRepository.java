@@ -11,4 +11,6 @@ import java.util.List;
 
 public interface CollectionPostRepository extends CrudRepository<CollectionPost, Integer> {
 
+    CollectionPost findByCollectionIdAndPostId(Integer collectionId, Long postId);
+
 }

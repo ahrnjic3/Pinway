@@ -1,6 +1,7 @@
 package com.example.postservice.services;
 
 import com.example.postservice.exception.PinwayError;
+import com.example.postservice.infrastructure.EventService;
 import com.example.postservice.models.Comment;
 import com.example.postservice.models.Like;
 import com.example.postservice.models.Post;
@@ -13,10 +14,19 @@ public class LikeServiceImp implements  LikeService{
     @Autowired
     public LikeRepository likeRepository;
 
+    @Autowired
+    private EventService eventService;
+
     @Override
     public Like Create(Like like){
-        Like newLike = likeRepository.save(like);
-        return  newLike;
+        try {
+            Like newLike = likeRepository.save(like);
+            eventService.LikeCreated(newLike);
+            return  newLike;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return  null;
     }
 
     @Override

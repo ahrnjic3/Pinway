@@ -2,6 +2,7 @@ package com.example.collectionservice.services;
 
 import com.example.collectionservice.dto.*;
 import com.example.collectionservice.exception.PinwayError;
+import com.example.collectionservice.infrastructure.EventService;
 import com.example.collectionservice.infrastructure.PostService;
 import com.example.collectionservice.models.Collection;
 import com.example.collectionservice.models.CollectionPost;
@@ -26,6 +27,9 @@ public class CollectionPostServiceImpl implements CollectionPostService {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private EventService eventService;
+
     @Override
     public Collection AddPost(Integer id, CollectionPostCreateDTO collectionPostCreateDTO) {
         Optional<Collection> optCollection = collectionRepository.findById(id);
@@ -42,7 +46,29 @@ public class CollectionPostServiceImpl implements CollectionPostService {
 
         collectionPostRepository.save(collectionPost);
         collectionRepository.increaseNumOfPosts(collection.getId());
+
+        // TODO: ako je dodan post u neku kolekciju znaci da se treba asinhrona komunikacija za notifkaciju
+        eventService.PinCreated(collectionPostCreateDTO.getPostId(), id);
+
         return  collection;
+    }
+
+    @Override
+    public void RemovePost(Integer collectionId, Long postId) {
+        Optional<Collection> optCollection = collectionRepository.findById(collectionId);
+        if (!optCollection.isPresent())
+            throw new PinwayError("Not found Collection with id = " + collectionId);
+        // prvjera da li ima kolekcija sa IDem ovim datim
+
+
+        Boolean doesExist = postService.DoesExist(postId);
+        if (!doesExist)
+            throw new PinwayError("Not found Post with id = " + postId);
+
+        CollectionPost collectionPost = collectionPostRepository.findByCollectionIdAndPostId(collectionId, postId);
+
+        collectionPostRepository.deleteById(collectionPost.getId());
+
     }
 
     @Override
