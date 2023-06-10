@@ -55,7 +55,7 @@ public class CollectionPostServiceImpl implements CollectionPostService {
 
     @Override
     public void RemovePost(Integer collectionId, Long postId) {
-        Optional<Collection> optCollection = collectionRepository.findById(collectionId);
+        Optional<Collection> optCollection = collectionRepository.findByIdAndIsDeleted(collectionId, false);
         if (!optCollection.isPresent())
             throw new PinwayError("Not found Collection with id = " + collectionId);
         // prvjera da li ima kolekcija sa IDem ovim datim
@@ -73,7 +73,7 @@ public class CollectionPostServiceImpl implements CollectionPostService {
 
     @Override
     public CollectionResponseDTO GetAllPostsForCollection(Integer id) {
-        Optional<Collection> optCollection = collectionRepository.findById(id);
+        Optional<Collection> optCollection = collectionRepository.findByIdAndIsDeleted(id, false);
         if (!optCollection.isPresent())
             throw new PinwayError("Not found Collection with id = " + id);
 

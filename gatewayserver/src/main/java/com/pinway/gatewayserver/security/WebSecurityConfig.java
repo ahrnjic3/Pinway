@@ -46,7 +46,7 @@ public class WebSecurityConfig {
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers(HttpMethod.GET, "/api/users/**").permitAll()
                 .pathMatchers( HttpMethod.POST, "/api/signin/login", "/api/signin/refresh-token").permitAll()
-                .pathMatchers(HttpMethod.POST, "/api/users/**").hasAuthority("ROLE_ADMINISTRATOR")
+                .pathMatchers(HttpMethod.POST, "/api/users/**").hasAuthority("ROLE_USER")
                 .pathMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority("ROLE_ADMINISTRATOR")
                 .pathMatchers(HttpMethod.PUT, "/api/users/**").hasAuthority("ROLE_ADMINISTRATOR")
                 .pathMatchers("/api/role/**").hasAuthority("ROLE_ADMINISTRATOR")

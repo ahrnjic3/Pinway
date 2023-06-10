@@ -68,9 +68,11 @@ public class CollectionDataLoader {
                 visibilityType = optionalVisibilityType.get();
 
             Collection c1 = new Collection();
-            c1.setName("Collection_1");
+            c1.setName("Cute");
             c1.setNumOfPosts(0);
             c1.setCreatedAt(LocalDate.now());
+            c1.setDeleted(false);
+            c1.setUserId(Long.valueOf(2));
             c1.setCollectionVisibilityType(visibilityType);
 
             optionalVisibilityType = collectionVisibilityTypeRepository.findOneByType("PRIVATE");
@@ -80,9 +82,11 @@ public class CollectionDataLoader {
                 visibilityType = optionalVisibilityType.get();
 
             Collection c2 = new Collection();
-            c2.setName("Collection_2");
+            c2.setName("Cyber Punk");
             c2.setNumOfPosts(0);
             c2.setCreatedAt(LocalDate.now());
+            c2.setDeleted(false);
+            c2.setUserId(Long.valueOf(2));
             c2.setCollectionVisibilityType(visibilityType);
 
 

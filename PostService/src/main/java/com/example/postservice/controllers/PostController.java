@@ -50,7 +50,7 @@ public class PostController {
         new_post.setTitle(postDTOObj.getTitle());
         new_post.setDescription(postDTOObj.getDescription());
         new_post.setImage_path(fileName);
-        new_post.setUser_id(Long.valueOf(1));
+        new_post.setUser_id(postDTOObj.getUser_id());
         new_post.setPin_counter(0);
         new_post.setCreated_at(LocalDateTime.now());
 

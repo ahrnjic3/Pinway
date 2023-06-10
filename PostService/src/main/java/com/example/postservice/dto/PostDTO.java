@@ -16,6 +16,8 @@ public class PostDTO {
     @NotBlank(message = "Image is mandatory")
     private String image_path;
 
+    private Long user_id;
+
     private Set<String> hashtagNames;
 
     public Long getId() {
@@ -55,5 +57,13 @@ public class PostDTO {
 
     public void setHashtagNames(Set<String> hashtagNames) {
         this.hashtagNames = hashtagNames;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 }

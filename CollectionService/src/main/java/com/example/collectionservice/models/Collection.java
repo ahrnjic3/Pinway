@@ -1,5 +1,6 @@
 package com.example.collectionservice.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -28,8 +29,7 @@ public class Collection {
     @OneToMany(mappedBy = "collection")
     private List<CollectionPost> collectionPosts;
 
-    @PastOrPresent
-    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
     @Min(value = 0, message = "Number of posts must be positive")
@@ -37,15 +37,36 @@ public class Collection {
     private Integer numOfPosts;
 
 
+    // 0 - not deleted
+    // 1 - deleted
+    @NotNull
+    private Boolean isDeleted;
+
+    @NotNull
+    private Long userId;
+
     public Collection() {
     }
 
-    public Collection(Integer id, String name, CollectionVisibilityType collectionVisibilityType, LocalDate createdAt, Integer numOfPosts, Set<CollectionPost> posts) {
+    public Collection(Integer id, String name, CollectionVisibilityType collectionVisibilityType, List<CollectionPost> collectionPosts, LocalDate createdAt, Integer numOfPosts, Boolean deleted) {
         this.id = id;
         this.name = name;
         this.collectionVisibilityType = collectionVisibilityType;
-        this.createdAt = createdAt;
+        this.collectionPosts = collectionPosts;
+        this.createdAt = LocalDate.now();
         this.numOfPosts = numOfPosts;
+        this.isDeleted = deleted;
+    }
+
+    public Collection(Integer id, String name, CollectionVisibilityType collectionVisibilityType, List<CollectionPost> collectionPosts, LocalDate createdAt, Integer numOfPosts, Boolean isDeleted, Long userId) {
+        this.id = id;
+        this.name = name;
+        this.collectionVisibilityType = collectionVisibilityType;
+        this.collectionPosts = collectionPosts;
+        this.createdAt = LocalDate.now();
+        this.numOfPosts = numOfPosts;
+        this.isDeleted = isDeleted;
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -94,5 +115,21 @@ public class Collection {
 
     public void setCollectionPosts(List<CollectionPost> collectionPosts) {
         this.collectionPosts = collectionPosts;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.isDeleted = deleted;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

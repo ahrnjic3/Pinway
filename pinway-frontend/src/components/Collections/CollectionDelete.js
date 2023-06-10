@@ -15,20 +15,17 @@ function CollectionDelete({ visible, handleClick, handleDelete }) {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Modal Title</h5>
-                <button type="button" className="close" onClick={handleCloseModal}>
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 className="modal-title">Delete Collection</h5>
               </div>
               <div className="modal-body">
-                <p>Modal content goes here...</p>
+                <p>Are you sure you want to delete this Collection?</p>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
                   Close
                 </button>
-                <button type="button" className="btn btn-primary" onClick={onApply}>
-                  Save changes
+                <button type="button" className="btn btn-danger" onClick={onApply}>
+                  Delete
                 </button>
               </div>
             </div>

@@ -48,6 +48,12 @@ public class CollectionController {
         return  ResponseEntity.status(200).body(collections);
     }
 
+    @GetMapping(path="/api/collections/user/{id}")
+    public @ResponseBody ResponseEntity GetCollectionsForUser( @PathVariable("id") Integer id) {
+        Iterable<Collection> collections = collectionService.FindAllByUserId(id);
+        return  ResponseEntity.status(200).body(collections);
+    }
+
     @DeleteMapping(path="/api/collections/{id}")
     public @ResponseBody ResponseEntity Delete(@PathVariable("id") Integer id) {
         collectionService.Delete(id);

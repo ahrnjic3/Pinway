@@ -43,14 +43,28 @@ public class CollectionService {
         return true;
     }
 
-    public List<CollectionDTO> GetAllCollectionsForUser(Set<Integer> ids) {
+//    public List<CollectionDTO> GetAllCollectionsForUser(Set<Integer> ids) {
+//        List<CollectionDTO> collectionDTOS = new ArrayList<>();
+//
+//        if(ids.isEmpty())
+//            return collectionDTOS;
+//
+//        String listOfIds = ids.stream().map(Object::toString).collect(Collectors.joining(","));
+//        ResponseEntity<CollectionDTO[]> responseEntity = restTemplate.getForEntity("http://collection-service/api/collections?ids={ids}", CollectionDTO[].class, listOfIds);
+//        CollectionDTO[]  collectionDTOS1 = responseEntity.getBody();
+//
+//
+//        for(CollectionDTO collectionDTO : collectionDTOS1) {
+//            collectionDTOS.add(collectionDTO);
+//        }
+//
+//        return collectionDTOS;
+//    }
+
+    public List<CollectionDTO> GetAllCollectionsForUser(Integer id) {
         List<CollectionDTO> collectionDTOS = new ArrayList<>();
 
-        if(ids.isEmpty())
-            return collectionDTOS;
-
-        String listOfIds = ids.stream().map(Object::toString).collect(Collectors.joining(","));
-        ResponseEntity<CollectionDTO[]> responseEntity = restTemplate.getForEntity("http://collection-service/api/collections?ids={ids}", CollectionDTO[].class, listOfIds);
+        ResponseEntity<CollectionDTO[]> responseEntity = restTemplate.getForEntity("http://collection-service/api/collections/user/{id}", CollectionDTO[].class, id);
         CollectionDTO[]  collectionDTOS1 = responseEntity.getBody();
 
 
