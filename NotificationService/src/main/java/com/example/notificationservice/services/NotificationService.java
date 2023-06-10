@@ -14,6 +14,8 @@ public interface NotificationService {
 
     Iterable<Notification> List();
 
+    Iterable<Notification> GetNotificationsForUser(Integer id);
+
     Notification Details(Integer id);
 
     Boolean Delete(Integer id);

@@ -4,6 +4,7 @@ import com.example.collectionservice.dto.*;
 import com.example.collectionservice.exception.PinwayError;
 import com.example.collectionservice.infrastructure.EventService;
 import com.example.collectionservice.infrastructure.PostService;
+import com.example.collectionservice.infrastructure.UserService;
 import com.example.collectionservice.models.Collection;
 import com.example.collectionservice.models.CollectionPost;
 import com.example.collectionservice.repositories.CollectionPostRepository;
@@ -28,6 +29,9 @@ public class CollectionPostServiceImpl implements CollectionPostService {
     private PostService postService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private EventService eventService;
 
     @Override
@@ -38,17 +42,21 @@ public class CollectionPostServiceImpl implements CollectionPostService {
         // prvjera da li ima post sa IDem ovim datim
 
         Collection collection = optCollection.get();
-        Boolean doesExist = postService.DoesExist(collectionPostCreateDTO.getPostId());
-        if (doesExist == false)
+        PostResponseDTO postDTO = postService.GetPost(collectionPostCreateDTO.getPostId());
+        if (postDTO == null)
             throw new PinwayError("Not found Post with id = " + collectionPostCreateDTO.getPostId());
+
+
+        UserDTO userDTO = userService.GetUser(collectionPostCreateDTO.getActionUserId());
+        if (userDTO == null)
+            throw new PinwayError("Not found User with id = " + collectionPostCreateDTO.getActionUserId());
 
         CollectionPost collectionPost = new CollectionPost(collectionPostCreateDTO.getPostId(), collection);
 
         collectionPostRepository.save(collectionPost);
         collectionRepository.increaseNumOfPosts(collection.getId());
 
-        // TODO: ako je dodan post u neku kolekciju znaci da se treba asinhrona komunikacija za notifkaciju
-        eventService.PinCreated(collectionPostCreateDTO.getPostId(), id);
+        eventService.PinCreated(collectionPostCreateDTO.getPostId(), id, postDTO.userDTO.getId() , userDTO.getUsername(), collectionPostCreateDTO.getActionUserId());
 
         return  collection;
     }

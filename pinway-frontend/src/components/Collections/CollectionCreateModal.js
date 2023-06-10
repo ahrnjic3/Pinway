@@ -5,8 +5,6 @@ const CollectionCreateModal = ({ visible, handleClick, handleCreateCollection })
   const [isPrivate, setIsPrivate] = useState(false);
 
   const onApply = () => {
-    // Validate boardName and perform create board logic
-    // Pass boardName and isPrivate to the onCreateBoard function
     handleCreateCollection(collectionName, isPrivate);
     setcollectionName('');
     setIsPrivate(false);
@@ -22,7 +20,7 @@ const CollectionCreateModal = ({ visible, handleClick, handleCreateCollection })
           <div className="modal-dialog" role="document">
             <div className="modal-content">
             <div className="modal-header d-flex justify-content-center" style={{ borderBottom: 'none' }}>
-              <h3 className="modal-title my-4">Create Collection</h3>
+              <h3 className="modal-title my-4" style={{ color: 'black' }}>Create Collection</h3>
             </div>
               <div className="modal-body">
               <div>

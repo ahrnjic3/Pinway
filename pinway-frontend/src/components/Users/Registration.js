@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './AccessForms.css';
 import axios from 'axios';
-import {confirmAlert} from "react-confirm-alert";
 import Logo from 'images/pinway_logo.png';
 
 import placeholder from  "images/place_holder.png";

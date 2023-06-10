@@ -12,8 +12,8 @@ public class EventService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public void PinCreated(Long postId, Integer collectionId) {
-        PinInfo info = new PinInfo(postId, collectionId,"add");
+    public void PinCreated(Long postId, Integer collectionId, Integer userId, String username,Integer actionUserId) {
+        PinInfo info = new PinInfo(postId, collectionId,"add", userId, username, actionUserId);
         rabbitTemplate.convertAndSend(MessagingConfig.EXCHANGE_PIN, MessagingConfig.ROUTING_KEY_PIN, info);
     }
 }

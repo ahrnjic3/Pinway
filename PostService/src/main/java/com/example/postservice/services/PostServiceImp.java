@@ -41,6 +41,7 @@ public class PostServiceImp implements PostService{
             postDTO.setId(post.getId());
             postDTO.setImage_path(post.getImage_path());
             postDTO.setTitle(post.getTitle());
+            postDTO.setUser_id(post.getUser_id());
             postDTO.setDescription(post.getDescription());
             postDTO.setHashtagNames(post.getHashtags().stream().map(hashtag -> {
                 return hashtag.getName();
@@ -66,6 +67,7 @@ public class PostServiceImp implements PostService{
             postDTO.setId(post.getId());
             postDTO.setImage_path(post.getImage_path());
             postDTO.setTitle(post.getTitle());
+            postDTO.setUser_id(post.getUser_id());
             postDTO.setDescription(post.getDescription());
             postDTO.setHashtagNames(post.getHashtags().stream().map(hashtag -> {
                 return hashtag.getName();

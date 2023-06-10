@@ -1,4 +1,4 @@
-package com.example.postservice.dto;
+package com.example.collectionservice.dto;
 
 
 public class UserVisibilityTypeDTO {

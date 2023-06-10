@@ -3,6 +3,7 @@ package com.example.collectionservice.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.Set;
 
 public class PostDTO {
     private Long Id;
@@ -15,15 +16,9 @@ public class PostDTO {
     @NotBlank(message = "Image is mandatory")
     private String image_path;
 
-    public PostDTO(Long id, String title, String description, String image_path) {
-        Id = id;
-        this.title = title;
-        this.description = description;
-        this.image_path = image_path;
-    }
+    private Long user_id;
 
-    public PostDTO() {
-    }
+    private Set<String> hashtagNames;
 
     public Long getId() {
         return Id;
@@ -55,6 +50,21 @@ public class PostDTO {
 
     public void setImage_path(String image_path) {
         this.image_path = image_path;
+    }
+    public Set<String> getHashtagNames() {
+        return hashtagNames;
+    }
+
+    public void setHashtagNames(Set<String> hashtagNames) {
+        this.hashtagNames = hashtagNames;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 }
 

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Menu, Dropdown } from "semantic-ui-react";
 
+import Notifications from "components/Notifications/Notifications";
+
 import pinway_logo from "images/pinway_logo.png";
 import placeholder from  "images/place_holder.png";
 
@@ -21,7 +23,8 @@ const HomeMenu = () => {
             </div>
           </div>
           <div className="d-flex">
-            <img src={placeholder} alt="" width="35" height="35" className="rounded-circle"></img>
+              <Notifications/>
+              <img src={placeholder} alt="" width="35" height="35" className="rounded-circle"></img>
           </div>
         </div>
       </nav>

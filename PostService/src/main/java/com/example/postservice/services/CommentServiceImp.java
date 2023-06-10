@@ -3,6 +3,7 @@ import com.example.postservice.dto.*;
 import com.example.postservice.infrastructure.EventService;
 
 import com.example.postservice.exception.PinwayError;
+import com.example.postservice.infrastructure.UserService;
 import com.example.postservice.models.Comment;
 import com.example.postservice.models.Post;
 import com.example.postservice.repositories.CommentRepository;
@@ -29,6 +30,9 @@ public class CommentServiceImp implements CommentService{
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private UserService userService;
 
 
 
@@ -67,13 +71,16 @@ public class CommentServiceImp implements CommentService{
         try {
             Comment new_comment = new Comment();
             new_comment.setContent(commentDTO.getContent());
+            new_comment.setUser_id(commentDTO.getUser_id());
             Post post = postRepository.findById(commentDTO.getPost_id()).orElse(null);
             new_comment.setPost(post);
             new_comment.setCreatedAt(LocalDateTime.now());
 
             Comment newComment = commentRepository.save(new_comment);
 
-            eventService.CommentCreated(newComment);
+            UserDTO userDTO = userService.GetUser(newComment.getUser_id().intValue());
+
+            eventService.CommentCreated(newComment, post.getUser_id(), userDTO.getUsername());
 
 //            CommentInfo info = new CommentInfo(newComment.getId(), newComment.getContent(), "add");
 //            rabbitTemplate.convertAndSend(MessagingConfig.EXCHANGE, MessagingConfig.ROUTING_KEY, info);
