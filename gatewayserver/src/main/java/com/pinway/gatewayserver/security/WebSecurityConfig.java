@@ -31,6 +31,10 @@ public class WebSecurityConfig {
     @Bean
     public SecurityWebFilterChain securitygWebFilterChain(ServerHttpSecurity http) {
         http
+                .authorizeExchange()
+                .pathMatchers("/api/signin/**")
+                .permitAll()
+                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint((swe, e) ->
                         Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED))
@@ -45,7 +49,7 @@ public class WebSecurityConfig {
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers(HttpMethod.GET, "/api/users/**").permitAll()
-                .pathMatchers( HttpMethod.POST, "/api/signin/login", "/api/signin/refresh-token").permitAll()
+                //.pathMatchers( HttpMethod.POST, "/api/signin/**").permitAll()
                 .pathMatchers(HttpMethod.POST, "/api/users/**").hasAuthority("ROLE_ADMINISTRATOR")
                 .pathMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority("ROLE_ADMINISTRATOR")
                 .pathMatchers(HttpMethod.PUT, "/api/users/**").hasAuthority("ROLE_ADMINISTRATOR")

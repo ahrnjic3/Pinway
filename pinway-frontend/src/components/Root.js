@@ -11,6 +11,7 @@ import LogIn from "./Users/LogIn"
 import Registration from "./Users/Registration"
 import UserDetails from "components/Users/UserDetails"
 import CollectionDelete from "./Collections/CollectionDelete";
+import Posts from "./Posts/Posts";
 
 const Root = () => (
   <div>
@@ -33,6 +34,7 @@ const Root = () => (
         <Route path="/users" element={<UserDetails/>} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/addPost" element={<Posts />} />
       </Routes> 
     </Router>
   </div>

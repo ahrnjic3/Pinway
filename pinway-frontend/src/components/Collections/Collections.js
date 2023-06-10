@@ -10,7 +10,7 @@ import CollectionDelete from "components/Collections/CollectionDelete";
 import placeholder from  "images/place_holder.png";
 
 const params = {
-  id: 1
+  id: 2
 }
 
 const Collections = () => {
