@@ -58,15 +58,8 @@ public class UserCollectionServiceImpl implements UserCollectionService{
             throw new PinwayError("Not found User with id = " + id);
 
         User user = userOpt.get();
-        Set<Integer> ids = new HashSet<>();
-        for (UserCollection userCollection : user.getUserCollections()) {
-            Boolean doesExist = collectionService.DoesExist(userCollection.getCollectionId());
-            if (!doesExist)
-                throw new PinwayError("Not found Collection with id = " + userCollection.getCollectionId());
-            ids.add(userCollection.getCollectionId());
-        }
 
-        List<CollectionDTO> collectionDTOS = collectionService.GetAllCollectionsForUser(ids);
+        List<CollectionDTO> collectionDTOS = collectionService.GetAllCollectionsForUser(id);
         UserVisibilityTypeDTO userVisibilityTypeDTO = new UserVisibilityTypeDTO(user.getUserVisibilityType().getId(), user.getUserVisibilityType().getType());
         UserDTO userDTO = new UserDTO(user.getId(), user.getGuid(), user.getName(), user.getSurname(), user.getUsername(), user.getEmail(), user.getPassword(), user.getCreatedAt(), userVisibilityTypeDTO, user.getNumOfFollowing(), user.getNumOfFollowers());
 

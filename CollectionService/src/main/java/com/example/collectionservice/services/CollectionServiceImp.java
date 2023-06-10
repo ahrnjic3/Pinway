@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,45 +35,59 @@ public class CollectionServiceImp implements CollectionService{
 
     @Override
     public Collection Create(Collection collection) {
+        collection.setCreatedAt(LocalDate.now());
         Collection newCollection = collectionRepository.save(collection);
         return newCollection;
     }
 
 
+    // svi i obrisani i ne
     @Override
     public Iterable<Collection> List() {
         Iterable<Collection> collectionList = collectionRepository.findAll();
         return collectionList;
     }
 
+    // samo koji nisu obrisani
     @Override
     public Iterable<Collection> FindAllByIds(Iterable<Integer> ids) {
-        Iterable<Collection> collections = collectionRepository.findAllById(ids);
+        Iterable<Collection> collections = collectionRepository.findAllByIsDeletedAndIdIn(false, ids);
+        return  collections;
+    }
+
+    @Override
+    public Iterable<Collection> FindAllByUserId(Integer id) {
+        Iterable<Collection> collections = collectionRepository.findAllByIsDeletedAndUserId(false, id);
         return  collections;
     }
 
     @Override
     public Collection Details(Integer id) {
 
-        Optional<Collection> collection = collectionRepository.findById(id);
+        Optional<Collection> collection = collectionRepository.findByIdAndIsDeleted(id, false);
 
-        if (collection.isPresent())
-            return collection.get();
+        if (!collection.isPresent())
+            throw new PinwayError("Not found Collection with id = " + id);
 
-        throw new PinwayError("Not found Collection with id = " + id);
+        return collection.get();
+
+
     }
 
     @Override
     public Boolean Delete(Integer id) {
 
-        Optional<Collection> collection = collectionRepository.findById(id);
+        Optional<Collection> optionalCollection = collectionRepository.findById(id);
 
-        if (collection.isPresent()) {
-            collectionRepository.deleteById(id);
-            return true;
+        if (!optionalCollection.isPresent()) {
+            throw new PinwayError("Not found Collection with id = " + id);
         }
+        Collection collection = optionalCollection.get();
 
-        throw new PinwayError("Not found Collection with id = " + id);
+        collection.setDeleted(true);
+        collectionRepository.save(collection);
+        return true;
+
     }
 
     @Override
@@ -83,15 +98,15 @@ public class CollectionServiceImp implements CollectionService{
         if (!collection.isPresent())
             throw new PinwayError("Not found Collection with id = " + id);
 
-        Collection newNotification = collection.get();
+        Collection newCollection = collection.get();
 
-        newNotification.setName(c.getName());
-        newNotification.setNumOfPosts(c.getNumOfPosts());
-        newNotification.setCreatedAt(c.getCreatedAt());
-        newNotification.setCollectionVisibilityType(c.getCollectionVisibilityType());
+        newCollection.setName(c.getName());
+        newCollection.setNumOfPosts(c.getNumOfPosts());
+        newCollection.setCreatedAt(c.getCreatedAt());
+        newCollection.setCollectionVisibilityType(c.getCollectionVisibilityType());
 
-        collectionRepository.save(newNotification);
-        return newNotification;
+        collectionRepository.save(newCollection);
+        return newCollection;
     }
 
     @Override

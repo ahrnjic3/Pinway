@@ -1,10 +1,9 @@
 package com.example.collectionservice.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
 
 @Entity
 public class CollectionPost {

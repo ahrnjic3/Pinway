@@ -22,4 +22,6 @@ public interface CollectionService {
     Collection ChangeVisibilityType(Integer id, CollectionVisibilityTypeOnlyTypeDTO collectionVisibilityTypeOnlyTypeDTO);
 
     Iterable<CollectionVisibilityType> ListVisibilityTypes();
+
+    Iterable<Collection> FindAllByUserId(Integer id);
 }

@@ -1,28 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation  } from "react-router-dom";
 
 
 import { getPostsForCollection, deleteCollection } from "api/collections";
+import { getFollowersForUser, addUserToCollection } from "api/users";
 import Loader from "components/Loader";
 import CollectionDelete from "components/Collections/CollectionDelete";
 
 import placeholder from  "images/place_holder.png";
 
 const params = {
-  id: 2
+  userId: 1
 }
 
-const Collections = () => {
+
+const Collections = ({collection}) => {
 
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const [data, setData] = useState();
     const [posts, setPosts] = useState();
+    const [followers, setFollowers] = useState();
     const [modal, setModal] = useState(false);
 
+    const getRandomHeight = () => Math.floor(Math.random() * 31) + 190;
+
     const navigate = useNavigate();
+    const location = useLocation();
+    const { id } = location.state;
 
     const handleClick = () => {
       setModal(!modal);
@@ -30,7 +37,7 @@ const Collections = () => {
 
     const handleDelete = async () => {
       try {
-        await deleteCollection(params.id);
+        await deleteCollection(id);
         toast.success("Collection deleted!");
         navigate("/users/");
       } catch (err) {
@@ -40,22 +47,39 @@ const Collections = () => {
       }
     };
 
+    const handleItemClick = async (item) => {
+      // Handle item click event
+      console.log(`Clicked ${item.id}`);
+      try {
+        const data = {
+          collectionId: 1
+        };
+        await addUserToCollection(item.id, data);
+        toast.success("Collection shared!");
+      } catch (e) {
+        setError("Unable to share collection!");
+      }
+    };
+
     useEffect(() => {
         const fetch = async () => {
           try {
             setLoading(true);
-            const response = await getPostsForCollection(params.id);
+            const response = await getPostsForCollection(id);
+            // followers
+            const followers = await getFollowersForUser(params.userId);
             setData(response.collectionDTO);
             setPosts(response.postDTO);
+            setFollowers(followers);
           } catch (e) {
             setError("Unable to fetch collections!");
           } finally {
             setLoading(false);
           }
         };
-
+    
         fetch();
-      }, [params.id]);
+      }, [id]);
 
     if (error) {
       return (
@@ -70,7 +94,6 @@ const Collections = () => {
     return (
         <div className="container" style={{padding: '20px'}}>
           <CollectionDelete visible={modal} handleClick={handleClick} handleDelete={handleDelete}></CollectionDelete>
-          {/* <CollectionDelete show={modal} handleClick={handleClick} handleDelete={handleDelete}></CollectionDelete> */}
           <Loader isLoading={loading} />
           {posts && (
             <div className="row">
@@ -84,7 +107,24 @@ const Collections = () => {
                     </div>
                     <div className="row">
                         <div className="col-md-6 text-center">
-                          <button className="btn btn-light text-secondary mb-1 btn-sm">Share</button>
+                        <div className="dropdown">
+                          <button className="btn btn-light text-secondary mb-1 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Share
+                          </button>
+                          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {followers.map((follower) => (
+                              <button
+                                key={follower.id}
+                                className="dropdown-item"
+                                type="button"
+                                onClick={() => handleItemClick(follower)}
+                              >
+                               {`${follower.name} ${follower.surname}`}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                          {/* <button className="btn btn-light text-secondary mb-1 btn-sm">Share</button> */}
                         </div>
                         <div className="col-md-6 text-center">
                           <button className="btn btn-light text-secondary mb-1 btn-sm" onClick={handleClick}>Delete</button>
@@ -95,7 +135,7 @@ const Collections = () => {
               </div>
               <div className="col-md-9" style={{ border: '2px solid lightgrey', borderRadius: '10px', padding: "15px" }}>
                   {posts.map((post) => (
-                    <img key={post.id} width="150" height="150" className = "rounded" src={placeholder} alt={post.name} style={{ margin: '10px' }}></img>
+                      <img key={post.id} width="180" style={{ height: getRandomHeight(), margin: '10px' }} className = "rounded" src={"http://localhost:8080/post-photos/" + post.id + "/" + post.image_path} alt={placeholder} ></img>
                   ))}
               </div>
             </div>
