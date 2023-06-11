@@ -12,17 +12,11 @@ export const login = async (data) => {
 };
 
 export const getFollowersForUser = async (id) => {
-  const response = await API.get(`/api/users/${id}/followers`);
-  console.log(response.data);
   const response = await API.get(`/api/users/${id}/followers`, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` },  'Content-Type' : `application/json`  });
   console.log("res" + response.data);
   return response.data;
 };
 
-export const addUserToCollection = async (id, data) => {
-  data = {
-    "collectionId": 3
-  }
 export const addFollowerForUser = async(id,data) => {
   const response = await API.post(`/api/users/${id}/followers`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` },  'Content-Type' : `application/json`  } )
   return response.data

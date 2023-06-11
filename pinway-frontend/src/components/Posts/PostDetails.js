@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import './Scrollbar.css';
-
-import React from 'react';
 import Logo from 'images/pinway_logo.png';
 import placeholder from  "images/place_holder.png";
 
