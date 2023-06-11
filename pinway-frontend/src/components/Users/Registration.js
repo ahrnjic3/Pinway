@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './AccessForms.css';
+import '../style/AccessForms.css';
 import axios from 'axios';
 import {confirmAlert} from "react-confirm-alert";
 import Logo from 'images/pinway_logo.png';
@@ -49,7 +49,7 @@ function Registration(){
         <div>
             <div className='form-container-register'>
                 <div className='form-content-left'>
-                        <h2> <img class="image image-contain" src={Logo} alt="Pinway logo"></img></h2>
+                        <h2> <img className="image image-contain" src={Logo} alt="Pinway logo"></img></h2>
                         <h3>Please Sign Up</h3>
 
                         <div className='form-inputs'>

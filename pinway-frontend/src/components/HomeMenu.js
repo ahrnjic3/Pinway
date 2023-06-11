@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Menu, Dropdown } from "semantic-ui-react";
-
+import'./App.css';
 import pinway_logo from "images/pinway_logo.png";
 import placeholder from  "images/place_holder.png";
 
@@ -16,44 +16,32 @@ const HomeMenu = () => {
   const { activeItem } = state;
 
   return (
-    <div>
-      {/* <nav style={{backgroundColor: '#d7a8f5'}} class="navbar">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/#">
-            <img src={pinway_logo} alt="" width="132" height="32" class="d-inline-block align-text-top"></img>
-          </a>
-          <button type="button" class="btn btn-outline-secondary">New</button>
-          <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <div class="d-flex">
-            <img src={placeholder} alt="" width="32" height="32" class="rounded-circle"></img>
-          </div>
-        </div>
-      </nav> */}
 
-      <nav style={{backgroundColor: '#d7a8f5', padding: '5px'}} className="navbar navbar-expand-lg">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/#">
-            <img src={pinway_logo} alt="" width="132" height="32" className="d-inline-block align-text-top"></img>
-          </a>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-            <button style={{paddingRight: '10px'}} type="button" className="btn btn-outline-secondary pr-3">New</button>
-            {/* <form style={{paddingLeft: '5px'}} className="d-flex" role="search">
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
-              <button className="btn btn-outline-secondary" type="submit">Search</button>
-            </form> */}
-            </div>
-          </div>
-          <div className="d-flex">
-            <img src={placeholder} alt="" width="35" height="35" className="rounded-circle"></img>
-          </div>
+<nav style={{backgroundColor: '#d7a8f5', padding: '5px'}} className="navbar navbar-expand-lg">
+  <a className="navbar-brand" href="/#">
+      <img src={pinway_logo} alt="" width="132" height="32" className="d-inline-block align-text-top"></img>
+   </a>
+<button style={{paddingRight: '10px'}} type="button" className="btn btn-outline-secondary pr-3">New</button>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbar-list-4">
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle='dropdown' aria-haspopup="true" aria-expanded="false">
+          <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle"/>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="./collection">My Collections</a>
+          <a class="dropdown-item" href="./user">My Profile</a>
+          <a class="dropdown-item" href="#">Log Out</a>
         </div>
-      </nav>
-    </div>
-  );
-};
+      </li>
+    </ul>
+  </div>
+</nav>
+
+);
+}
 
 export default HomeMenu;

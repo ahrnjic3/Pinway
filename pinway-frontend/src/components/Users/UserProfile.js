@@ -1,64 +1,131 @@
-/*
 import React from 'react';
 import '../style/UserPage.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import AuthService from "../services/AuthService";
-import axios from "axios";
-import UserService from "../services/UserService";
-
-const API_URL = "http://localhost:8085/";
+import userPlaceholder from 'images/place_holder.png';
+import collectionImage1 from 'images/place_holder.png';
+import collectionImage2 from 'images/place_holder.png';
+import collectionImage3 from 'images/place_holder.png';
 
 class UserProfile extends React.Component {
-    constructor(props) {
-        super(props);
-        const userId = AuthService.getCurrentUser().userId;
-        this.state = {
-            userId: userId,
-            firstName: "",
-            lastName: "",
-            username: "",
-            email: "",
-            role: ""
-        };
-    }
-
-    async componentDidMount() {
-        const user = await UserService.getUser();
-        this.setState({
-            userId: user.userId,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            username: user.username,
-            email: user.email,
-            role: user.role
-        });
-    }
-
-
-    render() {
-        return (
-            <div>
-                <div className="column1-user-page">
-                    <h2 className='userPage-h2' onClick={event => {
-                        event.preventDefault();
-                        window.location.href = './ManageAccount';
-                    }}><i className="fas fa-user-circle"></i></h2>
-                    <h2 style={{textAlign: "center"}}>{"Hello " + this.state.firstName}</h2>
-                    <button className='button-logout' onClick={AuthService.logout}><a style={{color: "white"}}>Log
-                        Out</a></button>
+  render() {
+    return (
+      <div className="user-page">
+        <div className="user-content">
+          <div className="profile-section">
+            <div className="profile-card">
+              <div className="profile-info">
+                <div className="profile-photo">
+                  <img src={userPlaceholder} alt="User" />
                 </div>
-                <div className="column2-user-page">
-                    <h2 style={{marginLeft: "30%"}} className='h2-style' onClick={event => {
-                        event.preventDefault();
-                        window.location.href = './Home';
-                    }}>FoodHaven</h2>
-                    <a href="/RecipeInfo" className="button"><i className="fa fa-plus"></i>&nbsp; Add recipe</a>
-                    <a href="/MyRecipes" className="button"><i className="fas fa-book"></i>&nbsp; My recipes</a>
-                    <a href="/Home" className="button"><i className="fas fa-home"></i>&nbsp; Home</a>
+                <div className="profile-details">
+                  <h3>User User</h3>
+                  <p>Email: user@etf.unsa.ba</p>
+                  <p>Username: userS</p>
                 </div>
+              </div>
+              <div className="profile-stats">
+                <div className="stat">
+                  <h4>Followers</h4>
+                  <p>100</p>
+                </div>
+                <div className="stat">
+                  <h4>Following</h4>
+                  <p>50</p>
+                </div>
+                <div className="stat">
+                  <h4>Posts</h4>
+                  <p>200</p>
+                </div>
+              </div>
+              <button className="edit-profile-button">Edit Profile</button>
             </div>
-        );
-    }
+          </div>
+          <div className="collections-section">
+            <h3>My Collections</h3>
+            <div className="collections">
+              <div className="collection-card">
+                <img src={collectionImage1} alt="Collection 1" />
+                <h4>Collection 1</h4>
+              </div>
+              <div className="collection-card">
+                <img src={collectionImage2} alt="Collection 2" />
+                <h4>Collection 2</h4>
+              </div>
+              <div className="collection-card">
+                <img src={collectionImage3} alt="Collection 3" />
+                <h4>Collection 3</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="section-title">
+            <h3>Popular</h3>
+        </div>
+
+
+        <div className="hashtag-posts">
+          <div className="hashtag-row">
+            <div className="hashtag-post">
+            <div className="hashtag-info">
+                            <h4>#travel</h4>
+                            <p>1234 Posts</p>
+                          </div>
+              <img src={collectionImage1} alt="Post" />
+              <img src={collectionImage1} alt="Post" />
+              <img src={collectionImage1} alt="Post" />
+              <img src={collectionImage1} alt="Post" />
+              <img src={collectionImage1} alt="Post" />
+              <img src={collectionImage1} alt="Post" />
+              <img src={collectionImage1} alt="Post" />
+              <img src={collectionImage1} alt="Post" />
+
+
+
+            </div>
+            <div className="hashtag-post">
+              <div className="hashtag-info">
+                            <h4>#food</h4>
+                            <p>5678 Posts</p>
+                          </div>
+              <img src={collectionImage2} alt="Post" />
+              <img src={collectionImage2} alt="Post" />
+              <img src={collectionImage2} alt="Post" />
+              <img src={collectionImage2} alt="Post" />
+              <img src={collectionImage2} alt="Post" />
+              <img src={collectionImage2} alt="Post" />
+              <img src={collectionImage2} alt="Post" />
+
+              <img src={collectionImage2} alt="Post" />
+
+
+
+            </div>
+            <div className="hashtag-post">
+            <div className="hashtag-info">
+                            <h4>#fashion</h4>
+                            <p>9012 Posts</p>
+                          </div>
+              <img src={collectionImage3} alt="Post" />
+              <img src={collectionImage3} alt="Post" />
+              <img src={collectionImage3} alt="Post" />
+              <img src={collectionImage3} alt="Post" />
+              <img src={collectionImage3} alt="Post" />
+              <img src={collectionImage3} alt="Post" />
+              <img src={collectionImage3} alt="Post" />
+              <img src={collectionImage3} alt="Post" />
+            </div>
+          </div>
+          <div className="hashtag-row">
+            {/* Add more hashtag posts for the second row */}
+          </div>
+          <div className="hashtag-row">
+            {/* Add more hashtag posts for the third row */}
+          </div>
+        </div>
+
+      </div>
+    );
+  }
 }
 
-export default UserProfile;*/
+export default UserProfile;

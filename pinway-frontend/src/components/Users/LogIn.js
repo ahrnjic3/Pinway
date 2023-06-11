@@ -1,11 +1,11 @@
 import React from 'react';
-import './AccessForms.css';
+import '../style/AccessForms.css';
 import Logo from 'images/pinway_logo.png';
 
 class LogIn extends React.Component {
 
     render() {
-        return <div>
+        return <div className="form-container-login">
 
             <div className='form-container'>
 
