@@ -80,7 +80,8 @@ public class CommentServiceImp implements CommentService{
 
             UserDTO userDTO = userService.GetUser(newComment.getUser_id().intValue());
 
-            eventService.CommentCreated(newComment, post.getUser_id(), userDTO.getUsername());
+            if(new_comment.getUser_id() != post.getUser_id())
+                eventService.CommentCreated(newComment, post.getUser_id(), userDTO.getUsername());
 
 //            CommentInfo info = new CommentInfo(newComment.getId(), newComment.getContent(), "add");
 //            rabbitTemplate.convertAndSend(MessagingConfig.EXCHANGE, MessagingConfig.ROUTING_KEY, info);
