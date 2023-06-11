@@ -1,5 +1,7 @@
 package com.example.postservice.controllers;
 
+import com.example.postservice.dto.LikeDTO;
+import com.example.postservice.dto.UserDTO;
 import com.example.postservice.models.Comment;
 import com.example.postservice.models.Like;
 import com.example.postservice.services.CommentService;
@@ -23,12 +25,13 @@ public class LikeController {
     private CommentService commentService;
 
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody ResponseEntity<Like> addNewPost (@Valid @RequestBody Long commentId) {
+    public @ResponseBody ResponseEntity<Like> addNewPost (@Valid @RequestBody LikeDTO likeDTO) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
         Like like = new Like();
-        Comment comment = commentService.FindById(commentId);
+        Comment comment = commentService.FindById(likeDTO.getCommentId());
         like.setComment(comment);
+        like.setUser_id(likeDTO.getUserId());
         Like newLike = likeService.Create(like);
         return ResponseEntity.status(201).body(newLike);
     }

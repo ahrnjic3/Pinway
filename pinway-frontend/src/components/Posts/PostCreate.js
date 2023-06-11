@@ -44,7 +44,7 @@ const PostCreate = () => {
                 id: 1,
                 user_id: localStorage.getItem("UserId")
                 })
-          const response2 = await addPostToCollection(collection, {"postId": response.id} )
+          const response2 = await addPostToCollection(collection, {"postId": response.id, actionUserId: localStorage.getItem("UserId")} )
           toast.success("Post created!");
           navigate("/users");
         } catch (err) {
