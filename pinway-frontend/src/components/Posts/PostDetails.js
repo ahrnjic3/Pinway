@@ -22,7 +22,7 @@ const PostDetails = () => {
     const [newCommentContent, setNewCommentContent] = useState("");
     const [userCollections, setUserCollections] = useState()
     const [collection, setCollection] = useState()
-    const [selectedCollectionName, setSelectedCollectionName] = useState()
+    const [selectedCollectionName, setSelectedCollectionName] = useState("")
 
     const location = useLocation();
     const postId = location.state.id;
