@@ -13,6 +13,7 @@ import UserDetails from "components/Users/UserDetails"
 import CollectionDelete from "./Collections/CollectionDelete";
 import PostCreate from "./Posts/PostCreate";
 import PostDetails from "./Posts/PostDetails";
+import HomePage from "components/HomePage";
 import EditProfile from "./Users/EditProfile";
 
 const Root = () => (
@@ -29,17 +30,20 @@ const Root = () => (
       pauseOnHover
     />
     <Router>
-      <HomeMenu />
+      {localStorage.getItem("Bearer") !== null && <HomeMenu />}
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/collections" element={<Collections />} />
-        <Route path="/users" element={<UserDetails/>} />
+        <Route path="/users/details" element={<UserDetails/>} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/posts/create" element={<PostCreate/>} />
+        <Route path="/posts/details" element={<PostDetails/>} />
         <Route path="/addPost" element={<PostCreate/>} />
         <Route path="/postDetails" element={<PostDetails/>} />
         <Route path="/EditProfile" element={<EditProfile/>} />
-      </Routes> 
+      </Routes>
     </Router>
   </div>
 );

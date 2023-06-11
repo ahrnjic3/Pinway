@@ -13,7 +13,7 @@ public interface UserService {
 
         Iterable<User> List();
 
-        User Details(Integer id);
+        UserDTO Details(Integer id);
 
         Boolean Delete(Integer id);
 
@@ -21,7 +21,7 @@ public interface UserService {
 
         Iterable<UserVisibilityType> ListUserVisibilityTypes();
 
-        User AddFollower(Integer userId, Integer followingId);
+        UserDTO AddFollower(Integer userId, Integer followingId);
 
         List<UserDTO> GetAllFollowersForUser(Integer userId);
         User addRoleToUser(String username, String name);

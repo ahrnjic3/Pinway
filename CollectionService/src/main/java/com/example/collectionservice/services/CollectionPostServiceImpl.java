@@ -56,7 +56,8 @@ public class CollectionPostServiceImpl implements CollectionPostService {
         collectionPostRepository.save(collectionPost);
         collectionRepository.increaseNumOfPosts(collection.getId());
 
-        eventService.PinCreated(collectionPostCreateDTO.getPostId(), id, postDTO.userDTO.getId() , userDTO.getUsername(), collectionPostCreateDTO.getActionUserId());
+        if(postDTO.userDTO.getId() != collectionPostCreateDTO.getActionUserId())
+            eventService.PinCreated(collectionPostCreateDTO.getPostId(), id, postDTO.userDTO.getId() , userDTO.getUsername(), collectionPostCreateDTO.getActionUserId());
 
         return  collection;
     }

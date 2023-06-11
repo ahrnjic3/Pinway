@@ -11,10 +11,7 @@ import com.example.userservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserCollectionServiceImpl implements UserCollectionService{
@@ -30,7 +27,7 @@ public class UserCollectionServiceImpl implements UserCollectionService{
     private CollectionService collectionService;
 
     @Override
-    public User AddCollection(Integer id, UserCollectionCreateDTO userCollectionCreateDTO) {
+    public UserDTO AddCollection(Integer id, UserCollectionCreateDTO userCollectionCreateDTO) {
         Optional<User> userOpt = userRepository.findById(id);
         if (!userOpt.isPresent())
             throw new PinwayError("Not found User with id = " + id);
@@ -47,8 +44,32 @@ public class UserCollectionServiceImpl implements UserCollectionService{
 
         collectionService.UpdateCollectionVisibility(userCollection.getCollectionId(), "SHARED");
 
-        return  user;
+        UserVisibilityTypeDTO userVisibilityTypeDTO = new UserVisibilityTypeDTO(
+                user.getUserVisibilityType().getId(),
+                user.getUserVisibilityType().getType()
+        );
 
+        UserDTO userDTO = convertToDTO(user, userVisibilityTypeDTO);
+        return userDTO;
+
+    }
+
+    private UserDTO convertToDTO(User user, UserVisibilityTypeDTO userVisibilityTypeDTO) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setGuid(user.getGuid());
+        userDTO.setName(user.getName());
+        userDTO.setSurname(user.getSurname());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setUserVisibilityType(userVisibilityTypeDTO);
+
+        List<UserDTO> followingDTOList = convertToDTOList(user.getFollowing());
+        userDTO.setFollowing(followingDTOList);
+
+        return userDTO;
     }
 
     @Override
@@ -61,10 +82,39 @@ public class UserCollectionServiceImpl implements UserCollectionService{
 
         List<CollectionDTO> collectionDTOS = collectionService.GetAllCollectionsForUser(id);
         UserVisibilityTypeDTO userVisibilityTypeDTO = new UserVisibilityTypeDTO(user.getUserVisibilityType().getId(), user.getUserVisibilityType().getType());
-        UserDTO userDTO = new UserDTO(user.getId(), user.getGuid(), user.getName(), user.getSurname(), user.getUsername(), user.getEmail(), user.getPassword(), user.getCreatedAt(), userVisibilityTypeDTO, user.getNumOfFollowing(), user.getNumOfFollowers());
+
+        List<UserDTO> followingDTOList = convertToDTOList(user.getFollowing());
+
+
+        UserDTO userDTO = new UserDTO(user.getId(), user.getGuid(), user.getName(), user.getSurname(), user.getUsername(), user.getEmail(), user.getPassword(), user.getCreatedAt(), userVisibilityTypeDTO, followingDTOList);
 
         UserResponseDTO userResponseDTO = new UserResponseDTO(userDTO, collectionDTOS);
 
         return userResponseDTO;
+    }
+
+    private List<UserDTO> convertToDTOList(List<User> userList) {
+        List<UserDTO> userDTOList = new ArrayList<>();
+        for (User user : userList) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setGuid(user.getGuid());
+            userDTO.setName(user.getName());
+            userDTO.setSurname(user.getSurname());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setPassword(user.getPassword());
+            userDTO.setCreatedAt(user.getCreatedAt());
+
+            UserVisibilityTypeDTO userVisibilityTypeDTO = new UserVisibilityTypeDTO(
+                    user.getUserVisibilityType().getId(),
+                    user.getUserVisibilityType().getType()
+            );
+
+            userDTO.setUserVisibilityType(userVisibilityTypeDTO);
+
+            userDTOList.add(userDTO);
+        }
+        return userDTOList;
     }
 }

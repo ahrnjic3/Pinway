@@ -2,6 +2,7 @@ package com.example.notificationservice.infrastructure;
 
 
 import com.example.notificationservice.dto.CommentInfo;
+import com.example.notificationservice.dto.FollowInfo;
 import com.example.notificationservice.dto.LikeInfo;
 import com.example.notificationservice.dto.PinInfo;
 import com.example.notificationservice.infrastructure.MessagingConfig;
@@ -98,6 +99,27 @@ public class QueueConsumer {
 
                 PinInfo info = new PinInfo(pinInfo.getId(), pinInfo.getCollectionId(), "delete", pinInfo.getUserId(), pinInfo.getUsername(), pinInfo.getActionUserId());
                 rabbitTemplate.convertAndSend(MessagingConfig.REVERSE_EXCHANGE_PIN, MessagingConfig.REVERSE_ROUTING_KEY_PIN, info);
+            }
+        }
+    }
+
+    @RabbitListener(queues = MessagingConfig.QUEUE_FOLLOW)
+    public void receivePin(FollowInfo followInfo){
+        if (followInfo.getMessage().equals("add")) {
+            try {
+                NotificationType notificationType = notificationService.GetNotificationType("FOLLOWED");
+                Notification notification = new Notification();
+                notification.setOpen(false);
+                notification.setContent("User " + followInfo.getUsername() + " Followed you.");
+                notification.setActionUserId(followInfo.getActionUserId());
+                notification.setUserId(followInfo.getUserId());
+                notification.setNotificationType(notificationType);
+                notificationService.Create(notification);
+
+            }
+            catch (Exception e) {
+                System.out.println("Greska u dodavanju notifikacije!");
+                System.out.println(e.getMessage());
             }
         }
     }

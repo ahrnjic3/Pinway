@@ -26,8 +26,6 @@ export const getCollectionsForUser = async (id) => {
 };
 
 export const addPostToCollection = async (id, data) => {
-  console.log("id: ",id)
-  console.log("data", data)
   const response = await API.post('/api/collections/' + id + '/posts', data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } })
   return response.data
 };

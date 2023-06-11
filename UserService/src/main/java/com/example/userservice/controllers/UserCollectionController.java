@@ -2,6 +2,7 @@ package com.example.userservice.controllers;
 
 
 import com.example.userservice.dto.UserCollectionCreateDTO;
+import com.example.userservice.dto.UserDTO;
 import com.example.userservice.dto.UserResponseDTO;
 import com.example.userservice.models.User;
 import com.example.userservice.services.UserCollectionService;
@@ -21,7 +22,7 @@ public class UserCollectionController {
 
     @PostMapping(path="/users/{id}/collection") // Map ONLY POST Requests
     public @ResponseBody ResponseEntity AddUserCollection (@PathVariable("id") Integer id, @Valid @RequestBody UserCollectionCreateDTO requestBody) {
-        User user = userCollectionService.AddCollection(id, requestBody);
+        UserDTO user = userCollectionService.AddCollection(id, requestBody);
         return ResponseEntity.status(201).body(user);
     }
 

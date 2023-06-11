@@ -1,11 +1,10 @@
 package com.example.userservice.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.data.annotation.CreatedDate;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -57,10 +56,12 @@ public class User {
     @JoinTable(name = "relation",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "following_id"))
+    @JsonManagedReference
     private List<User> following;
 
-    @JsonIgnoreProperties("following")
+    @JsonIgnoreProperties("followers")
     @ManyToMany(mappedBy = "following")
+    @JsonBackReference
     private List<User> followers;
 
     private Integer numOfFollowing;

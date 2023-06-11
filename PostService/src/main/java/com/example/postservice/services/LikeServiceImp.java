@@ -31,7 +31,8 @@ public class LikeServiceImp implements  LikeService{
             Comment comment = newLike.getComment();
             UserDTO userDTO = userService.GetUser(newLike.getUser_id().intValue());
 
-            eventService.LikeCreated(newLike, comment.getUser_id().intValue(), userDTO.getUsername());
+            if(comment.getUser_id() != newLike.getUser_id())
+                eventService.LikeCreated(newLike, comment.getUser_id().intValue(), userDTO.getUsername());
             return  newLike;
         } catch (Exception e) {
             System.out.println(e);

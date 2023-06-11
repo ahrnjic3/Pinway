@@ -10,9 +10,6 @@ import CollectionDelete from "components/Collections/CollectionDelete";
 
 import placeholder from  "images/place_holder.png";
 
-const params = {
-  userId: 1
-}
 
 
 const Collections = () => {
@@ -20,7 +17,8 @@ const Collections = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const [data, setData] = useState();
+    const [collection, setCollection] = useState();
+    const [data, setData] = useState({});
     const [posts, setPosts] = useState();
     const [followers, setFollowers] = useState();
     const [modal, setModal] = useState(false);
@@ -51,9 +49,6 @@ const Collections = () => {
       // Handle item click event
       console.log(`Clicked ${item.id}`);
       try {
-        const data = {
-          collectionId: 1
-        };
         await addUserToCollection(item.id, data);
         toast.success("Collection shared!");
       } catch (e) {
@@ -67,10 +62,13 @@ const Collections = () => {
             setLoading(true);
             const response = await getPostsForCollection(id);
             // followers
-            const followers = await getFollowersForUser(params.userId);
-            setData(response.collectionDTO);
+            const followers = await getFollowersForUser(localStorage.getItem("UserId"),);
+            setCollection(response.collectionDTO);
             setPosts(response.postDTO);
             setFollowers(followers);
+            setData({
+              "collectionId": response.collectionDTO.id
+            })
           } catch (e) {
             setError("Unable to fetch collections!");
           } finally {
@@ -102,7 +100,7 @@ const Collections = () => {
                   <div className="container rounded offset-2 col-8 p-4" style={{ backgroundColor: '#d7a8f5' }}>
                     <div className="row">
                       <div className="col-md-12 text-center mb-3">
-                        <button className="btn btn-light">{data.name}</button>
+                        <button className="btn btn-light">{collection.name}</button>
                       </div>
                     </div>
                     <div className="row">

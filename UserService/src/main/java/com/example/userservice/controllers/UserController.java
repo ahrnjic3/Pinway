@@ -44,7 +44,7 @@ public class UserController {
 
     @GetMapping(path="/users/{id}")
     public @ResponseBody ResponseEntity GetDetails( @PathVariable("id") Integer id) {
-        User user = userService.Details(id);
+        UserDTO user = userService.Details(id);
         return ResponseEntity.status(200).body(user);
     }
     @DeleteMapping(path = "/users/{id}")
@@ -72,8 +72,8 @@ public class UserController {
 
     @PostMapping(path="/users/{id}/followers")
     public @ResponseBody ResponseEntity AddFollower (@PathVariable("id") Integer id, @Valid @RequestBody Integer requestBody) {
-        User user = userService.AddFollower(id, requestBody);
-        return ResponseEntity.status(201).body(user);
+        UserDTO userDTO = userService.AddFollower(id, requestBody);
+        return ResponseEntity.status(201).body(userDTO);
     }
 
     @GetMapping(path="/users/{id}/followers")
