@@ -1,5 +1,7 @@
 package com.example.postservice.controllers;
 
+import com.example.postservice.dto.CommentResponseDTO;
+import com.example.postservice.dto.FilterDTO;
 import com.example.postservice.dto.PostDTO;
 import com.example.postservice.dto.PostResponseDTO;
 import com.example.postservice.models.Hashtag;
@@ -74,11 +76,25 @@ public class PostController {
 
         return  ResponseEntity.status(200).body(allPosts);
     }
+
+    @PostMapping(path="/filter")
+    public @ResponseBody ResponseEntity<Iterable<PostResponseDTO>> filterPosts(@RequestBody FilterDTO filterDTO) {
+
+        Iterable<PostResponseDTO> filterPosts =  postService.filterPosts(filterDTO);
+
+        return  ResponseEntity.status(200).body(filterPosts);
+    }
     @GetMapping(path="/findByIds")
     public @ResponseBody ResponseEntity<Iterable<PostResponseDTO>> getPost( @NotNull @DecimalMin("0") @RequestParam Set<Long> Ids) {
         // This returns a JSON or XML with the users
         Iterable<PostResponseDTO> a = postService.FindAllByIds(Ids);
         return  ResponseEntity.status(200).body(a);
+    }
+
+    @GetMapping(path="user/{id}")
+    public  @ResponseBody ResponseEntity<Iterable<Post>> getPostsForUser  (@PathVariable("id") Long id){
+        Iterable<Post> posts =  postService.FindByUserId(id);
+        return  ResponseEntity.status(200).body(posts);
     }
     @DeleteMapping("/delete")
     public @ResponseBody ResponseEntity<Boolean> deletePost(@RequestParam Long id){

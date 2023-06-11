@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Loader from "components/Loader";
-import { getCollectionsForUser } from "api/users";
+import { getCollectionsForUser, getUserById } from "api/users";
+import { getPostsForUser } from "api/posts";
 import placeholder from  "images/place_holder.png";
+import monkey from  "images/monkey.png";
+import collections_place_holder from "images/collections_place_holder.jpg";
 import CollectionCreateModal from "components/Collections/CollectionCreateModal";
 import { postCollection } from "api/collections";
-
-const params = {
-    id: 2
-  }
 
 const UserDetails = () => {
 
@@ -18,6 +17,8 @@ const UserDetails = () => {
     const [error, setError] = useState(null);
 
     const [collections, setCollections] = useState();
+    const [posts, setPosts] = useState();
+    const [user, setUser] = useState();
     const [isCollectionsModalOpen, setIsCollectionsModalOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -25,11 +26,15 @@ const UserDetails = () => {
         const fetch = async () => {
           try {
             setLoading(true);
-            const response = await getCollectionsForUser(params.id);
+            const responseUser = await getUserById(localStorage.getItem("UserId"));
+            const response = await getCollectionsForUser(localStorage.getItem("UserId"));
+            const responsePosts = await getPostsForUser(localStorage.getItem("UserId"));
+            setUser(responseUser);
             setCollections(response.collectionDTOS);
+            setPosts(responsePosts);
             setLoading(false);
           } catch (e) {
-            setError("Unable to fetch collections!");
+            setError("Unable to fetch User Details!");
           } finally {
             setLoading(false);
           }
@@ -45,10 +50,21 @@ const UserDetails = () => {
         navigate("/collections", { state: { id } });
       };
 
+      const handlePostClick = async (item) => {
+        // Handle item click event
+        console.log(`Clicked ${item.id}`);
+        const id = item.id;
+        navigate("/posts/details", { state: { id } });
+      };
+
 
       const handleOpenCollectionsModal = () => {
         setIsCollectionsModalOpen(!isCollectionsModalOpen);
       };
+
+      const handleCreatePost = () => {
+        navigate("/posts/create");
+      }
 
       const handleCreateCollection = async (boardName, isPrivate) => {
         try {
@@ -94,8 +110,18 @@ const UserDetails = () => {
       <div>
         <CollectionCreateModal visible={isCollectionsModalOpen} handleClick={handleOpenCollectionsModal} handleCreateCollection={handleCreateCollection}></CollectionCreateModal>
         <Loader isLoading={loading} />
+        {/* user  */}
+        {user && (
+          <div className="offset-1 col-md-9 text-center mx-auto">
+            <img src={monkey} alt=""  className="d-inline-block align-text-top"></img>
+            <div>{user.name} {user.surname}</div>
+            <div>@{user.username}</div>
+            <div className="text-secondary">{user.following.length} Following</div>
+          </div>
+        )}
+        {/* collections  */}
         {collections && (
-          <div className="offset-1 col-md-9">
+          <div className="offset-1 col-md-9 mx-auto">
             <div className="card border-0">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="text-secondary">Collections</div>
@@ -108,7 +134,7 @@ const UserDetails = () => {
                   {collections.map((collection) => (
                     <div key={collection.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexBasis: '16%' }}>
                       <button style={{ backgroundColor: '#f6f4f5' }} className="btn btn-light" onClick={() => handleItemClick(collection)}>
-                        <img width="90px" style={{ margin: '5px' }} className="rounded" src={placeholder} alt={collection.name} />
+                        <img width="90px" style={{ margin: '5px' }} className="rounded" src={collections_place_holder} alt={collection.name} />
                         <div className="text-secondary" style={{ width: '90px', textAlign: 'left' }}>{collection.name}</div>
                       </button>
                     </div>
@@ -118,6 +144,32 @@ const UserDetails = () => {
             </div>
           </div>
         )}
+
+        {/* posts */}
+        {posts && (
+          <div className="offset-1 col-md-9 mx-auto">
+            <div className="card border-0">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="text-secondary">Posts</div>
+                <button className="btn btn-transparent" onClick={handleCreatePost}>
+                  <span style={{ color: 'grey', fontSize: '2.5rem' }}>+</span>
+                </button>
+              </div>
+              <div className="row">
+                <div className="card-body" style={{ border: '2px solid lightgrey', borderRadius: '10px', display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                  {posts.map((post) => (
+                    <div key={post.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexBasis: '16%' }}>
+                      <button style={{ backgroundColor: '#f6f4f5' }} className="btn btn-light" onClick={() => handlePostClick(post)}>
+                        <img width="100%" className="rounded" src={"http://localhost:8080/post-photos/" + post.id + "/" + post.image_path} alt={placeholder} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
 
     

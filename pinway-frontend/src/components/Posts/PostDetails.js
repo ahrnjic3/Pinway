@@ -1,11 +1,12 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import './Scrollbar.css';
 
-import React from 'react';
-import Logo from 'images/pinway_logo.png';
+
 import placeholder from  "images/place_holder.png";
+
 import { getPostById , getCommentsForPost, addComment, addLike} from 'api/posts';
 import { getUserById } from 'api/users';
 import { getCollectionsForUser, addPostToCollection } from 'api/collections';
@@ -21,7 +22,9 @@ const PostDetails = () => {
     const [userCollections, setUserCollections] = useState()
     const [collection, setCollection] = useState()
     const [selectedCollectionName, setSelectedCollectionName] = useState()
-    const postId = 3
+
+    const location = useLocation();
+    const postId = location.state.id;
 
     const navigate = useNavigate();
 
@@ -108,7 +111,7 @@ const PostDetails = () => {
                   
 
                   <div className="row w-100">
-                    <div className="col-3 mt-2">
+                    <div className="col-3 mt-2 ms-2">
                       <div className="dropdown col-3">
                         <button className="btn btn-light text-secondary mb-1 btn dropdown-toggle btn btn-blk" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                           Collection
@@ -158,7 +161,7 @@ const PostDetails = () => {
                       </div>
                       <div className="col-10 ">
                         <p className="text-center-left mb-0"  style={{ fontSize: 16, color: "white" }}>{UserDetails.name + " "+ UserDetails.surname}</p>
-                        <p className="text-center-left mb-0" style={{ fontSize: 10, color: "white" }}>{UserDetails.followers.length}</p>
+                        <p className="text-center-left mb-0" style={{ fontSize: 10, color: "white" }}>{UserDetails.following.length} Following</p>
                       </div>
                     </div>
                     <div className="offset-1 col-3 d-flex align-items-center">
@@ -213,7 +216,7 @@ const PostDetails = () => {
                                     </div>
                                     <div className="col-10 ">
                                       <p className="text-center-left mb-0"  style={{ fontSize: 16, color: "white" }}>{loggedInUserDetails.name + " " + loggedInUserDetails.surname}</p>
-                                      <p className="text-center-left mb-0" style={{ fontSize: 10, color: "white" }}>{loggedInUserDetails.followers.length}</p>
+                                      <p className="text-center-left mb-0" style={{ fontSize: 10, color: "white" }}>{loggedInUserDetails.following.length} Following</p>
                                     </div>
                                   </div>
                                   <div className="col-4 d-flex align-items-center">

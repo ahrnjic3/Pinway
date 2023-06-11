@@ -1,5 +1,6 @@
 package com.example.postservice.services;
 
+import com.example.postservice.dto.FilterDTO;
 import com.example.postservice.dto.PostDTO;
 import com.example.postservice.dto.PostResponseDTO;
 import com.example.postservice.dto.UserDTO;
@@ -85,6 +86,53 @@ public class PostServiceImp implements PostService{
         Post post = postRepository.findById(id).orElse(null);
 
         return post;
+    }
+
+    @Override
+    public Iterable<Post> FindByUserId(Long id) {
+        Iterable<Post> posts = postRepository.findByUserId(id);
+        return posts;
+    }
+
+    @Override
+    public Iterable<PostResponseDTO> filterPosts(FilterDTO filterDTO) {
+        Iterable<Post> posts = postRepository.findAll();
+        ArrayList<PostResponseDTO> res = new ArrayList<PostResponseDTO>();
+        String[] searchWords = filterDTO.getSearch().toLowerCase().split(" ");
+        for (Post post: posts) {
+            //filter posts
+            Boolean contains = false;
+            for (String word : searchWords) {
+                if (post.getTitle().toLowerCase().contains(word.toLowerCase())) {
+                    contains = true;
+                    break;
+                }
+            }
+            if(contains == true) {
+
+                Long param = post.getUser_id();
+                ResponseEntity<UserDTO> responseEntity = restTemplate.getForEntity("http://user-service/api/users/{id}",
+                        UserDTO.class, param);
+                UserDTO userDTO = responseEntity.getBody();
+                PostDTO postDTO = new PostDTO();
+                postDTO.setId(post.getId());
+                postDTO.setImage_path(post.getImage_path());
+                postDTO.setTitle(post.getTitle());
+                postDTO.setUser_id(post.getUser_id());
+                postDTO.setDescription(post.getDescription());
+                postDTO.setHashtagNames(post.getHashtags().stream().map(hashtag -> {
+                    return hashtag.getName();
+                }).collect(Collectors.toSet()));
+                PostResponseDTO postResponseDTO = new PostResponseDTO();
+                postResponseDTO.setPostDTO(postDTO);
+                postResponseDTO.setUserDTO(userDTO);
+                res.add(postResponseDTO);
+            }
+        }
+
+
+        Iterable<PostResponseDTO>  response = res;
+        return  response;
     }
     @Override
     public Boolean Delete (Long id){

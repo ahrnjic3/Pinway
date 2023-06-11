@@ -1,6 +1,7 @@
 package com.example.userservice.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UserDTO {
 
@@ -13,13 +14,13 @@ public class UserDTO {
     private String password;
     private LocalDate createdAt;
     private UserVisibilityTypeDTO userVisibilityType;
-    private Integer numOfFollowing;
-    private Integer numOfFollowers;
+
+    private List<UserDTO> following;
 
     public UserDTO() {
     }
 
-    public UserDTO(Integer id, String guid, String name, String surname, String username, String email, String password, LocalDate createdAt, UserVisibilityTypeDTO userVisibilityType, Integer numOfFollowing, Integer numOfFollowers) {
+    public UserDTO(Integer id, String guid, String name, String surname, String username, String email, String password, LocalDate createdAt, UserVisibilityTypeDTO userVisibilityType, List<UserDTO> following) {
         this.id = id;
         this.guid = guid;
         this.name = name;
@@ -29,8 +30,7 @@ public class UserDTO {
         this.password = password;
         this.createdAt = createdAt;
         this.userVisibilityType = userVisibilityType;
-        this.numOfFollowing = numOfFollowing;
-        this.numOfFollowers = numOfFollowers;
+        this.following = following;
     }
 
     public UserDTO(Integer id, String guid, String name, String surname, String username, String email, String password, LocalDate createdAt) {
@@ -116,19 +116,11 @@ public class UserDTO {
         this.userVisibilityType = userVisibilityType;
     }
 
-    public Integer getNumOfFollowing() {
-        return numOfFollowing;
+    public List<UserDTO> getFollowing() {
+        return following;
     }
 
-    public void setNumOfFollowing(Integer numOfFollowing) {
-        this.numOfFollowing = numOfFollowing;
-    }
-
-    public Integer getNumOfFollowers() {
-        return numOfFollowers;
-    }
-
-    public void setNumOfFollowers(Integer numOfFollowers) {
-        this.numOfFollowers = numOfFollowers;
+    public void setFollowing(List<UserDTO> following) {
+        this.following = following;
     }
 }

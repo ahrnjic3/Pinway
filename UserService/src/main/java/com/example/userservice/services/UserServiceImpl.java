@@ -1,6 +1,7 @@
 package com.example.userservice.services;
 
 import com.example.userservice.dto.UserDTO;
+import com.example.userservice.dto.UserVisibilityTypeDTO;
 import com.example.userservice.exception.PinwayError;
 import com.example.userservice.models.Role;
 import com.example.userservice.models.User;
@@ -47,14 +48,63 @@ public class UserServiceImpl implements UserService{
         return users;
     }
 
-    @Override
-    public User Details(Integer id) {
+    public UserDTO Details(Integer id) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            return user.get();
-        }
+        if (!user.isPresent())
+            throw new PinwayError("Not found User with id = " + id);
 
-        throw new PinwayError("Not found User with id = " + id);
+        User userEntity = user.get();
+        UserVisibilityTypeDTO userVisibilityTypeDTO = new UserVisibilityTypeDTO(
+                userEntity.getUserVisibilityType().getId(),
+                userEntity.getUserVisibilityType().getType()
+        );
+
+        UserDTO userDTO = convertToDTO(userEntity, userVisibilityTypeDTO);
+        return userDTO;
+    }
+
+
+    private UserDTO convertToDTO(User user, UserVisibilityTypeDTO userVisibilityTypeDTO) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setGuid(user.getGuid());
+        userDTO.setName(user.getName());
+        userDTO.setSurname(user.getSurname());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setUserVisibilityType(userVisibilityTypeDTO);
+
+        List<UserDTO> followingDTOList = convertToDTOList(user.getFollowing());
+        userDTO.setFollowing(followingDTOList);
+
+        return userDTO;
+    }
+
+    private List<UserDTO> convertToDTOList(List<User> userList) {
+        List<UserDTO> userDTOList = new ArrayList<>();
+        for (User user : userList) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setGuid(user.getGuid());
+            userDTO.setName(user.getName());
+            userDTO.setSurname(user.getSurname());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setPassword(user.getPassword());
+            userDTO.setCreatedAt(user.getCreatedAt());
+
+            UserVisibilityTypeDTO userVisibilityTypeDTO = new UserVisibilityTypeDTO(
+                    user.getUserVisibilityType().getId(),
+                    user.getUserVisibilityType().getType()
+            );
+
+            userDTO.setUserVisibilityType(userVisibilityTypeDTO);
+
+            userDTOList.add(userDTO);
+        }
+        return userDTOList;
     }
 
     @Override
@@ -96,7 +146,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User AddFollower(Integer userId, Integer followingId) {
+    public UserDTO AddFollower(Integer userId, Integer followingId) {
         Optional<User> optUser = userRepository.findById(userId);
         if (!optUser.isPresent())
             throw new PinwayError("Not found User with id = " + userId);
@@ -112,8 +162,13 @@ public class UserServiceImpl implements UserService{
         user.getFollowing().add(follower);
 
         userRepository.save(user);
-        //collectionRepository.increaseNumOfPosts(collection.getId());
-        return  user;
+        UserVisibilityTypeDTO userVisibilityTypeDTO = new UserVisibilityTypeDTO(
+                user.getUserVisibilityType().getId(),
+                user.getUserVisibilityType().getType()
+        );
+        UserDTO userDTO = convertToDTO(user, userVisibilityTypeDTO);
+
+        return  userDTO;
     }
 
     @Override

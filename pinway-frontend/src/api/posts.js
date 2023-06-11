@@ -33,4 +33,22 @@ export const getCommentsForPost = async (postId) => {
     return response.data
 }
 
+export const getPostsForUser = async(id) => {
+    const response = await API.get(`/api/post/user/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
+    return response.data;
+}
+
+export const getHashTags = async() => {
+    const response = await API.get(`/api/hashtag/all`, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
+    return response.data;
+}
+
+export const getFilteredPosts = async(search) => {
+    if(search == null) search = '';
+    const data = {search: search};
+    //const response = await API.post(`/api/post/all`, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
+    const response = await API.post(`/api/post/filter`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
+    return response.data;
+}
+
 
