@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Menu, Dropdown } from "semantic-ui-react";
+import { useNavigate } from "react-router-dom";
 
 import pinway_logo from "images/pinway_logo.png";
 import placeholder from  "images/place_holder.png";
@@ -7,6 +8,12 @@ import placeholder from  "images/place_holder.png";
 
 
 const HomeMenu = () => {
+
+  const navigate = useNavigate();
+
+  const handleAddPost = async () => {
+    navigate('/addPost')
+  }
 
   return (
     <div>
@@ -17,7 +24,7 @@ const HomeMenu = () => {
           </a>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-            <button style={{paddingRight: '10px'}} type="button" className="btn btn-outline-secondary pr-3">New</button>
+            <button style={{paddingRight: '10px'}} type="button" className="btn btn-outline-secondary pr-3" onClick ={handleAddPost}>New</button>
             </div>
           </div>
           <div className="d-flex">

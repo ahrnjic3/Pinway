@@ -67,6 +67,7 @@ public class CommentServiceImp implements CommentService{
         try {
             Comment new_comment = new Comment();
             new_comment.setContent(commentDTO.getContent());
+            new_comment.setUser_id(commentDTO.getUser_id());
             Post post = postRepository.findById(commentDTO.getPost_id()).orElse(null);
             new_comment.setPost(post);
             new_comment.setCreatedAt(LocalDateTime.now());

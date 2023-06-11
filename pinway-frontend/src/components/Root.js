@@ -11,7 +11,8 @@ import LogIn from "./Users/LogIn"
 import Registration from "./Users/Registration"
 import UserDetails from "components/Users/UserDetails"
 import CollectionDelete from "./Collections/CollectionDelete";
-import Posts from "./Posts/Posts";
+import PostCreate from "./Posts/PostCreate";
+import PostDetails from "./Posts/PostDetails";
 
 const Root = () => (
   <div>
@@ -29,12 +30,13 @@ const Root = () => (
     <Router>
       <HomeMenu />
       <Routes>
-        <Route path="/" element={<Navigate to="/collections" />} />
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/users" element={<UserDetails/>} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/registration" element={<Registration />} />
-        <Route path="/addPost" element={<Posts />} />
+        <Route path="/addPost" element={<PostCreate/>} />
+        <Route path="/postDetails" element={<PostDetails/>} />
       </Routes> 
     </Router>
   </div>

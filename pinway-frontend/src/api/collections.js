@@ -13,9 +13,21 @@ export const getPostsForCollection = async (id) => {
 export const deleteCollection = async (id) => {
     const response = await API.delete(`/api/collections/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
     return response.data;
-}
+};
 
 export const postCollection = async (data) => {
   const response = await API.post(`/api/collections`, data ,{ headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
   return response.data;
-}
+};
+
+export const getCollectionsForUser = async (id) => {
+  const response = await API.get('/api/collections/user/' + id ,{ headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
+  return response.data;
+};
+
+export const addPostToCollection = async (id, data) => {
+  console.log("id: ",id)
+  console.log("data", data)
+  const response = await API.post('/api/collections/' + id + '/posts', data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } })
+  return response.data
+};

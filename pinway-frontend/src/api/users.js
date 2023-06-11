@@ -22,3 +22,9 @@ export const addUserToCollection = async (id, {data}) => {
   //console.log(response.data);
   return response.data;
 };
+
+export const getUserById = async (id) => {
+  const response = await API.get(`/api/users/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
+  //console.log(response.data);
+  return response.data;
+};

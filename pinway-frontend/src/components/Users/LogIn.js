@@ -23,7 +23,7 @@ const LogIn = () => {
             localStorage.setItem("UserId",response.id);
           });
           toast.success("Logged in!");
-          navigate("/collections/");
+          navigate("/users/");
         } catch (err) {
           toast.error("Login failed!");
           localStorage.setItem("Bearer", null);
