@@ -2,6 +2,7 @@ package com.example.collectionservice.infrastructure;
 
 import com.example.collectionservice.dto.CollectionPostCreateDTO;
 import com.example.collectionservice.dto.PostDTO;
+import com.example.collectionservice.dto.PostResponseDTO;
 import com.example.collectionservice.dto.PostUserDTO;
 import com.example.collectionservice.exception.PinwayError;
 import com.example.collectionservice.models.Collection;
@@ -36,6 +37,18 @@ public class PostService {
             return false;
 
         return true;
+    }
+
+    public PostResponseDTO GetPost(Long postId)  {
+        ResponseEntity<PostResponseDTO[]> responseEntity = restTemplate.getForEntity("http://post-service/api/post/findByIds?Ids={ids}", PostResponseDTO[].class, postId);
+        PostResponseDTO[] postUserDTOs = responseEntity.getBody();
+
+        if(postUserDTOs.length != 1)
+            return null;
+
+        PostResponseDTO postUserDTO = postUserDTOs[0];
+
+        return postUserDTO;
     }
 
     public List<PostDTO> GetAllPostsForCollection(Set<Long> ids) {

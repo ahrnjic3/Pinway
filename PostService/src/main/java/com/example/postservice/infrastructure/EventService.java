@@ -14,13 +14,13 @@ public class EventService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public void CommentCreated(Comment comment) {
-        CommentInfo info = new CommentInfo(comment.getId(), comment.getContent(), "add");
+    public void CommentCreated(Comment comment, Long userId, String username) {
+        CommentInfo info = new CommentInfo(comment.getId(), comment.getContent(), "add", userId.intValue(), username, comment.getUser_id().intValue());
         rabbitTemplate.convertAndSend(MessagingConfig.EXCHANGE, MessagingConfig.ROUTING_KEY, info);
     }
 
-    public void LikeCreated(Like like) {
-        LikeInfo info = new LikeInfo(like.getId(), "add");
+    public void LikeCreated(Like like, Integer userId, String username) {
+        LikeInfo info = new LikeInfo(like.getId(), "add", userId, username, like.getUser_id().intValue());
         rabbitTemplate.convertAndSend(MessagingConfig.EXCHANGE_LIKE, MessagingConfig.ROUTING_KEY_LIKE, info);
     }
 

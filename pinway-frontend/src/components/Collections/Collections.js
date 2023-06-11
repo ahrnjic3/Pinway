@@ -15,7 +15,7 @@ const params = {
 }
 
 
-const Collections = ({collection}) => {
+const Collections = () => {
 
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);

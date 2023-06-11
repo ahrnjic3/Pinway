@@ -32,9 +32,9 @@ public class QueueConsumer {
                 NotificationType notificationType = notificationService.GetNotificationType("COMMENTED");
                 Notification notification = new Notification();
                 notification.setOpen(false);
-                notification.setContent("User? Commented on your Post.");
-                notification.setActionUserId(2);
-                notification.setUserId(1);
+                notification.setContent("User " + commentInfo.getUsername() + " Commented on your Post.");
+                notification.setActionUserId(commentInfo.getActionUserId());
+                notification.setUserId(commentInfo.getUserId());
                 notification.setLikedComment(commentInfo.getId().intValue());
                 notification.setNotificationType(notificationType);
 
@@ -45,7 +45,7 @@ public class QueueConsumer {
                 System.out.println("Greska u dodavanju notifikacije!");
                 System.out.println(e.getMessage());
 
-                CommentInfo info = new CommentInfo(commentInfo.getId(), commentInfo.getContent(), "delete");
+                CommentInfo info = new CommentInfo(commentInfo.getId(), commentInfo.getContent(), "delete", commentInfo.getUserId(), commentInfo.getUsername(), commentInfo.getActionUserId());
                 rabbitTemplate.convertAndSend(MessagingConfig.REVERSE_EXCHANGE, MessagingConfig.REVERSE_ROUTING_KEY, info);
             }
         }
@@ -58,9 +58,9 @@ public class QueueConsumer {
                 NotificationType notificationType = notificationService.GetNotificationType("LIKED");
                 Notification notification = new Notification();
                 notification.setOpen(false);
-                notification.setContent("User? Liked your Comment.");
-                notification.setActionUserId(2);
-                notification.setUserId(1);
+                notification.setContent("User " + likeInfo.getUsername() + " Liked your Comment.");
+                notification.setActionUserId(likeInfo.getActionUserId());
+                notification.setUserId(likeInfo.getUserId());
                 notification.setLikedComment(likeInfo.getId().intValue());
                 notification.setNotificationType(notificationType);
 
@@ -71,7 +71,7 @@ public class QueueConsumer {
                 System.out.println("Greska u dodavanju notifikacije!");
                 System.out.println(e.getMessage());
 
-                LikeInfo info = new LikeInfo(likeInfo.getId(), "delete");
+                LikeInfo info = new LikeInfo(likeInfo.getId(), "delete", likeInfo.getUserId(), likeInfo.getUsername(), likeInfo.getActionUserId());
                 rabbitTemplate.convertAndSend(MessagingConfig.REVERSE_EXCHANGE_LIKE, MessagingConfig.REVERSE_ROUTING_KEY_LIKE, info);
             }
         }
@@ -84,9 +84,9 @@ public class QueueConsumer {
                 NotificationType notificationType = notificationService.GetNotificationType("PINNED");
                 Notification notification = new Notification();
                 notification.setOpen(false);
-                notification.setContent("User? Pinned your Post.");
-                notification.setActionUserId(2);
-                notification.setUserId(1);
+                notification.setContent("User " + pinInfo.getUsername() + " Pinned your Post.");
+                notification.setActionUserId(pinInfo.getActionUserId());
+                notification.setUserId(pinInfo.getUserId());
                 notification.setPinnedPost(pinInfo.getId().intValue());
                 notification.setNotificationType(notificationType);
                 notificationService.Create(notification);
@@ -96,7 +96,7 @@ public class QueueConsumer {
                 System.out.println("Greska u dodavanju notifikacije!");
                 System.out.println(e.getMessage());
 
-                PinInfo info = new PinInfo(pinInfo.getId(), pinInfo.getCollectionId(), "delete");
+                PinInfo info = new PinInfo(pinInfo.getId(), pinInfo.getCollectionId(), "delete", pinInfo.getUserId(), pinInfo.getUsername(), pinInfo.getActionUserId());
                 rabbitTemplate.convertAndSend(MessagingConfig.REVERSE_EXCHANGE_PIN, MessagingConfig.REVERSE_ROUTING_KEY_PIN, info);
             }
         }

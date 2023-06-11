@@ -37,6 +37,12 @@ public class NotificationServiceImp implements NotificationService {
     }
 
     @Override
+    public  Iterable<Notification> GetNotificationsForUser(Integer id) {
+        Iterable<Notification> notificationList = notificationRepository.findByUserIdAndOpen(id, false);
+        return notificationList;
+    }
+
+    @Override
     public  Notification Details(Integer id) {
         Optional<Notification> notification = notificationRepository.findById(id);
 

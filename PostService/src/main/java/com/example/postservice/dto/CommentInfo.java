@@ -6,10 +6,19 @@ public class CommentInfo {
     private String content;
     private String message;
 
-    public CommentInfo(Long id, String content, String message) {
+    private Integer userId;
+
+    private String username;
+
+    private Integer actionUserId;
+
+    public CommentInfo(Long id, String content, String message, Integer userId, String username, Integer actionUserId) {
         this.id = id;
         this.content = content;
         this.message = message;
+        this.userId = userId;
+        this.username = username;
+        this.actionUserId = actionUserId;
     }
 
     public CommentInfo() {
@@ -37,5 +46,29 @@ public class CommentInfo {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Integer getActionUserId() {
+        return actionUserId;
+    }
+
+    public void setActionUserId(Integer actionUserId) {
+        this.actionUserId = actionUserId;
     }
 }

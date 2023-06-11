@@ -52,15 +52,21 @@ const UserDetails = () => {
 
       const handleCreateCollection = async (boardName, isPrivate) => {
         try {
+          let type = "PRIVATE";
+          let id = 1;
+          if(isPrivate == true) {
+            type = "SHARED";
+            id = 1;
+          }
           const data = {
             "name": boardName,
             "collectionVisibilityType": {
-              "id": 1,
-              "type": "PRIVATE"
+              "id": id,
+              "type": type
             },
-            "created_at": "2023-06-10",
+            "created_at": "",
             "numOfPosts": 0,
-            "userId": 2,
+            "userId": localStorage.getItem("UserId"),
             "deleted": false
           }
           
@@ -101,9 +107,9 @@ const UserDetails = () => {
                 <div className="card-body" style={{ border: '2px solid lightgrey', borderRadius: '10px', display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
                   {collections.map((collection) => (
                     <div key={collection.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexBasis: '16%' }}>
-                      <button className="btn btn-light" onClick={() => handleItemClick(collection)}>
+                      <button style={{ backgroundColor: '#f6f4f5' }} className="btn btn-light" onClick={() => handleItemClick(collection)}>
                         <img width="90px" style={{ margin: '5px' }} className="rounded" src={placeholder} alt={collection.name} />
-                        <div className="text-secondary" style={{ width: '80px', textAlign: 'left' }}>{collection.name}</div>
+                        <div className="text-secondary" style={{ width: '90px', textAlign: 'left' }}>{collection.name}</div>
                       </button>
                     </div>
                   ))}

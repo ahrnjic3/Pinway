@@ -27,4 +27,6 @@ public interface NotificationRepository extends CrudRepository<Notification, Int
     @Query("update Notification n set n.open= :open where n.id = :id")
     Integer partialUpdateOpen(Integer id, Boolean open);
 
+    Iterable<Notification> findByUserIdAndOpen(Integer id, Boolean open);
+
 }

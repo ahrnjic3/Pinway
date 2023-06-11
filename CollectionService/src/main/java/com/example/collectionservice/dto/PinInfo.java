@@ -7,13 +7,22 @@ public class PinInfo {
     private Integer collectionId;
     private String message;
 
+    private Integer userId;
+
+    private String username;
+
+    private Integer actionUserId;
+
     public PinInfo() {
     }
 
-    public PinInfo(Long id, Integer collectionId, String message) {
+    public PinInfo(Long id, Integer collectionId, String message, Integer userId, String username, Integer actionUserId) {
         this.id = id;
         this.collectionId = collectionId;
         this.message = message;
+        this.userId = userId;
+        this.username = username;
+        this.actionUserId = actionUserId;
     }
 
     public Long getId() {
@@ -38,5 +47,29 @@ public class PinInfo {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getActionUserId() {
+        return actionUserId;
+    }
+
+    public void setActionUserId(Integer actionUserId) {
+        this.actionUserId = actionUserId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
