@@ -15,6 +15,7 @@ public class UserDTO {
     private UserVisibilityTypeDTO userVisibilityType;
     private Integer numOfFollowing;
     private Integer numOfFollowers;
+    private String image_path;
 
     public UserDTO() {
     }
@@ -130,5 +131,13 @@ public class UserDTO {
 
     public void setNumOfFollowers(Integer numOfFollowers) {
         this.numOfFollowers = numOfFollowers;
+    }
+
+    public String getImage_path() {
+        return image_path;
+    }
+
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
     }
 }

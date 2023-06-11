@@ -16,8 +16,8 @@ export const addComment = async (data) => {
     return response;
 }
 
-export const addLike = async (commentId) => {
-    const response = await API.post('/api/like/add', commentId,     { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}`, 'Content-Type' : `application/json`  } });
+export const addLike = async (data) => {
+    const response = await API.post('/api/like/add', data,     { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}`, 'Content-Type' : `application/json`  } });
     return response;
 }
 

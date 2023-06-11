@@ -13,6 +13,7 @@ import UserDetails from "components/Users/UserDetails"
 import CollectionDelete from "./Collections/CollectionDelete";
 import PostCreate from "./Posts/PostCreate";
 import PostDetails from "./Posts/PostDetails";
+import EditProfile from "./Users/EditProfile";
 
 const Root = () => (
   <div>
@@ -37,6 +38,7 @@ const Root = () => (
         <Route path="/registration" element={<Registration />} />
         <Route path="/addPost" element={<PostCreate/>} />
         <Route path="/postDetails" element={<PostDetails/>} />
+        <Route path="/EditProfile" element={<EditProfile/>} />
       </Routes> 
     </Router>
   </div>

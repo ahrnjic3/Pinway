@@ -5,8 +5,10 @@ import com.example.postservice.infrastructure.EventService;
 import com.example.postservice.exception.PinwayError;
 import com.example.postservice.infrastructure.UserService;
 import com.example.postservice.models.Comment;
+import com.example.postservice.models.Like;
 import com.example.postservice.models.Post;
 import com.example.postservice.repositories.CommentRepository;
+import com.example.postservice.repositories.LikeRepository;
 import com.example.postservice.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,9 @@ public class CommentServiceImp implements CommentService{
     private CommentRepository commentRepository;
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private LikeRepository likeRepository;
     @Autowired
     private RestTemplate restTemplate;
 
@@ -33,6 +39,7 @@ public class CommentServiceImp implements CommentService{
 
     @Autowired
     private UserService userService;
+
 
 
 
@@ -49,6 +56,14 @@ public class CommentServiceImp implements CommentService{
         List<Comment> comments = commentRepository.findByPost(postId);
         ArrayList<CommentResponseDTO> res = new ArrayList<CommentResponseDTO>();
         for (Comment comment: comments) {
+            Iterable<Like> likes = likeRepository.getByCommentId(comment.getId());
+            var likeDTOs = new ArrayList<LikeDTO>();
+            likes.forEach(like -> {
+                var DTO = new LikeDTO();
+                DTO.setCommentId(like.getComment().getId());
+                DTO.setUserId(like.getUser_id());
+                likeDTOs.add(DTO);
+            });
             Long param = comment.getUser_id();
             ResponseEntity<UserDTO> responseEntity = restTemplate.getForEntity("http://user-service/api/users/{id}",
                     UserDTO.class, param);
@@ -57,6 +72,7 @@ public class CommentServiceImp implements CommentService{
             commentDTO.setId(comment.getId());
             commentDTO.setContent(comment.getContent());
             commentDTO.setPost_id(comment.getPost().getId());
+            commentDTO.setLikes(likeDTOs);
             CommentResponseDTO commentResponseDTO = new CommentResponseDTO();
             commentResponseDTO.setUserDTO(userDTO);
             commentResponseDTO.setCommentDTO(commentDTO);

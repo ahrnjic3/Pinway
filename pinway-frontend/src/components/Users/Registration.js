@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import './AccessForms.css';
 import axios from 'axios';
 import Logo from 'images/pinway_logo.png';
+import { addUSer } from 'api/users';
+import { useNavigate } from "react-router-dom";
 
 import placeholder from  "images/place_holder.png";
 
@@ -12,49 +14,57 @@ function Registration(){
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     async function save(event)
         {
         event.preventDefault();
         try
             {
-             await axios.post("http://localhost:8085/api/user/add",
-            {
-
-            name: name,
-            surname : surname,
-            username : username,
-            password : password,
-            email : email,
-            visibility_type : "PRIVATE"
-
-            });
-
-                alert("User Registration Successfully");
-                setName("");
-                setSurname("");
-                setUsername("");
-                setEmail("");
-                setPassword("");
+                addUSer({
+                    name: name,
+                    surname: surname,
+                    username: username,
+                    email: email,
+                    password: password,
+                    userVisibilityType:{
+                        id:1,
+                        type: "PUBLIC"
+                    },
+                    following:[],
+                    followers:[],
+                    numOfFollowing:0,
+                    numOfFollowers:0,
+                    userCollections:[]
+                })
             }
         catch(err)
             {
             alert("User Registration Failed");
+            return;
             }
+        finally{
+            alert("User Registration Successfully");
+            setName("");
+            setSurname("");
+            setUsername("");
+            setEmail("");
+            setPassword("");
+            navigate("/login")
+        }
    }
 
 
         return (
         <div>
-            <div className='form-container-register'>
-                <div className='form-content-left'>
-                        <h2> <img class="image image-contain" src={Logo} alt="Pinway logo"></img></h2>
+            <div className='form-container mx-auto mt-4'>
+                <div className='form-content-left rounded px-2'>
+                        <h2> <img className="image image-contain w-100" src={Logo} alt="Pinway logo"></img></h2>
                         <h3>Please Sign Up</h3>
 
-                        <div className='form-inputs'>
-                            <label className='form-label'>First name</label>
+                        <div className='form-group'>
                             <input
-                                className='form-input'
+                                className='form-control'
                                 type='text'
                                 name='name'
                                 placeholder='Enter first name'
@@ -64,12 +74,12 @@ function Registration(){
                                     setName(event.target.value);
                                     }}
                             />
-
                         </div>
-                        <div className='form-inputs'>
-                            <label className='form-label'>Last name</label>
+
+                        <div className='form-group'>
+                        <label className='form-label'>Last name</label>
                             <input
-                                className='form-input'
+                                className='form-control'
                                 type='text'
                                 name='surname'
                                 placeholder='Enter last name'
@@ -78,13 +88,13 @@ function Registration(){
                                     {
                                         setSurname(event.target.value);
                                     }}
-
                             />
-                        </div>
-                        <div className='form-inputs'>
-                            <label className='form-label'>Username</label>
+                        </div>     
+
+                        <div className='form-group'>
+                        <label className='form-label'>Username</label>
                             <input
-                                className='form-input'
+                                className='form-control'
                                 type='text'
                                 name='username'
                                 placeholder='Enter your username'
@@ -95,10 +105,11 @@ function Registration(){
                                 }}
                             />
                         </div>
-                        <div className='form-inputs'>
-                            <label className='form-label'>Email</label>
+
+                        <div className='form-group'>
+                        <label className='form-label'>Email</label>
                             <input
-                                className='form-input'
+                                className='form-control'
                                 type='email'
                                 name='email'
                                 placeholder='Enter your email'
@@ -108,30 +119,31 @@ function Registration(){
                                        setEmail(event.target.value);
                                    }}
                             />
-
                         </div>
-                        <div className='form-inputs'>
-                            <label className='form-label'>Password</label>
-                            <input
-                                className='form-input'
-                                type='password'
-                                name='password'
-                                placeholder='Enter your password'
-                                value={password}
-                                onChange={(event) =>
-                                  {
-                                      setPassword(event.target.value);
-                                  }}
-                            />
 
+                        <div className='form-group'>
+                            <label className='form-label'>Password</label>
+                                <input
+                                    className='form-control'
+                                    type='password'
+                                    name='password'
+                                    placeholder='Enter your password'
+                                    value={password}
+                                    onChange={(event) =>
+                                    {
+                                        setPassword(event.target.value);
+                                    }}
+                            />
                         </div>
 
                         <button className="button-login" onClick={save}>
                             Sign Up
                         </button>
-                        <span style={{marginBottom: "10%"}} className='form-input-login'>
-                            Already have created account? Login <a href='./login'>here</a>
-                        </span>
+                        <div className="text-center">
+                            <span  className='form-input-login mb-1' onClick={() => {navigate("/login")}}>
+                                Already have created account? Login <a>here</a>
+                            </span>
+                        </div>
 
                 </div>
             </div>

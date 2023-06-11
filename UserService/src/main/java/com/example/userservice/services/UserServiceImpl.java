@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -36,6 +38,7 @@ public class UserServiceImpl implements UserService{
         List<Role> roles = new ArrayList<>();
         roles.add(r);
         user.setRoles(roles);
+        user.setCreatedAt(LocalDate.from(LocalDateTime.now()));
         roleRepository.save(r);
         user = userRepository.save(user);
         return user;
@@ -79,12 +82,7 @@ public class UserServiceImpl implements UserService{
         newUser.setName(user.getName());
         newUser.setSurname(user.getSurname());
         newUser.setUsername(user.getUsername());
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        newUser.setNumOfFollowing(user.getNumOfFollowing());
-        newUser.setNumOfFollowers(user.getNumOfFollowers());
-        newUser.setCreatedAt(user.getCreatedAt());
-
+        // newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(newUser);
         return newUser;
     }
@@ -177,6 +175,19 @@ public class UserServiceImpl implements UserService{
         roleRepository.save(r);
         user = userRepository.save(user);
         return user;
+    }
+
+    @Override
+    public User updateImage(Integer userId, String fileName) {
+        Optional<User> user =userRepository.findById(userId);
+        if (user==null){
+            throw new RuntimeException("User not found!");
+        }
+
+        User newUser = user.get();
+        newUser.setImage_path(fileName);
+        Optional.of(userRepository.save(newUser));
+        return newUser;
     }
 
 

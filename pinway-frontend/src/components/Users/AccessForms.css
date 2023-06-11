@@ -49,13 +49,49 @@ h3 {
   box-shadow: 0 5px 8px 0 rgba(215,168,245,255), 0 7px 20px 0 rgba(215,168,245,255);
   position: relative;
   border-radius: 50px;
-  height: 400px;
+  height: 450px;
   display: grid;
   grid-template-rows: 1fr;
-  margin-top: 2%;
-  margin-bottom: 200px;
+  margin-top: 0%;
+  margin-bottom: 0px;
 
 }
+
+
+
+.form-container-register {
+  margin: 0px auto;
+  width: 500px;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+  height: 300px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-bottom: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  margin-top: 2%;
+
+}
+
+.form-container-login {
+    margin: 0px auto;
+    width: 550px;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+    height: 300px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-bottom: 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    margin-top: 5%;
+}
+
 
 .form {
   position: absolute;
@@ -112,6 +148,7 @@ h3 {
       #74448c 0%);
   border-radius: 0px 0px 0px 0px;
   position: relative;
+  padding-left:10px;
 }
 
 .form-img {
@@ -180,17 +217,6 @@ h3 {
   width: 100%;
   text-align: center;
   margin-bottom: 35px;
-}
-
-.form-container-register {
-  margin: 0px auto;
-  width: 500px;
-  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
-  height: 900px;
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  margin-bottom: 30%;
 }
 
 .i-login {

@@ -36,42 +36,43 @@ const LogIn = () => {
 
     return (
     <div>
-        <div className='form-container'>
+        <div className='form-container mt-4'>
 
             <div className='form-content-left rounded'>
                 <form className='form' noValidate  onSubmit={handleLogin}>
                     <div> <img className="image mt-5" src={Logo} alt="Pinway logo"></img></div>
                     <h3>Welcome to Pinway</h3>
-                    <div className='form-inputs'>
-                        <label className='form-label'>Username</label>
-                        <input
-                            className='form-input'
-                            type='text'
-                            name='username'
-                            value = {username}
-                            placeholder='Enter your username'
-                            onChange = {handleUsernameChange}
 
+                    <div className='form-group'>
+                        <label className='form-label'>Password</label>
+                            <input
+                                className='form-control'
+                                type='text'
+                                name='username'
+                                value = {username}
+                                placeholder='Enter your username'
+                                onChange = {handleUsernameChange}
                         />
                     </div>
-                    <div className='form-inputs'>
-                        <label className='form-label rounded'>Password</label>
-                        <input
-                            className='form-input'
-                            type='password'
-                            name='password'
-                            value = {password}
-                            placeholder='Enter your password'
-                            onChange = {handlePasswordChange}
-
-
+                    
+                    <div className='form-group'>
+                        <label className='form-label'>Password</label>
+                            <input
+                                className='form-control'
+                                    type='password'
+                                name='password'
+                                value = {password}
+                                placeholder='Enter your password'
+                                onChange = {handlePasswordChange}
                         />
                     </div>
+
+                    
                     <button className="button-login rounded" type='submit' onSubmit={handleLogin}>
                         Log In
                     </button>
-                    <span className='form-input-login'>
-                        Don't have an account? Sign up <a href='./registration'>here</a>
+                    <span className='form-input-login' onClick={() => {navigate("/registration")}}>
+                        Don't have an account? Sign up <a>here</a>
                     </span>
                 </form>
             </div>

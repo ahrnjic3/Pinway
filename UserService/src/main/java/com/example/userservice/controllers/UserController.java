@@ -1,17 +1,25 @@
 package com.example.userservice.controllers;
 
+import com.example.postservice.utils.FileUploadUtil;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.models.User;
 import com.example.userservice.models.UserVisibilityType;
 import com.example.userservice.services.UserService;
 import com.example.userservice.repositories.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/api") // This means URL's start with /demo (after Application path)
@@ -86,5 +94,24 @@ public class UserController {
         return ResponseEntity.status(201).body(newUser);
     }
 
+    @PostMapping(path="/users/addPhoto",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE}) // Map ONLY POST Requests
+    public @ResponseBody ResponseEntity<String> addNewPost (@RequestPart("userDTO") String userDTO,
+                                                          @RequestPart("image") MultipartFile multipartFile) throws IOException {
+        // @ResponseBody means the returned String is the response, not a view name
+        // @RequestParam means it is a parameter from the GET or POST request
+
+        ObjectMapper om = new ObjectMapper();
+
+        UserDTO postDTOObj= om.readValue(userDTO,UserDTO.class);
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+
+
+
+        String uploadDir = "user-photos/" + postDTOObj.getId();
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        userService.updateImage(postDTOObj.getId(),fileName);
+        return ResponseEntity.status(201).body(fileName);
+    }
 
 }

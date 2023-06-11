@@ -12,10 +12,15 @@ export const login = async (data) => {
 };
 
 export const getFollowersForUser = async (id) => {
-  const response = await API.get(`/api/users/${id}/followers`);
-  //console.log(response.data);
+  const response = await API.get(`/api/users/${id}/followers`, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` },  'Content-Type' : `application/json`  });
+  console.log("res" + response.data);
   return response.data;
 };
+
+export const addFollowerForUser = async(id,data) => {
+  const response = await API.post(`/api/users/${id}/followers`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` },  'Content-Type' : `application/json`  } )
+  return response.data
+}
 
 export const addUserToCollection = async (id, {data}) => {
   const response = await API.post(`/api/users/${id}/collection`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
@@ -28,3 +33,25 @@ export const getUserById = async (id) => {
   //console.log(response.data);
   return response.data;
 };
+
+export const addUSer = async(data) => {
+  const response = await API.post(`/api/users`, data,  { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` }});
+  return response.data;
+}
+
+export const updateUser = async(id,data) => {
+  const response = await API.put(`/api/users/${id}`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` }} )
+  return response.data;
+}
+
+export const addUserPhoto = async(image, data) => {
+  const form = new FormData();
+  form.append('userDTO', JSON.stringify(data));
+  form.append('image', image[0]);
+
+  const response = await API.post(`/api/users/addPhoto`,
+  form,
+  { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}`, 'Content-Type' : `multipart/form-data`  } });
+  return response.data;
+
+}

@@ -1,10 +1,13 @@
 package com.example.postservice.dto;
 
 
+import com.example.postservice.models.Like;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 public class CommentDTO {
 
@@ -13,6 +16,7 @@ public class CommentDTO {
     private Long post_id;
 
     private Long user_id;
+    private List<LikeDTO> likes;
 
     public Long getId() {
         return id;
@@ -44,6 +48,14 @@ public class CommentDTO {
 
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
+    }
+
+    public List<LikeDTO> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<LikeDTO> likes) {
+        this.likes = likes;
     }
 
 }

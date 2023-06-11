@@ -46,21 +46,12 @@ public class User {
     @CreatedDate
     private LocalDate createdAt;
 
+    private String image_path;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name="typeId")
     private UserVisibilityType userVisibilityType;
-
-
-//    @ManyToMany(cascade={CascadeType.ALL})
-//    @JoinTable(name="EMPLOYEE_COLLEAGUE",
-//            joinColumns={@JoinColumn(name="EMPLOYEE_ID")},
-//            inverseJoinColumns={@JoinColumn(name="COLLEAGUE_ID")})
-//    private Set<User> colleagues = new HashSet<User>();
-//
-//    @ManyToMany(mappedBy="colleagues")
-//    private Set<User> teammates = new HashSet<User>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "relation",
@@ -220,6 +211,15 @@ public class User {
             roleNames.add(r.getName());
         }
         return roleNames;
+    }
+
+
+    public String getImage_path() {
+        return image_path;
+    }
+
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
     }
 
 }

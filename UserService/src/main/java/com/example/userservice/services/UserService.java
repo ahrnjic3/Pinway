@@ -28,4 +28,6 @@ public interface UserService {
         Mono<User> getByUsername(String username);
 
         User registerUser(User user);
+
+        User updateImage(Integer userId, String fileName);
 }

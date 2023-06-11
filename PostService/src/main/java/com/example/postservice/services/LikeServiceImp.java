@@ -48,4 +48,11 @@ public class LikeServiceImp implements  LikeService{
         likeRepository.deleteById(id);
         return true;
     }
+
+    public Like checkExistsByCommentLikeId(Long comment_id, Long user_id) {
+
+        Like like = likeRepository.getByCommentUserId(comment_id,user_id);
+
+        return  like;
+    }
 }

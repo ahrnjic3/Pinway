@@ -1,5 +1,6 @@
 package com.example.postservice.controllers;
 
+import com.example.postservice.dto.CommentDTO;
 import com.example.postservice.dto.LikeDTO;
 import com.example.postservice.dto.UserDTO;
 import com.example.postservice.models.Comment;
@@ -25,10 +26,15 @@ public class LikeController {
     private CommentService commentService;
 
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody ResponseEntity<Like> addNewPost (@Valid @RequestBody LikeDTO likeDTO) {
+    public @ResponseBody ResponseEntity<Like> addNewLike (@Valid @RequestBody LikeDTO likeDTO) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-        Like like = new Like();
+        var like =  likeService.checkExistsByCommentLikeId(likeDTO.getCommentId(), likeDTO.getUserId());
+        if ( like!= null){
+            likeService.Delete(like.getId().longValue());
+            return ResponseEntity.status(204).body(like);
+        }
+        like = new Like();
         Comment comment = commentService.FindById(likeDTO.getCommentId());
         like.setComment(comment);
         like.setUser_id(likeDTO.getUserId());
@@ -37,7 +43,7 @@ public class LikeController {
     }
 
     @DeleteMapping("/delete")
-    public @ResponseBody ResponseEntity<Boolean> deletePost(@RequestParam Long id){
+    public @ResponseBody ResponseEntity<Boolean> deleteLike(@RequestParam Long id){
         likeService.Delete(id);
         return ResponseEntity.status(204).body(true);
     }
