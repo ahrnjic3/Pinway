@@ -22,6 +22,10 @@ const UserProfile = () => {
     const [isCollectionsModalOpen, setIsCollectionsModalOpen] = useState(false);
     const navigate = useNavigate();
 
+    const handleEditProfile = () => {
+      navigate('/users/profile/edit');
+    }
+
     useEffect(() => {
         const fetch = async () => {
           try {
@@ -115,10 +119,19 @@ const UserProfile = () => {
         {/* user  */}
         {user && (
           <div className="offset-1 col-md-9 text-center mx-auto">
-            <img src={monkey} alt=""  className="d-inline-block align-text-top"></img>
-            <div>{user.name} {user.surname}</div>
-            <div>@{user.username}</div>
-            <div className="text-secondary">{user.following.length} Following</div>
+            <img src={monkey} alt="" className="d-inline-block align-text-top" />
+            <div style={{ margin: '0.5rem 0' }}>
+              <div style={{ fontSize: '1.2rem' }}>{user.name} {user.surname}</div>
+              <div className="text-secondary">@{user.username}</div>
+              <div style={{ fontSize: '0.9rem' }}>
+                {user.following.length} following
+              </div>
+            </div>
+            <button 
+              className="btn rounded" 
+              style={{ backgroundColor: 'lightgrey', color: 'white' }}
+              onClick={handleEditProfile}
+            >Edit Profile</button>
           </div>
         )}
         {/* collections  */}

@@ -66,7 +66,15 @@ const UserDetails = () => {
         // Handle item click event
         console.log(`Clicked ${item.id}`);
         const id = item.id;
-        navigate("/collections", { state: { id } });
+        const userId = user.id;
+        navigate("/collections/user/details", { state: { id, userId } });
+      };
+
+      const handlePostClick = async (item) => {
+        // Handle item click event
+        console.log(`Clicked ${item.id}`);
+        const id = item.id;
+        navigate("/posts/details", { state: { id } });
       };
 
     
@@ -84,8 +92,9 @@ const UserDetails = () => {
     return (
       <div>
         <Loader isLoading={loading} />
+        {user && posts && collections && (
+          <div>
         {/* user  */}
-        {user && (
           <div className="offset-1 col-md-9 text-center mx-auto">
             <img src={monkey} alt="" className="d-inline-block align-text-top" />
             <div style={{ margin: '0.5rem 0' }}>
@@ -100,32 +109,38 @@ const UserDetails = () => {
               style={{ display: isVisible ? 'inline' : 'none', backgroundColor: '#d7a8f8', color: 'white' }}
             >Follow</button>
           </div>
-        )}
+
         {/* collections  */}
-        {collections && (
           <div className="offset-1 col-md-9 mx-auto">
             <div className="card border-0">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="text-secondary">Collections</div>
               </div>
+
               <div className="row">
                 <div className="card-body" style={{ border: '2px solid lightgrey', borderRadius: '10px', display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-                  {collections.map((collection) => (
-                    <div key={collection.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexBasis: '16%' }}>
-                      <button style={{ backgroundColor: '#f6f4f5' }} className="btn btn-light" onClick={() => handleItemClick(collection)}>
-                        <img width="90px" style={{ margin: '5px' }} className="rounded" src={collections_place_holder} alt={collection.name} />
-                        <div className="text-secondary" style={{ width: '90px', textAlign: 'left' }}>{collection.name}</div>
-                      </button>
-                    </div>
-                  ))}
+                {collections.length === 0 ? (
+                  <div style={{ margin: 'auto',  width: '100%', height: '100%'}}>
+                    <div style={{ color:'grey', textAlign: 'center' }}>There aren't any Collections yet.</div>
+                  </div>
+                  ) : (
+                  <div>
+                    {collections.map((collection) => (
+                      <div key={collection.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexBasis: '16%' }}>
+                        <button style={{ backgroundColor: '#f6f4f5' }} className="btn btn-light" onClick={() => handleItemClick(collection)}>
+                          <img width="90px" style={{ margin: '5px' }} className="rounded" src={collections_place_holder} alt={collection.name} />
+                          <div className="text-secondary" style={{ width: '90px', textAlign: 'left' }}>{collection.name}</div>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        )}
 
         {/* posts */}
-        {posts && (
           <div className="offset-1 col-md-9 mx-auto">
             <div className="card border-0">
               <div className="d-flex align-items-center justify-content-between">
@@ -133,19 +148,27 @@ const UserDetails = () => {
               </div>
               <div className="row">
                 <div className="card-body" style={{ border: '2px solid lightgrey', borderRadius: '10px', display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-                  {posts.map((post) => (
-                    <div key={post.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexBasis: '16%' }}>
-                      <button style={{ backgroundColor: '#f6f4f5' }} className="btn btn-light">
-                        <img width="100%" className="rounded" src={"http://localhost:8080/post-photos/" + post.id + "/" + post.image_path} alt={placeholder} />
-                      </button>
-                    </div>
-                  ))}
+                {posts.length === 0 ? (
+                  <div style={{ margin: 'auto',  width: '100%', height: '100%'}}>
+                    <div style={{ color:'grey', textAlign: 'center' }}>There aren't any Posts yet.</div>
+                  </div>
+                  ) : (
+                  <div>
+                    {posts.map((post) => (
+                        <div key={post.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexBasis: '16%' }}>
+                          <button style={{ backgroundColor: '#f6f4f5' }} className="btn btn-light" onClick={() => handlePostClick(post)}>
+                            <img width="100%" className="rounded" src={"http://localhost:8080/post-photos/" + post.id + "/" + post.image_path} alt={placeholder} />
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        )}
-
+        </div>
+        )}            
       </div>
 
     

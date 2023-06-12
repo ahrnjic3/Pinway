@@ -37,7 +37,7 @@ const Collections = () => {
       try {
         await deleteCollection(id);
         toast.success("Collection deleted!");
-        navigate("/users/");
+        navigate("/users/profile");
       } catch (err) {
         toast.error("Unable to delete collection!");
       } finally {
@@ -107,13 +107,33 @@ const Collections = () => {
                   <div className="container rounded offset-2 col-8 p-4" style={{ backgroundColor: '#d7a8f5' }}>
                     <div className="row">
                       <div className="col-md-12 text-center mb-3">
-                        <button className="btn btn-light">{collection.name}</button>
+                        <button 
+                          className="btn btn-light"
+                          style={{ 
+                            backgroundColor: '#ffffff', 
+                            color: 'grey', 
+                            borderRadius: '30px', 
+                            padding: '8px 16px', 
+                            fontSize: '16px' 
+                          }}
+                        >{collection.name}</button>
                       </div>
                     </div>
                     <div className="row">
                         <div className="col-md-6 text-center">
                         <div className="dropdown">
-                          <button className="btn btn-light text-secondary mb-1 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          <button 
+                            className="btn btn-light text-secondary mb-1 btn-sm dropdown-toggle" 
+                            style={{ 
+                              backgroundColor: '#ffffff', 
+                              color: 'grey', 
+                              borderRadius: '30px', 
+                              padding: '6px 12px', 
+                              fontSize: '14px' 
+                            }}
+                            type="button" id="dropdownMenuButton1" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false">
                             Share
                           </button>
                           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -132,7 +152,17 @@ const Collections = () => {
                           {/* <button className="btn btn-light text-secondary mb-1 btn-sm">Share</button> */}
                         </div>
                         <div className="col-md-6 text-center">
-                          <button className="btn btn-light text-secondary mb-1 btn-sm" onClick={handleClick}>Delete</button>
+                          <button 
+                            className="btn btn-light text-secondary mb-1 btn-sm" 
+                            onClick={handleClick}
+                            style={{ 
+                              backgroundColor: '#ffffff', 
+                              color: 'grey', 
+                              borderRadius: '30px', 
+                              padding: '6px 12px', 
+                              fontSize: '14px' 
+                            }}
+                          >Delete</button>
                         </div>
                     </div>
                   </div>

@@ -25,8 +25,7 @@
 label {
   display: block;
   margin-bottom: 5px;
-  color: #7d48b1;
-  font-weight: bold;
+  color: black;
 }
 
 .form-group input[type='text']::placeholder,
@@ -38,7 +37,7 @@ label {
 .form-group input[type='text']:focus,
 .form-group input[type='email']:not(:placeholder-shown),
 .form-group input[type='email']:focus {
-  border-color: #7d48b1;
+  border-color: lightgrey;
 }
 
 .form-group input[type='text'],

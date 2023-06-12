@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import './EditProfile.css';
-import currentPhotoURL from 'images/place_holder.png';
 import { getUserById, updateUser, addUserPhoto} from "api/users";
 
 const EditProfile = () => {
@@ -71,10 +70,12 @@ const EditProfile = () => {
 
   return (
    <div className="container w-75">
-       <h2 className='section-title m-4'>Edit Profile</h2>
+       <h5 className='mb-3 mt-3'>Edit Profile</h5>
+       <p className='mb-5'>People visiting your profile will see the following info</p>
        <div className="col-10 mx-auto">
         <div className="row">
           <div className="col-4">
+            {/* profile image */}
             <img className="rounded-circle  img-responsive" src={"https://i.pinimg.com/564x/84/3a/13/843a13b38250110cc297af7862343a01.jpg" } alt='currentPhotoURL' style={{borderRadius:"50%", width:"200px", height:"200px",objectFit:"cover"}} />
           </div>
           <div className="col-8">
@@ -139,7 +140,7 @@ const EditProfile = () => {
 
       <div className="row">
         <div className="offset-10 col-2">
-          <button className='btn btn-blk w-100' style={{background: '#d7a8f5 100%'}} onClick={handleUpdateUSer}>Save Profile</button>
+          <button className='btn btn-blk w-100' style={{background: 'lightgrey 100%', color: 'grey'}} onClick={handleUpdateUSer}>Save</button>
         </div>
       </div>
    </div>

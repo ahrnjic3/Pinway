@@ -11,15 +11,14 @@ import LogIn from "./Users/LogIn"
 import Registration from "./Users/Registration"
 import Footer from 'components/Footer';
 
-
-import CollectionDetails from "components/Collections/CollectionDetails";
+import HomePage from "components/HomePage";
 import PostCreate from "./Posts/PostCreate";
 import PostDetails from "./Posts/PostDetails";
-import HomePage from "components/HomePage";
-import EditProfile from "./Users/EditProfile";
-
 import UserProfile from "components/Users/UserProfile";
 import UserDetails from "components/Users/UserDetails";
+import EditProfile from "./Users/EditProfile";
+import CollectionOtherUser from "components/Collections/CollectionOtherUser";
+import CollectionDetails from "components/Collections/CollectionDetails";
 
 const Root = () => (
   <div>
@@ -41,6 +40,7 @@ const Root = () => (
         <Route path="/home" element={<HomePage />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/collections/details" element={<CollectionDetails />} />
+        <Route path="/collections/user/details" element={<CollectionOtherUser />} />
         <Route path="/users/details" element={<UserDetails/>} />
         <Route path="/users/profile" element={<UserProfile/>} />
         <Route path="/login" element={<LogIn />} />
@@ -49,10 +49,10 @@ const Root = () => (
         <Route path="/posts/details" element={<PostDetails/>} />
         <Route path="/addPost" element={<PostCreate/>} />
         <Route path="/postDetails" element={<PostDetails/>} />
-        <Route path="/EditProfile" element={<EditProfile/>} />
+        <Route path="/users/profile/edit" element={<EditProfile/>} />
       </Routes>
     </Router>
-    <Footer></Footer>
+    {/* <Footer></Footer> */}
   </div>
 );
 

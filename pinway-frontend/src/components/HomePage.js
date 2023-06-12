@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useNavigate, useLocation  } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 import 'components/Scrollbar.css';
 
 import Loader from "components/Loader";
