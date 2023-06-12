@@ -1,11 +1,10 @@
 package com.example.userservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
-import java.util.List;
+
 
 public class CollectionDTO {
 
@@ -16,7 +15,7 @@ public class CollectionDTO {
     private String name;
 
     @NotNull
-    private UserVisibilityTypeDTO userVisibilityTypeDTO;
+    private CollectionVisibilityTypeDTO collectionVisibilityTypeDTO;
 
     @PastOrPresent
     @NotNull
@@ -42,12 +41,12 @@ public class CollectionDTO {
         this.name = name;
     }
 
-    public UserVisibilityTypeDTO getUserVisibilityTypeDTO() {
-        return userVisibilityTypeDTO;
+    public CollectionVisibilityTypeDTO getCollectionVisibilityTypeDTO() {
+        return collectionVisibilityTypeDTO;
     }
 
-    public void setUserVisibilityTypeDTO(UserVisibilityTypeDTO userVisibilityTypeDTO) {
-        this.userVisibilityTypeDTO = userVisibilityTypeDTO;
+    public void setCollectionVisibilityTypeDTO(CollectionVisibilityTypeDTO collectionVisibilityTypeDTO) {
+        this.collectionVisibilityTypeDTO = collectionVisibilityTypeDTO;
     }
 
     public LocalDate getCreatedAt() {

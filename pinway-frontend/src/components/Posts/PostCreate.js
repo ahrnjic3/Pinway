@@ -46,7 +46,7 @@ const PostCreate = () => {
                 })
           const response2 = await addPostToCollection(collection, {"postId": response.id, actionUserId: localStorage.getItem("UserId")} )
           toast.success("Post created!");
-          navigate("/users");
+          navigate("/users/details");
         } catch (err) {
           toast.error("Post creation failed!");
           console.log(postString)

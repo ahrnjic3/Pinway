@@ -16,6 +16,7 @@ export const deleteCollection = async (id) => {
 };
 
 export const postCollection = async (data) => {
+  console.log("Collection is ", data);
   const response = await API.post(`/api/collections`, data ,{ headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
   return response.data;
 };

@@ -6,15 +6,18 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import HomeMenu from "components/HomeMenu";
-import Collections from "./Collections/Collections";
+import Collections from "components/Collections/Collections";
 import LogIn from "./Users/LogIn"
 import Registration from "./Users/Registration"
-import UserDetails from "components/Users/UserDetails"
-import CollectionDelete from "./Collections/CollectionDelete";
+
+import CollectionDetails from "components/Collections/CollectionDetails";
 import PostCreate from "./Posts/PostCreate";
 import PostDetails from "./Posts/PostDetails";
 import HomePage from "components/HomePage";
 import EditProfile from "./Users/EditProfile";
+
+import UserProfile from "components/Users/UserProfile";
+import UserDetails from "components/Users/UserDetails";
 
 const Root = () => (
   <div>
@@ -35,7 +38,9 @@ const Root = () => (
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/collections" element={<Collections />} />
+        <Route path="/collections/details" element={<CollectionDetails />} />
         <Route path="/users/details" element={<UserDetails/>} />
+        <Route path="/users/profile" element={<UserProfile/>} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/posts/create" element={<PostCreate/>} />

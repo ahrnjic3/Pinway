@@ -75,7 +75,7 @@ const EditProfile = () => {
        <div className="col-10 mx-auto">
         <div className="row">
           <div className="col-4">
-            <img className="rounded-circle  img-responsive" src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path } alt='currentPhotoURL' style={{borderRadius:"50%", width:"200px", height:"200px",objectFit:"cover"}} />
+            <img className="rounded-circle  img-responsive" src={"https://i.pinimg.com/564x/84/3a/13/843a13b38250110cc297af7862343a01.jpg" } alt='currentPhotoURL' style={{borderRadius:"50%", width:"200px", height:"200px",objectFit:"cover"}} />
           </div>
           <div className="col-8">
             <div className="mt-2 container ">

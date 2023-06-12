@@ -6,23 +6,20 @@ export const getCollectionsForUser = async (id) => {
   return response.data;
 };
 
+export const getVisibleCollectionsForUser = async (data) => {
+  console.log("This is data: ", data);
+  const response = await API.post(`/api/users/collection`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
+  console.log("This is response.data: ", response.data);
+  return response.data;
+}
+
 export const login = async (data) => {
   const response = await API.post(`/api/signin/login`, data);
   return response.data;
 };
 
-export const getFollowersForUser = async (id) => {
-  const response = await API.get(`/api/users/${id}/followers`, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` },  'Content-Type' : `application/json`  });
-  console.log("res" + response.data);
-  return response.data;
-};
-
-export const addFollowerForUser = async(id,data) => {
-  const response = await API.post(`/api/users/${id}/followers`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` },  'Content-Type' : `application/json`  } )
-  return response.data
-}
-
-export const addUserToCollection = async (id, {data}) => {
+export const addUserToCollection = async (id, data) => {
+  console.log(data);
   const response = await API.post(`/api/users/${id}/collection`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
   return response.data;
 };
@@ -52,5 +49,18 @@ export const addUserPhoto = async(image, data) => {
   form,
   { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}`, 'Content-Type' : `multipart/form-data`  } });
   return response.data;
-
 }
+
+//followers
+
+export const addFollowerForUser = async(id, data) => {
+  const response = await API.post(`/api/users/${id}/followers`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` },  'Content-Type' : `application/json`  } )
+  return response.data
+}
+
+export const getFollowersForUser = async (id) => {
+  const response = await API.get(`/api/users/${id}/followers`, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` },  'Content-Type' : `application/json`  });
+  console.log(response.data);
+  
+  return response.data;
+};

@@ -23,7 +23,7 @@ const LogIn = () => {
             localStorage.setItem("UserId",response.id);
           });
           toast.success("Logged in!");
-          navigate("/users/");
+          navigate("/home/");
         } catch (err) {
           toast.error("Login failed!");
           localStorage.setItem("Bearer", null);
@@ -44,7 +44,7 @@ const LogIn = () => {
                     <h3>Welcome to Pinway</h3>
 
                     <div className='form-group'>
-                        <label className='form-label'>Password</label>
+                        <label className='form-label'>Username</label>
                             <input
                                 className='form-control'
                                 type='text'

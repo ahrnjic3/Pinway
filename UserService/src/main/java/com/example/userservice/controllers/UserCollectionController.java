@@ -1,10 +1,9 @@
 package com.example.userservice.controllers;
 
 
-import com.example.userservice.dto.UserCollectionCreateDTO;
-import com.example.userservice.dto.UserDTO;
-import com.example.userservice.dto.UserResponseDTO;
+import com.example.userservice.dto.*;
 import com.example.userservice.models.User;
+import com.example.userservice.models.UserVisibilityType;
 import com.example.userservice.services.UserCollectionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,15 @@ public class UserCollectionController {
     public  @ResponseBody ResponseEntity GetAllCollectionsForUser(@PathVariable("id") Integer id) {
         UserResponseDTO userResponseDTO = userCollectionService.GetAllCollectionsForUser(id);
         return ResponseEntity.status(200).body(userResponseDTO);
+    }
+
+    // userId       - onaj od kojeg se trazi
+    // actionUserId - onaj koji trazi
+    // mora post zbog bodya
+    @PostMapping(path = "/users/collection")
+    public  @ResponseBody ResponseEntity GetSharedAndPublicCollectionsForUserFromUser(@Valid @RequestBody CollectionRequestDTO collectionRequestDTO) {
+        Iterable<CollectionDTO> collectionDTOS = userCollectionService.GetSharedAndPublicCollectionsForUserFromUser(collectionRequestDTO.getActionUserId(), collectionRequestDTO.getUserId());
+        return ResponseEntity.status(200).body(collectionDTOS);
     }
 
 

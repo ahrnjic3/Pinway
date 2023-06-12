@@ -56,6 +56,13 @@ const Collections = () => {
       }
     };
 
+    const handlePostClick = async (item) => {
+      // Handle item click event
+      console.log(`Clicked ${item.id}`);
+      const id = item.id;
+      navigate("/posts/details", { state: { id } });
+    };
+
     useEffect(() => {
         const fetch = async () => {
           try {
@@ -131,11 +138,30 @@ const Collections = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-9" style={{ border: '2px solid lightgrey', borderRadius: '10px', padding: "15px" }}>
+              <div className="col-md-9" style={{ border: '2px solid lightgrey', borderRadius: '10px', padding: '15px', textAlign: 'center' }}>
+              {posts.length === 0 ? (
+                <div style={{ margin: 'auto',  width: '100%', height: '100%'}}>
+                  <div style={{ color:'grey', textAlign: 'center' }}>There aren't any Pins on this board yet.</div>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                   {posts.map((post) => (
-                      <img key={post.id} width="180" style={{ height: getRandomHeight(), margin: '10px' }} className = "rounded" src={"http://localhost:8080/post-photos/" + post.id + "/" + post.image_path} alt={placeholder} ></img>
+                    <img
+                      key={post.id}
+                      onClick={() => handlePostClick(post)}
+                      width="180"
+                      style={{ height: getRandomHeight(), margin: '10px' }}
+                      className="rounded"
+                      src={'http://localhost:8080/post-photos/' + post.id + '/' + post.image_path}
+                      alt={placeholder}
+                    />
                   ))}
-              </div>
+                </div>
+              )}
+            </div>
+
+
+
             </div>
           )}
         </div>

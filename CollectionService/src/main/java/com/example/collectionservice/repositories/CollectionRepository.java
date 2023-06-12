@@ -27,4 +27,6 @@ public interface CollectionRepository extends CrudRepository<Collection, Integer
 
     List<Collection> findAllByIsDeletedAndUserId(Boolean deleted, Integer id);
 
+    List<Collection> findAllByIsDeletedAndUserIdAndCollectionVisibilityType_Id(Boolean deleted, Integer id, Integer typeId);
+
 }

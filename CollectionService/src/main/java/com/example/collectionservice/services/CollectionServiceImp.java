@@ -131,6 +131,12 @@ public class CollectionServiceImp implements CollectionService{
 
     }
 
+    @Override
+    public Iterable<Collection> FindPublicCollectionsForUser(Integer id) {
+        Iterable<Collection> collections = collectionRepository.findAllByIsDeletedAndUserIdAndCollectionVisibilityType_Id(false, id, 2);
+        return  collections;
+    }
+
 
     @Override
     public Iterable<CollectionVisibilityType> ListVisibilityTypes() {

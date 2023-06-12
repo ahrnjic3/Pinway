@@ -13,6 +13,8 @@ public interface CollectionService {
 
     Iterable<Collection> FindAllByIds(Iterable<Integer> ids);
 
+    Iterable<Collection> FindPublicCollectionsForUser(Integer id);
+
     Collection Details(Integer id);
 
     Boolean Delete(Integer id);

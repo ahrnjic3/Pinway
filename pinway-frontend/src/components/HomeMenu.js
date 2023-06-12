@@ -16,7 +16,7 @@ const HomeMenu = () => {
   const [search, setSearch] = useState(globalSearch || '');
 
   const handleAddPost = async () => {
-    navigate('/posts/create')
+    navigate('/posts/create');
   }
 
   const handleSearchChange = (e) => {
@@ -24,15 +24,17 @@ const HomeMenu = () => {
   };
 
   const handleSearchClick = async () => {
+    navigate('/home');
     console.log("Search bar value: ", search);
     setGlobalSearch(search);
+    
   };
 
   return (
     <div>
       <nav style={{backgroundColor: '#d7a8f5', padding: '5px'}} className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/#">
+          <a className="navbar-brand" href="/home">
             <img src={pinway_logo} alt="" width="132" height="32" className="d-inline-block align-text-top"></img>
           </a>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">

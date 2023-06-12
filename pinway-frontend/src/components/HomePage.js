@@ -14,6 +14,7 @@ const Root = () => {
     const [loading, setLoading] = useState(true);
 
     const {search} = useStore();
+    const navigate = useNavigate();
 
     const [hashtags, setHashtag] = useState(null);
     const [posts, setPosts] = useState([]);
@@ -49,6 +50,13 @@ const Root = () => {
     const handleItemClick = async (item) => {
         // Handle item click event
         console.log(`Clicked ${item.name}`);
+    };
+
+    const handlePostClick = async (item) => {
+      // Handle item click event
+      console.log(`Clicked ${item.id}`);
+      const id = item.id;
+      navigate("/posts/details", { state: { id } });
     };
 
 
@@ -100,6 +108,7 @@ const Root = () => {
         className="rounded"
         src={"http://localhost:8080/post-photos/" + post.postDTO.id + "/" + post.postDTO.image_path}
         alt=""
+        onClick={() => handlePostClick(post.postDTO)}
       ></img>
     ))}
   </div>

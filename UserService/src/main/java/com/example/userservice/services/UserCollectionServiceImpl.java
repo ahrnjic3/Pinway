@@ -117,4 +117,40 @@ public class UserCollectionServiceImpl implements UserCollectionService{
         }
         return userDTOList;
     }
+
+    @Override
+    public Iterable<CollectionDTO> GetSharedAndPublicCollectionsForUserFromUser(Integer actionUserId, Integer userId) {
+        // actionUserId
+        // userId
+        // first get all collections from userId
+
+        // then check the user_collection table to see if there is
+        // a collection id inside with actionUserid binded
+
+        //also if the collection is public save its id :) easy peasy lemon squeezy
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (!userOpt.isPresent())
+            throw new PinwayError("Not found User with id = " + userId);
+
+        Optional<User> actionUserOpt = userRepository.findById(actionUserId);
+        if (!actionUserOpt.isPresent())
+            throw new PinwayError("Not found User with id = " + actionUserId);
+
+        List<CollectionDTO> collectionDTOS = collectionService.GetAllCollectionsForUser(userId);
+
+        // public ones
+        List<CollectionDTO> publicCollectionDTOS = collectionService.GetPublicCollectionsForUser(userId);
+
+        for (CollectionDTO collectionDTO : collectionDTOS) {
+
+            //now check the user_collection table
+            List<UserCollection> userCollection = userCollectionRepository.getByCollectionId(collectionDTO.getId());
+            for (UserCollection uc : userCollection) {
+                if(uc.getUser().getId() == actionUserId)
+                    publicCollectionDTOS.add(collectionDTO);
+            }
+        }
+
+        return publicCollectionDTOS;
+    }
 }
