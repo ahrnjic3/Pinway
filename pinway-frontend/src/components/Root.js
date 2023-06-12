@@ -9,6 +9,8 @@ import HomeMenu from "components/HomeMenu";
 import Collections from "components/Collections/Collections";
 import LogIn from "./Users/LogIn"
 import Registration from "./Users/Registration"
+import Footer from 'components/Footer';
+
 
 import CollectionDetails from "components/Collections/CollectionDetails";
 import PostCreate from "./Posts/PostCreate";
@@ -50,6 +52,7 @@ const Root = () => (
         <Route path="/EditProfile" element={<EditProfile/>} />
       </Routes>
     </Router>
+    <Footer></Footer>
   </div>
 );
 
