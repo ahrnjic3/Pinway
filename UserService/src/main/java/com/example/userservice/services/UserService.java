@@ -17,7 +17,7 @@ public interface UserService {
 
         Boolean Delete(Integer id);
 
-        User Update(Integer id, User user);
+        User Update(Integer id, UserDTO user);
 
         Iterable<UserVisibilityType> ListUserVisibilityTypes();
 

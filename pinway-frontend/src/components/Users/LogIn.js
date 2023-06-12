@@ -27,7 +27,7 @@ const LogIn = () => {
         } catch (err) {
           toast.error("Login failed!");
           localStorage.setItem("Bearer", null);
-        localStorage.setItem("UserId", 0);
+          localStorage.setItem("UserId", 0);
         }
       };
     

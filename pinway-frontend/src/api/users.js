@@ -36,7 +36,7 @@ export const addUSer = async(data) => {
 }
 
 export const updateUser = async(id,data) => {
-  const response = await API.put(`/api/users/${id}`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` }} )
+  const response = await API.put(`/api/users/${id}`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` }, 'Content-Type' : `application/json`} )
   return response.data;
 }
 

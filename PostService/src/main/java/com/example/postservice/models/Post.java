@@ -17,7 +17,7 @@ public class Post {
     @NotBlank(message = "Title must contain at least 1 character")
     @Size(max = 50, message = "Title must contain less than 50 characters")
     private String title;
-    @Size(max = 500, message = "Title must contain less than 50 characters")
+    @Size(max = 500, message = "Description must contain less than 500 characters")
     private String description;
 
     @NotBlank(message = "Image is mandatory")

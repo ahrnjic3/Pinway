@@ -2,6 +2,7 @@ package com.example.userservice.controllers;
 
 import com.example.postservice.utils.FileUploadUtil;
 import com.example.userservice.dto.UserDTO;
+import com.example.userservice.dto.UserIdDTO;
 import com.example.userservice.models.User;
 import com.example.userservice.models.UserVisibilityType;
 import com.example.userservice.services.UserService;
@@ -54,8 +55,8 @@ public class UserController {
 
     }
 
-    @PutMapping("/users/{id}")
-    public @ResponseBody ResponseEntity Update(@PathVariable("id") Integer id, @Valid @RequestBody User requestBody) {
+    @PutMapping(consumes = "application/json", path = "/users/{id}")
+    public @ResponseBody ResponseEntity Update(@PathVariable("id") Integer id, @Valid @RequestBody UserDTO requestBody) {
         User updated = userService.Update(id, requestBody);
         return ResponseEntity.status(200).body(updated);
 
@@ -71,8 +72,8 @@ public class UserController {
     // FOLLOWERS AND FOLLOWING
 
     @PostMapping(path="/users/{id}/followers")
-    public @ResponseBody ResponseEntity AddFollower (@PathVariable("id") Integer id, @Valid @RequestBody Integer requestBody) {
-        UserDTO userDTO = userService.AddFollower(id, requestBody);
+    public @ResponseBody ResponseEntity AddFollower (@PathVariable("id") Integer id, @RequestBody UserIdDTO requestBody) {
+        UserDTO userDTO = userService.AddFollower(id, requestBody.getId());
         return ResponseEntity.status(201).body(userDTO);
     }
 
