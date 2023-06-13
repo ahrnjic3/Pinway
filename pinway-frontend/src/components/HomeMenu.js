@@ -30,10 +30,12 @@ const HomeMenu = () => {
     setGlobalSearch(search);
     
   };
-  
+
 
   const handleLogOut = async () => {
-    // TODO: implement logout 
+    localStorage.setItem("Bearer", null)
+    localStorage.setItem("UserId",0)
+    navigate("/login")
   }
 
   const handleProfile = async () => {
@@ -52,21 +54,20 @@ const HomeMenu = () => {
           console.log(e);
         }
       };
-  
+
       fetch();
   }, [search]);
 
   return (
     <div>
-      {user && (
       <nav style={{backgroundColor: '#d7a8f5', padding: '5px'}} className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <a className="navbar-brand" href="/home">
-            <img 
+            <img
               src={pinway_logo}
               alt=""
-              width="132" 
-              height="32" 
+              width="132"
+              height="32"
               className="d-inline-block align-text-top"></img>
           </a>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -81,26 +82,27 @@ const HomeMenu = () => {
           <div className="d-flex">
             <Notifications/>
             <div className="dropdown col-3">
-              <img 
-                className="border-0 d-flex d-flex align-items-center justify-content-center dropdown-toggle rounded-circle" 
+              <img
+                className="border-0 d-flex d-flex align-items-center justify-content-center dropdown-toggle rounded-circle"
                 // not sure if this is ok
-                src={"http://localhost:8080/post-photos/" + user.id + "/" + user.image_path}
+                // src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path}
+                src = {placeholder}
                 alt=''
-                width="35" 
-                height="35" 
-                aria-expanded="false" 
+                width="35"
+                height="35"
+                aria-expanded="false"
                 data-bs-toggle="dropdown"
               ></img>
               <div className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                <button 
-                  className="dropdown-item" 
+                <button
+                  className="dropdown-item"
                   style={{ fontSize: '13px', padding: '5px 10px' }} type="button"
                   onClick={handleProfile}
                 >
                   Profile
                 </button>
                 <button
-                  className="dropdown-item" 
+                  className="dropdown-item"
                   style={{ fontSize: '13px', padding: '5px 10px' }} type="button"
                   onClick={handleLogOut}
                 >
@@ -112,7 +114,6 @@ const HomeMenu = () => {
           </div>
         </div>
       </nav>
-      )}
     </div>
   );
 };

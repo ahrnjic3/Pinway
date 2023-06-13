@@ -9,21 +9,21 @@ import placeholder from  "images/place_holder.png";
 import { getPostById , getCommentsForPost, addComment, addLike} from 'api/posts';
 import { getUserById, getFollowersForUser, addFollowerForUser } from 'api/users';
 import { getCollectionsForUser, addPostToCollection } from 'api/collections';
+import Loader from "components/Loader";
 
 
 const PostDetails = () => {
 
     const [postDetails, setPostDetails] = useState();
     const [UserDetails, setUserDetails] = useState();
-    const [UserFollowers, setUserFollowers] = useState();
     const [postComments, setPostComments] = useState();
     const [loggedInUserDetails, setLoggedInUserDetails] = useState();
-    const [loggedInUserFollowers, setLoggedInUserFollowers] = useState();
     const [newCommentContent, setNewCommentContent] = useState("");
     const [userCollections, setUserCollections] = useState()
-    const [collection, setCollection] = useState()
+    const [collection, setCollection] = useState(null)
     const [selectedCollectionName, setSelectedCollectionName] = useState()
-
+    const [loading, setLoading] = useState(true);
+    const [followers, setFollowers] = useState();
     const [isVisible, setIsVisible] = useState(null);
 
     const location = useLocation();
@@ -51,6 +51,7 @@ const PostDetails = () => {
     const addCommentHandle = async () => {
         if (newCommentContent.length === 0){
           toast.error("Comment is empty!");
+          return;
         }
         const data = {id:0, content:newCommentContent, post_id: postId, user_id: loggedInUserDetails.id}
         const response = await addComment(data)
@@ -69,6 +70,7 @@ const PostDetails = () => {
 
     const handleFollow = async(user) => {
       console.log("You want to folow user ", user.name);
+      await addFollowerForUser(loggedInUserDetails.id, {id: UserDetails.id})
     };
 
     const handleCollectionItemClick = (item) => {
@@ -77,7 +79,16 @@ const PostDetails = () => {
     }
     
     const handleAddToCollection = async(e) => {
-      if( selectedCollectionName.length === 0){
+      if(collection == null){
+        toast.error("Please pick a collection");
+        return;
+      }
+
+      if(userCollections.length == 0){
+        toast.error("No collections available");
+        return;
+      }
+      if( selectedCollectionName.length == 0){
         toast.error("Please select the connection you wish to pin the post to!");
         return;
       }
@@ -92,7 +103,6 @@ const PostDetails = () => {
       const fetch = async () => {
         try{
           const response = await getPostById(postId)
-
           setPostDetails(response)
           const user = await getUserById(response.userDTO.id)
           setUserDetails(user)
@@ -106,7 +116,13 @@ const PostDetails = () => {
           const collectResponse = await getCollectionsForUser(localStorage.getItem("UserId"));
           setUserCollections(collectResponse);
 
-          if(localStorage.getItem("UserId") !== response.postDTO.id)
+          
+          const responseFollowers = await getFollowersForUser(UserDetails.id);
+          setFollowers(responseFollowers);
+          
+        
+          const containsId = responseFollowers.some(obj => obj.id === parseInt(localStorage.getItem("UserId")));
+          if(containsId !== true)
             setIsVisible(true);
 
           if(userCollections.length > 0){
@@ -115,9 +131,8 @@ const PostDetails = () => {
           }
 
         }catch (e) {
-          //setError("Unable to fetch collections for user!");
         } finally {
-          //setLoading(false);
+          setLoading(false);
         }
         
       }
@@ -126,8 +141,10 @@ const PostDetails = () => {
   
 
     return (
+      <div>
+        <Loader isLoading={loading} />
+        {postDetails && UserDetails && postComments && loggedInUserDetails && userCollections &&  (
         <div className="container rounded row mx-auto my-5 px-2 py-3 w-75"  style={{background: '#d7a8f5 100%'}}>
-          {postDetails && UserDetails && postComments && loggedInUserDetails && userCollections &&  (
           <div>
             <div className="row">
               <div className="col-6 rounded pt-4 d-flex align-items-center flex-column">
@@ -163,8 +180,8 @@ const PostDetails = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-6 mt-2 ms">
-                        <div className='form-group'>
+                    <div className="col-6 mt-2">
+                        <div className='form-group '>
                             <input
                                 className='form-control'
                                 type='text'
@@ -192,23 +209,23 @@ const PostDetails = () => {
                     <div className="col-8 d-flex align-items-center">
                       <div className="col-2 me-3">
                         <img 
-                          src={"http://localhost:8080/post-photos/" + UserDetails.id + "/" + UserDetails.image_path}
+                          src={"http://localhost:8083/user-photos/" + UserDetails.id + "/" + UserDetails.image_path}
                           alt={placeholder} 
-                          className="rounded-circle w-100 img-fluid"></img>
+                          className="rounded-circle" style={{height:"50px", width:"50px"}}></img>
                       </div>
                       <div className="col-10 ">
                         <p className="text-center-left mb-0"  style={{ fontSize: 16, color: "white" }}>{UserDetails.name + " "+ UserDetails.surname}</p>
                         <p className="text-center-left mb-0" style={{ fontSize: 10, color: "white" }}>{UserDetails.following.length} Following</p>
                       </div>
                     </div>
-                    <div className="offset-1 col-3 d-flex align-items-center">
+                    {UserDetails.id != loggedInUserDetails.id && (<div className="offset-1 col-3 d-flex align-items-center">
                       <button 
                         className="btn btn-light btn-block w-100"
                         // style={{ display: isVisible ? 'block' : 'none' }}
                         style={{ display: isVisible ? 'block' : 'none' }}
                         onClick={() => {handleFollow(UserDetails)}}
                       >Follow</button>
-                    </div>
+                    </div>)}
                   </div>
                   
 
@@ -230,7 +247,7 @@ const PostDetails = () => {
                                         <p className="text-center-left mb-0"  style={{ fontSize: 16}} onClick={() => {handleOpenUserDetails(comment)}} >{comment.userDTO.name + " " + comment.userDTO.surname}</p>
                                       </div>
                                       { !comment.commentDTO.likes.some(like => {
-                                        return like.userId === localStorage.getItem("UserId")  && like.commentId === comment.commentDTO.id
+                                        return like.userId == localStorage.getItem("UserId")  && like.commentId === comment.commentDTO.id
                                       }) && (<div className="col-3 text-end">
                                         <button className="btn" onClick={() => addLikeHandle({commentId: comment.commentDTO.id, userId: localStorage.getItem("UserId")})}>
                                           <svg className="http://www.w3.org/2000/svg bi bi-heart" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -240,7 +257,7 @@ const PostDetails = () => {
                                       </div>)}
 
                                       { comment.commentDTO.likes.some(like => {
-                                        return like.userId === localStorage.getItem("UserId") && like.commentId === comment.commentDTO.id
+                                        return like.userId == localStorage.getItem("UserId") && like.commentId === comment.commentDTO.id
                                       }) && (<div className="col-3 text-end">
                                         <button className="btn" onClick={() => addLikeHandle({commentId: comment.commentDTO.id, userId: localStorage.getItem("UserId")})}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" className="bi bi-heart-fill" viewBox="0 0 16 16">
@@ -285,8 +302,8 @@ const PostDetails = () => {
                     </div>
                   </div>
             </div>
-)}
-</div>
+      </div>)}
+    </div>
 )
 }
 

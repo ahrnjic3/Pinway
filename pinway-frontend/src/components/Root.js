@@ -11,14 +11,17 @@ import LogIn from "./Users/LogIn"
 import Registration from "./Users/Registration"
 import Footer from 'components/Footer';
 
-import HomePage from "components/HomePage";
+
+import CollectionDetails from "components/Collections/CollectionDetails";
 import PostCreate from "./Posts/PostCreate";
 import PostDetails from "./Posts/PostDetails";
+import HomePage from "components/HomePage";
+import EditProfile from "./Users/EditProfile";
+
 import UserProfile from "components/Users/UserProfile";
 import UserDetails from "components/Users/UserDetails";
-import EditProfile from "./Users/EditProfile";
-import CollectionOtherUser from "components/Collections/CollectionOtherUser";
-import CollectionDetails from "components/Collections/CollectionDetails";
+import ShowHomeMenu from "./ShowHomeMenu";
+import CollectionOtherUser from "./Collections/CollectionOtherUser";
 
 const Root = () => (
   <div>
@@ -34,7 +37,9 @@ const Root = () => (
       pauseOnHover
     />
     <Router>
-      {localStorage.getItem("Bearer") !== null && <HomeMenu />}
+      <ShowHomeMenu>
+        <HomeMenu />
+      </ShowHomeMenu>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/home" element={<HomePage />} />

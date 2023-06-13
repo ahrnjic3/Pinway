@@ -18,9 +18,9 @@
 }
 
 
-.form-group {
+/* .form-group {
   margin-bottom: 15px;
-}
+} */
 
 label {
   display: block;
@@ -33,18 +33,17 @@ label {
   color: #aaa;
 }
 
-.form-group input[type='text']:not(:placeholder-shown),
+/* .form-group input[type='text']:not(:placeholder-shown),
 .form-group input[type='text']:focus,
 .form-group input[type='email']:not(:placeholder-shown),
 .form-group input[type='email']:focus {
-  border-color: lightgrey;
-}
+  border-color: #7d48b1;
+} */
 
 .form-group input[type='text'],
 .form-group input[type='email'],
 .form-group textarea {
   width: 100%;
-  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }

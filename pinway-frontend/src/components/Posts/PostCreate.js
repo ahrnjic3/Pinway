@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Loader from "components/Loader";
 
 import { addPost } from 'api/posts';
 import { getCollectionsForUser, addPostToCollection } from 'api/collections';
@@ -11,7 +12,7 @@ const params = {
 
 const PostCreate = () => {
 
-    const [files, setFiles] = useState('');
+    const [files, setFiles] = useState(null);
     //state for checking file size
     const [fileSize, setFileSize] = useState(true);
     // for file upload progress message
@@ -21,32 +22,57 @@ const PostCreate = () => {
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [hashtags, setHashtags] = useState('')
+    const [hashtags, setHashtags] = useState("")
     const [postString, setPostString] = useState({})
     const [userCollections, setUserCollections] = useState()
-    const [collection, setCollection] = useState()
+    const [collection, setCollection] = useState(null)
     const [selectedCollectionName, setSelectedCollectionName] = useState()
+    const [loading, setLoading] = useState(true);
     //base end point url
 
     const navigate = useNavigate();
 
     const handleFileUpload = async (e) => {
         e.preventDefault()
-        
+        if(files == null)
+        {
+          toast.error("Please add an image you wish to upload");
+          return;
+        }
+        if(title.length == 0){
+          toast.error("Please add a title");
+          return;
+        }
+        if(title.length > 50){
+          toast.error("Title must contain less than 50 characters");
+          return;
+        }
+        if(description.length > 500){
+          toast.error("Description must contain less than 500 characters");
+          return;
+        }
+        if(collection == null){
+          toast.error("Please pick a collection");
+          return;
+        }
+
         try {
+          const hashObject = []
+          if(hashtags.length != 0)
+          hashObject = hashtags.split(/\s+/).filter(substring => substring !== "")
           const response = await addPost(
             files,
             {
                 title : title,
                 description : description,
                 image_path : '',
-                hashtagNames: hashtags.split(/\s+/).filter(substring => substring !== ""),
+                hashtagNames: hashObject,
                 id: 1,
                 user_id: localStorage.getItem("UserId")
                 })
           const response2 = await addPostToCollection(collection, {"postId": response.id, actionUserId: localStorage.getItem("UserId")} )
           toast.success("Post created!");
-          navigate("/users/details");
+          navigate("/users/profile");
         } catch (err) {
           toast.error("Post creation failed!");
           console.log(postString)
@@ -74,8 +100,7 @@ const PostCreate = () => {
           setHashtags([]);
           //setError("Unable to fetch collections for user!");
         } finally {
-          //setLoading(false);
-          console.log("state " + userCollections)
+          setLoading(false);
         }
       };
       fetch();
@@ -91,93 +116,96 @@ const PostCreate = () => {
     }
 
     return (
-      <div className="container rounded row mx-auto my-5 px-2 py-3"  style={{background: '#d7a8f5 100%', width: '50%'}}>
+      <div>
+        <Loader isLoading={loading} />
         {userCollections && (
-          <div>
-            <div className="row">
-              <div className="col-6">
-                <div className="mt-2 container ">
-                  <form className="rounded pt-5 d-flex align-items-center flex-column" style={{background: 'white', height: '600px'}}>
-                        <figure className="text-center" style={{color: 'grey'}}>
-                          <blockquote className="blockquote">
-                            <p>Add the image you</p>
-                            <p>with to post</p>
-                          </blockquote>
-                        </figure>
-                      <div className="container rounded mt-auto mb-4 w-75" >
-                        <input className="form-control" type="file" onChange={uploadFileHandler} id="formFile"  style={{background: '#d7a8f5 100%', color: 'grey'}}/>
-                      </div>
-                      {!fileSize && <p style={{color:'red'}}>File size exceeded!!</p>}
-                      {fileUploadProgress && <p style={{color:'red'}}>Uploading File(s)</p>}
-                      {fileUploadResponse!=null && <p style={{color:'green'}}>{fileUploadResponse}</p>}
-                  </form>
-                </div>
-              </div>
-              <div className="col-6 rounded pt-4 d-flex align-items-center flex-column">
-                <div className="row w-100">
-                  <div className='form-group w-100'>
-                    <label className='form-label rounded' style={{fontSize:20}} >Title</label>
-                    <input
-                        className='form-control'
-                        type='text'
-                        name='title'
-                        value = {title}
-                        placeholder='Title'
-                        onChange = {handleTitleChange}
-                    />
+        <div className="container rounded row mx-auto my-5 px-2 py-3"  style={{background: '#d7a8f5 100%', width: '50%'}}>
+            <div>
+              <div className="row">
+                <div className="col-6">
+                  <div className="mt-2 container ">
+                    <form className="rounded pt-5 d-flex align-items-center flex-column" style={{background: 'white', height: '600px'}}>
+                          <figure className="text-center" style={{color: 'grey'}}>
+                            <blockquote className="blockquote">
+                              <p>Add the image you</p>
+                              <p>with to post</p>
+                            </blockquote>
+                          </figure>
+                        <div className="container rounded mt-auto mb-4 w-75" >
+                          <input className="form-control" type="file" onChange={uploadFileHandler} id="formFile"  style={{background: '#d7a8f5 100%', color: 'grey'}}/>
+                        </div>
+                        {!fileSize && <p style={{color:'red'}}>File size exceeded!!</p>}
+                        {fileUploadProgress && <p style={{color:'red'}}>Uploading File(s)</p>}
+                        {fileUploadResponse!=null && <p style={{color:'green'}}>{fileUploadResponse}</p>}
+                    </form>
                   </div>
                 </div>
-                <div className="row w-100">
-                  <div className="form-group">
-                      <label htmlFor="textDesc" style={{color: "white", fontSize:20}}>Description</label>
-                      <textarea className="form-control" id="textDesc"  onChange = {handleDescriptionChange} rows="3"></textarea>
-                    </div>
-                  </div>
-                <div className="row w-100 mt-4">
-                  <div className='form-group col-9'>
+                <div className="col-6 rounded pt-4 d-flex align-items-center flex-column">
+                  <div className="row w-100">
+                    <div className='form-group w-100'>
+                      <label className='form-label rounded' style={{fontSize:20}} >Title</label>
                       <input
                           className='form-control'
                           type='text'
-                          name='collection'
-                          value = {selectedCollectionName}
-                          placeholder='Collection'
-                          disabled
+                          name='title'
+                          value = {title}
+                          placeholder='Title'
+                          onChange = {handleTitleChange}
                       />
-                  </div>
-
-                  <div className="dropdown col-3">
-                    <button className="btn btn-light text-secondary mb-1 btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                      Share
-                    </button>
-                    <div className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                      {userCollections.map((collection) => (
-                        <button
-                          key={collection.id}
-                          className="dropdown-item"
-                          type="button"
-                          onClick={() => handleCollectionItemClick(collection)}
-                        >
-                          {`${collection.name}`}
-                        </button>
-                      ))}
                     </div>
                   </div>
-                </div>
-
-                <div className='form-inputs rounded mt-auto '>
+                  <div className="row w-100">
                     <div className="form-group">
-                      <label htmlFor="exampleFormControlTextarea1" style={{color: "white", fontSize:20}}>Hashtags</label>
-                      <textarea className="form-control" id="exampleFormControlTextarea1"  onChange = {handleHashtagChange} rows="3"></textarea>
+                        <label htmlFor="textDesc" style={{color: "white", fontSize:20}}>Description</label>
+                        <textarea className="form-control" id="textDesc"  onChange = {handleDescriptionChange} rows="3"></textarea>
+                      </div>
                     </div>
+                  <div className="row w-100 mt-4">
+                    <div className='form-group col-9'>
+                        <input
+                            className='form-control'
+                            type='text'
+                            name='collection'
+                            value = {selectedCollectionName}
+                            placeholder='Collection'
+                            disabled
+                        />
+                    </div>
+
+                    <div className="dropdown col-3">
+                      <button className="btn btn-light text-secondary mb-1 btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Share
+                      </button>
+                      <div className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        {userCollections.map((collection) => (
+                          <button
+                            key={collection.id}
+                            className="dropdown-item"
+                            type="button"
+                            onClick={() => handleCollectionItemClick(collection)}
+                          >
+                            {`${collection.name}`}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className='form-inputs rounded mt-auto '>
+                      <div className="form-group">
+                        <label htmlFor="exampleFormControlTextarea1" style={{color: "white", fontSize:20}}>Hashtags</label>
+                        <textarea className="form-control" id="exampleFormControlTextarea1"  onChange = {handleHashtagChange} rows="3"></textarea>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="offset-10 col-2 mt-2">
+                  <button className="btn btn-light btn-blk w-100" onClick={handleFileUpload}>Upload</button>
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="offset-10 col-2 mt-2">
-                <button className="btn btn-light btn-blk w-100" onClick={handleFileUpload}>Upload</button>
-              </div>
-            </div>
-          </div>
+        </div>
         )}
       </div>
     )

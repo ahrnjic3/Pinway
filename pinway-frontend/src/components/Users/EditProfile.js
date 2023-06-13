@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import './EditProfile.css';
 import { getUserById, updateUser, addUserPhoto} from "api/users";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
 
@@ -17,6 +19,8 @@ const EditProfile = () => {
   const [surname, setSurname] = useState('');
   const [user, setUSer] = useState('');
 
+  const navigate = useNavigate();
+
   const uploadFileHandler = (event) => {
     setFiles(event.target.files);
    };
@@ -27,7 +31,6 @@ const EditProfile = () => {
       surname: surname,
       username: username,
       email: user.email,
-      password: user.password,
       userVisibilityType:{
           id:1,
           type: "PUBLIC"
@@ -38,11 +41,30 @@ const EditProfile = () => {
       numOfFollowers:0,
       userCollections:[]
   }
-    updateUser(user.id, data);
-    if(files != null){
-      addUserPhoto(files,{
-        "id":user.id
-      })
+
+  if(username.length == 0){
+    toast.error("Please set the username");
+    return;
+  }
+  if(name.length == 0){
+    toast.error("Please set the name");
+    return;
+  }
+  if(surname.length == 0){
+    toast.error("Please set the surname");
+    return;
+  }
+    try{
+      updateUser(user.id, data);
+      if(files != null){
+        addUserPhoto(files,{
+          "id":user.id
+        })
+      }
+    } catch(e){
+      toast.error("Some changes might hot have been saved")
+    } finally{
+      navigate("/users/profile")
     }
   }
 
@@ -75,8 +97,7 @@ const EditProfile = () => {
        <div className="col-10 mx-auto">
         <div className="row">
           <div className="col-4">
-            {/* profile image */}
-            <img className="rounded-circle  img-responsive" src={"https://i.pinimg.com/564x/84/3a/13/843a13b38250110cc297af7862343a01.jpg" } alt='currentPhotoURL' style={{borderRadius:"50%", width:"200px", height:"200px",objectFit:"cover"}} />
+            <img className="rounded-circle  img-responsive" src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path} alt='currentPhotoURL' style={{borderRadius:"50%", width:"200px", height:"200px",objectFit:"cover"}} />
           </div>
           <div className="col-8">
             <div className="mt-2 container ">
@@ -140,7 +161,7 @@ const EditProfile = () => {
 
       <div className="row">
         <div className="offset-10 col-2">
-          <button className='btn btn-blk w-100' style={{background: 'lightgrey 100%', color: 'grey'}} onClick={handleUpdateUSer}>Save</button>
+          <button className='btn btn-blk w-100 mt-2' style={{background: 'lightgrey 100%', color: 'grey'}} onClick={handleUpdateUSer}>Save</button>
         </div>
       </div>
    </div>

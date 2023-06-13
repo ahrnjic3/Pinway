@@ -82,6 +82,7 @@ public class UserServiceImpl implements UserService{
         userDTO.setPassword(user.getPassword());
         userDTO.setCreatedAt(user.getCreatedAt());
         userDTO.setUserVisibilityType(userVisibilityTypeDTO);
+        userDTO.setImage_path(user.getImage_path());
 
         List<UserDTO> followingDTOList = convertToDTOList(user.getFollowing());
         userDTO.setFollowing(followingDTOList);
@@ -125,7 +126,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User Update(Integer id, User user) {
+    public User Update(Integer id, UserDTO user) {
         Optional<User> u = userRepository.findById(id);
 
         if (!u.isPresent())
@@ -157,6 +158,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> optFollower = userRepository.findById(followingId);
         if (!optFollower.isPresent())
             throw new PinwayError("Not found User with id = " + followingId);
+
 
         User user = optUser.get();
         User follower = optFollower.get();
