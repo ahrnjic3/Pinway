@@ -13,6 +13,7 @@ const params = {
 const PostCreate = () => {
 
     const [files, setFiles] = useState(null);
+    const [fileURL,setFileURL] = useState("");
     //state for checking file size
     const [fileSize, setFileSize] = useState(true);
     // for file upload progress message
@@ -90,8 +91,9 @@ const PostCreate = () => {
         }
       };
 
-    const uploadFileHandler = (event) => {
-        setFiles(event.target.files);
+    const uploadFileHandler = (e) => {
+        setFiles(e.target.files);
+        setFileURL(URL.createObjectURL(e.target.files[0]));
        };
 
     useEffect(() => {
@@ -145,9 +147,11 @@ const PostCreate = () => {
                           <figure className="text-center" style={{color: 'grey'}}>
                             <blockquote className="blockquote">
                               <p>Add the image you</p>
-                              <p>with to post</p>
+                              <p>wish to post</p>
                             </blockquote>
                           </figure>
+                          {fileURL &&(<img  className = "rounded img-fluid max-width: 100% height: auto my-auto overflow-hidden mb-2"
+                          src={fileURL}></img>)}
                         <div className="container rounded mt-auto mb-2 w-75" >
                           <input className="form-control" type="file" onChange={uploadFileHandler} id="formFile"  style={{background: '#d7a8f5 100%', color: 'grey'}}/>
                         </div>
