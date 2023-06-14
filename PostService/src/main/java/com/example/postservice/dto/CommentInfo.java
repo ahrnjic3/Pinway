@@ -6,16 +6,19 @@ public class CommentInfo {
     private String content;
     private String message;
 
+    private Long postId;
+
     private Integer userId;
 
     private String username;
 
     private Integer actionUserId;
 
-    public CommentInfo(Long id, String content, String message, Integer userId, String username, Integer actionUserId) {
+    public CommentInfo(Long id, String content, String message, Long postId, Integer userId, String username, Integer actionUserId) {
         this.id = id;
         this.content = content;
         this.message = message;
+        this.postId = postId;
         this.userId = userId;
         this.username = username;
         this.actionUserId = actionUserId;
@@ -70,5 +73,13 @@ public class CommentInfo {
 
     public void setActionUserId(Integer actionUserId) {
         this.actionUserId = actionUserId;
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 }

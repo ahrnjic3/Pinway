@@ -48,6 +48,7 @@ public class MessagingConfig {
 //        return BindingBuilder.bind(queueFollowReverse).to(exchangeFollowReverse).with(REVERSE_ROUTING_KEY_FOLLOW);
 //    }
 
+
     @Bean
     public MessageConverter converter() {
         return new Jackson2JsonMessageConverter();

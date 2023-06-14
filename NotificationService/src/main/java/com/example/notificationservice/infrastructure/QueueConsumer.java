@@ -1,10 +1,7 @@
 package com.example.notificationservice.infrastructure;
 
 
-import com.example.notificationservice.dto.CommentInfo;
-import com.example.notificationservice.dto.FollowInfo;
-import com.example.notificationservice.dto.LikeInfo;
-import com.example.notificationservice.dto.PinInfo;
+import com.example.notificationservice.dto.*;
 import com.example.notificationservice.infrastructure.MessagingConfig;
 import com.example.notificationservice.models.Notification;
 import com.example.notificationservice.models.NotificationType;
@@ -37,6 +34,9 @@ public class QueueConsumer {
                 notification.setActionUserId(commentInfo.getActionUserId());
                 notification.setUserId(commentInfo.getUserId());
                 notification.setLikedComment(commentInfo.getId().intValue());
+                //the post id of the comment
+                notification.setPinnedPost(commentInfo.getPostId().intValue());
+
                 notification.setNotificationType(notificationType);
 
                 notificationService.Create(notification);
@@ -46,7 +46,7 @@ public class QueueConsumer {
                 System.out.println("Greska u dodavanju notifikacije!");
                 System.out.println(e.getMessage());
 
-                CommentInfo info = new CommentInfo(commentInfo.getId(), commentInfo.getContent(), "delete", commentInfo.getUserId(), commentInfo.getUsername(), commentInfo.getActionUserId());
+                CommentInfo info = new CommentInfo(commentInfo.getId(), commentInfo.getContent(), "delete", commentInfo.getPostId(), commentInfo.getUserId(), commentInfo.getUsername(), commentInfo.getActionUserId());
                 rabbitTemplate.convertAndSend(MessagingConfig.REVERSE_EXCHANGE, MessagingConfig.REVERSE_ROUTING_KEY, info);
             }
         }
@@ -63,6 +63,9 @@ public class QueueConsumer {
                 notification.setActionUserId(likeInfo.getActionUserId());
                 notification.setUserId(likeInfo.getUserId());
                 notification.setLikedComment(likeInfo.getId().intValue());
+                //the post id of the like
+                notification.setPinnedPost(likeInfo.getPostId().intValue());
+
                 notification.setNotificationType(notificationType);
 
                 notificationService.Create(notification);
@@ -72,7 +75,7 @@ public class QueueConsumer {
                 System.out.println("Greska u dodavanju notifikacije!");
                 System.out.println(e.getMessage());
 
-                LikeInfo info = new LikeInfo(likeInfo.getId(), "delete", likeInfo.getUserId(), likeInfo.getUsername(), likeInfo.getActionUserId());
+                LikeInfo info = new LikeInfo(likeInfo.getId(), "delete", likeInfo.getPostId(),likeInfo.getUserId(), likeInfo.getUsername(), likeInfo.getActionUserId());
                 rabbitTemplate.convertAndSend(MessagingConfig.REVERSE_EXCHANGE_LIKE, MessagingConfig.REVERSE_ROUTING_KEY_LIKE, info);
             }
         }
@@ -123,6 +126,4 @@ public class QueueConsumer {
             }
         }
     }
-
-
 }

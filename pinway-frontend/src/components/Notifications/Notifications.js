@@ -74,8 +74,7 @@ const Notifications = () => {
       console.log("id je: ", id);
       navigate("/users/details", { state: { id } });
     }
-    
-    if(item.notificationType.id === 4) {
+    else {
       const id = item.pinnedPost
       console.log("id je: ", id);
       navigate("/posts/details", { state: { id } });

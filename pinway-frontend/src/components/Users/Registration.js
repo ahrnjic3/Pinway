@@ -25,66 +25,54 @@ function Registration(){
 
     async function save(event)
         {
-        console.log("name", name)
-        event.preventDefault();
-        setUsernameError("");
-        setNameError("");
-        setSurnameError("");
-        setPasswordError("");
-        setEmailError("")
-        let error = false;
-        let regName = new RegExp('.+[@].+[\\.].+')
-        if (username.length == 0){
-            setUsernameError('Username cannot be empty')
-            error = true;
-        }
-        if (name.length == 0){
-            setNameError('First name cannot be empty')
-            error = true;
-        }
-        if (surname.length == 0){
-            setSurnameError('Last name cannot be empty')
-            error = true;
-        }
-        if (password.length == 0){
-            setPasswordError('Password cannot be empty')
-            error = true;
-        }
-        if (!regName.test(email)){
-            setEmailError('Please enter a valid email')
-            error = true;
-        }
+        // event.preventDefault();
+        // setUsernameError("");
+        // setNameError("");
+        // setSurnameError("");
+        // setPasswordError("");
+        // setEmailError("")
+        // let error = false;
+        // let regName = new RegExp('.+[@].+[\\.].+')
+        // if (username.length == 0){
+        //     setUsernameError('Username cannot be empty')
+        //     error = true;
+        // }
+        // if (name.length == 0){
+        //     setNameError('First name cannot be empty')
+        //     error = true;
+        // }
+        // if (surname.length == 0){
+        //     setSurnameError('Last name cannot be empty')
+        //     error = true;
+        // }
+        // if (password.length == 0){
+        //     setPasswordError('Password cannot be empty')
+        //     error = true;
+        // }
+        // if (!regName.test(email)){
+        //     setEmailError('Please enter a valid email')
+        //     error = true;
+        // }
 
-        if(error){
-            return;
-        }
+        // if(error){
+        //     return;
+        // }
 
-        error = false
-        try
-            {
-                console.log("mail " +email)
-                let a = await addUSer({
-                    name: name,
-                    surname: surname,
-                    username: username,
-                    email: email,
-                    password: password
-                })
-                console.log(a);
-            }
-        catch(err)
-            {
-            console.log("error: "+ err )
-            toast.error("Username or email already taken");
-            error = true
-            return;
-            }
-        finally{
-            if(error){
-                return;
-            }
-            toast.sucess("Registration confirmed");
+        // error = false
+
+        try {
+            const data = {
+                name: name,
+                surname: surname,
+                username: username,
+                email: email,
+                password: password
+            };
+            await addUSer(data)
+            toast.success("Registration confirmed");
             navigate("/login")
+        } catch(err) {
+            toast.error("Username or email already taken");
         }
    }
 

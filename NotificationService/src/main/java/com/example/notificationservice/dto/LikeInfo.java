@@ -5,6 +5,8 @@ public class LikeInfo {
     private Integer id;
     private String message;
 
+    private Long postId;
+
     private Integer userId;
 
     private String username;
@@ -15,9 +17,10 @@ public class LikeInfo {
     public LikeInfo() {
     }
 
-    public LikeInfo(Integer id, String message, Integer userId, String username, Integer actionUserId) {
+    public LikeInfo(Integer id, String message, Long postId, Integer userId, String username, Integer actionUserId) {
         this.id = id;
         this.message = message;
+        this.postId = postId;
         this.userId = userId;
         this.username = username;
         this.actionUserId = actionUserId;
@@ -61,5 +64,13 @@ public class LikeInfo {
 
     public void setActionUserId(Integer actionUserId) {
         this.actionUserId = actionUserId;
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 }

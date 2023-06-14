@@ -73,7 +73,11 @@ const HomeMenu = () => {
           </a>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <button style={{paddingRight: '10px'}} type="button" className="btn btn-outline-secondary pr-3" onClick ={handleAddPost}>New</button>
+              <button type="button" className="btn btn-outline-secondary" onClick ={handleAddPost}>
+              <svg className='mb-1 me-1' xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+              </svg>
+                New</button>
             </div>
             <div className="input-group" style={{ marginLeft: '10px', width: '80%' }}>
               <input type="text" className="form-control" value={search} onChange={handleSearchChange} placeholder="Search" />

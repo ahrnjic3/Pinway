@@ -3,8 +3,6 @@ package com.example.userservice.infrastructure;
 import com.example.userservice.dto.CollectionDTO;
 import com.example.userservice.dto.CollectionResponseDTO;
 import com.example.userservice.dto.CollectionUpdateDTO;
-import com.example.userservice.dto.CollectionUserDTO;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;

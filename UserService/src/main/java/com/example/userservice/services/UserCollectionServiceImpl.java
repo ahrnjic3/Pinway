@@ -4,6 +4,7 @@ package com.example.userservice.services;
 import com.example.userservice.dto.*;
 import com.example.userservice.exception.PinwayError;
 import com.example.userservice.infrastructure.CollectionService;
+import com.example.userservice.infrastructure.EventService;
 import com.example.userservice.models.User;
 import com.example.userservice.models.UserCollection;
 import com.example.userservice.repositories.UserCollectionRepository;
@@ -25,6 +26,9 @@ public class UserCollectionServiceImpl implements UserCollectionService{
 
     @Autowired
     private CollectionService collectionService;
+
+    @Autowired
+    private EventService eventService;
 
     @Override
     public UserDTO AddCollection(Integer id, UserCollectionCreateDTO userCollectionCreateDTO) {
@@ -50,6 +54,7 @@ public class UserCollectionServiceImpl implements UserCollectionService{
         );
 
         UserDTO userDTO = convertToDTO(user, userVisibilityTypeDTO);
+
         return userDTO;
 
     }

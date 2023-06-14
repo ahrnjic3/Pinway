@@ -96,6 +96,7 @@ public class MessagingConfig {
 //    public static final String REVERSE_EXCHANGE_FOLLOW = "revert_follow_exchange";
 //    public static final String REVERSE_ROUTING_KEY_FOLLOW = "revert_follow_routingKey";
 
+
     // comment
     @Bean
     public Queue queue() { return new Queue(QUEUE); }
