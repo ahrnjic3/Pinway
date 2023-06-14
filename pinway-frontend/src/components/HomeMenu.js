@@ -88,17 +88,31 @@ const HomeMenu = () => {
             <Notifications/>
             {user && (
             <div className="dropdown col-3">
-              <img
+              {user.image_path ? ( 
+                <img
                 className="border-0 d-flex d-flex align-items-center justify-content-center dropdown-toggle rounded-circle"
                 // not sure if this is ok
                 src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path}
                 //src = {placeholder}
-                alt=''
+                alt={placeholder}
                 width="35"
                 height="35"
-                aria-expanded="false"
+                //aria-expanded="false"
+                data-bs-toggle="dropdown"
+              ></img>) : (
+                <img
+                className="border-0 d-flex d-flex align-items-center justify-content-center dropdown-toggle rounded-circle"
+                // not sure if this is ok
+                src={placeholder}
+                //src = {placeholder}
+                alt={placeholder}
+                width="35"
+                height="35"
+                //aria-expanded="false"
                 data-bs-toggle="dropdown"
               ></img>
+            )}
+              
               <div className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                 <button
                   className="dropdown-item"

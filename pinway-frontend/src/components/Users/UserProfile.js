@@ -121,7 +121,10 @@ const UserProfile = () => {
        
           <div className="offset-1 col-md-9 text-center mx-auto">
             {/* <img src={monkey} alt="" className="d-inline-block align-text-top" /> */}
-            <img className="rounded-circle  img-responsive d-inline-block align-text-top" src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path} alt='currentPhotoURL' style={{borderRadius:"50%", width:"150px", height:"150px",objectFit:"cover"}} />
+            {user.image_path ? ( <img className="rounded-circle  img-responsive d-inline-block align-text-top" src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path} alt={placeholder} style={{borderRadius:"50%", width:"150px", height:"150px",objectFit:"cover"}} />) : (
+               <img className="rounded-circle  img-responsive d-inline-block align-text-top" src={placeholder} alt={placeholder} style={{borderRadius:"50%", width:"150px", height:"150px",objectFit:"cover"}} />
+            )}
+           
             <div style={{ margin: '0.5rem 0' }}>
               <div style={{ fontSize: '1.2rem' }}>{user.name} {user.surname}</div>
               <div className="text-secondary">@{user.username}</div>

@@ -3,6 +3,7 @@ import './EditProfile.css';
 import { getUserById, updateUser, addUserPhoto} from "api/users";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import placeholder from  "images/place_holder.png";
 
 const EditProfile = () => {
 
@@ -111,7 +112,11 @@ const EditProfile = () => {
        <div className="col-10 mx-auto">
         <div className="row">
           <div className="col-4">
-            <img className="rounded-circle  img-responsive" src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path} alt='currentPhotoURL' style={{borderRadius:"50%", width:"200px", height:"200px",objectFit:"cover"}} />
+          {user.image_path ? ( 
+          <img className="rounded-circle  img-responsive" src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path} alt='currentPhotoURL' style={{borderRadius:"50%", width:"200px", height:"200px",objectFit:"cover"}} />) : (
+            <img className="rounded-circle  img-responsive" src={placeholder} alt='currentPhotoURL' style={{borderRadius:"50%", width:"200px", height:"200px",objectFit:"cover"}} />
+            )}
+            
           </div>
           <div className="col-8">
             <div className="mt-2 container ">
