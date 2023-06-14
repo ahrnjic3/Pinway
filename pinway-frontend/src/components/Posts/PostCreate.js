@@ -22,7 +22,7 @@ const PostCreate = () => {
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [hashtags, setHashtags] = useState("")
+    const [hashtags, setHashtags] = useState('')
     const [postString, setPostString] = useState({})
     const [userCollections, setUserCollections] = useState()
     const [collection, setCollection] = useState(null)
@@ -57,16 +57,13 @@ const PostCreate = () => {
         }
 
         try {
-          const hashObject = []
-          if(hashtags.length != 0)
-          hashObject = hashtags.split(/\s+/).filter(substring => substring !== "")
           const response = await addPost(
             files,
             {
                 title : title,
                 description : description,
                 image_path : '',
-                hashtagNames: hashObject,
+                hashtagNames: hashtags.split(/\s+/).filter(substring => substring !== ""),
                 id: 1,
                 user_id: localStorage.getItem("UserId")
                 })
@@ -179,12 +176,12 @@ const PostCreate = () => {
                       <div className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                         {userCollections.map((collection) => (
                           <button
-                            key={collection.id}
+                            key={collection.collectionDTO.id}
                             className="dropdown-item"
                             type="button"
-                            onClick={() => handleCollectionItemClick(collection)}
+                            onClick={() => handleCollectionItemClick(collection.collectionDTO)}
                           >
-                            {`${collection.name}`}
+                            {`${collection.collectionDTO.name}`}
                           </button>
                         ))}
                       </div>

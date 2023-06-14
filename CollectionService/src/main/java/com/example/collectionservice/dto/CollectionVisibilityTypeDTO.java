@@ -18,6 +18,9 @@ public class CollectionVisibilityTypeDTO {
         this.type = type;
     }
 
+    public CollectionVisibilityTypeDTO() {
+    }
+
     public Integer getId() {
         return id;
     }

@@ -80,7 +80,7 @@ public class UserCollectionServiceImpl implements UserCollectionService{
 
         User user = userOpt.get();
 
-        List<CollectionDTO> collectionDTOS = collectionService.GetAllCollectionsForUser(id);
+        List<CollectionResponseDTO> collectionDTOS = collectionService.GetAllCollectionsForUser(id);
         UserVisibilityTypeDTO userVisibilityTypeDTO = new UserVisibilityTypeDTO(user.getUserVisibilityType().getId(), user.getUserVisibilityType().getType());
 
         List<UserDTO> followingDTOList = convertToDTOList(user.getFollowing());
@@ -119,7 +119,7 @@ public class UserCollectionServiceImpl implements UserCollectionService{
     }
 
     @Override
-    public Iterable<CollectionDTO> GetSharedAndPublicCollectionsForUserFromUser(Integer actionUserId, Integer userId) {
+    public Iterable<CollectionResponseDTO> GetSharedAndPublicCollectionsForUserFromUser(Integer actionUserId, Integer userId) {
         // actionUserId
         // userId
         // first get all collections from userId
@@ -136,15 +136,15 @@ public class UserCollectionServiceImpl implements UserCollectionService{
         if (!actionUserOpt.isPresent())
             throw new PinwayError("Not found User with id = " + actionUserId);
 
-        List<CollectionDTO> collectionDTOS = collectionService.GetAllCollectionsForUser(userId);
+        List<CollectionResponseDTO> collectionDTOS = collectionService.GetAllCollectionsForUser(userId);
 
         // public ones
-        List<CollectionDTO> publicCollectionDTOS = collectionService.GetPublicCollectionsForUser(userId);
+        List<CollectionResponseDTO> publicCollectionDTOS = collectionService.GetPublicCollectionsForUser(userId);
 
-        for (CollectionDTO collectionDTO : collectionDTOS) {
+        for (CollectionResponseDTO collectionDTO : collectionDTOS) {
 
             //now check the user_collection table
-            List<UserCollection> userCollection = userCollectionRepository.getByCollectionId(collectionDTO.getId());
+            List<UserCollection> userCollection = userCollectionRepository.getByCollectionId(collectionDTO.getCollectionDTO().getId());
             for (UserCollection uc : userCollection) {
                 if(uc.getUser().getId() == actionUserId)
                     publicCollectionDTOS.add(collectionDTO);

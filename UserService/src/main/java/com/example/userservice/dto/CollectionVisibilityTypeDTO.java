@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
-
 public class CollectionVisibilityTypeDTO {
 
     private Integer id;
@@ -15,17 +13,12 @@ public class CollectionVisibilityTypeDTO {
     @Pattern(regexp = "^[A-Z]*$", message = "Type must contain only uppercase letters")
     private String type;
 
-    private List<CollectionDTO> collections;
-
     public CollectionVisibilityTypeDTO(Integer id, String type) {
         this.id = id;
         this.type = type;
     }
 
-    public CollectionVisibilityTypeDTO(Integer id, String type, List<CollectionDTO> collections) {
-        this.id = id;
-        this.type = type;
-        this.collections = collections;
+    public CollectionVisibilityTypeDTO() {
     }
 
     public Integer getId() {
@@ -42,13 +35,5 @@ public class CollectionVisibilityTypeDTO {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public List<CollectionDTO> getCollections() {
-        return collections;
-    }
-
-    public void setCollections(List<CollectionDTO> collections) {
-        this.collections = collections;
     }
 }

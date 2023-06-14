@@ -1,6 +1,7 @@
 package com.example.userservice.infrastructure;
 
 import com.example.userservice.dto.CollectionDTO;
+import com.example.userservice.dto.CollectionResponseDTO;
 import com.example.userservice.dto.CollectionUpdateDTO;
 import com.example.userservice.dto.CollectionUserDTO;
 import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -75,28 +76,30 @@ public class CollectionService {
 //        return collectionDTOS;
 //    }
 
-    public List<CollectionDTO> GetAllCollectionsForUser(Integer id) {
-        List<CollectionDTO> collectionDTOS = new ArrayList<>();
+    public List<CollectionResponseDTO> GetAllCollectionsForUser(Integer id) {
+        List<CollectionResponseDTO> collectionDTOS = new ArrayList<>();
 
-        ResponseEntity<CollectionDTO[]> responseEntity = restTemplate.getForEntity("http://collection-service/api/collections/user/{id}", CollectionDTO[].class, id);
-        CollectionDTO[]  collectionDTOS1 = responseEntity.getBody();
+        ResponseEntity<CollectionResponseDTO[]> responseEntity = restTemplate.getForEntity("http://collection-service/api/collections/user/{id}", CollectionResponseDTO[].class, id);
+        CollectionResponseDTO[]  collectionDTOS1 = responseEntity.getBody();
 
 
-        for(CollectionDTO collectionDTO : collectionDTOS1) {
+        for(CollectionResponseDTO collectionDTO : collectionDTOS1) {
             collectionDTOS.add(collectionDTO);
         }
 
         return collectionDTOS;
     }
 
-    public List<CollectionDTO> GetPublicCollectionsForUser(Integer id) {
-        List<CollectionDTO> collectionDTOS = new ArrayList<>();
-
-        ResponseEntity<CollectionDTO[]> responseEntity = restTemplate.getForEntity("http://collection-service/api/collections/user/{id}/public", CollectionDTO[].class, id);
-        CollectionDTO[]  collectionDTOS1 = responseEntity.getBody();
 
 
-        for(CollectionDTO collectionDTO : collectionDTOS1) {
+    public List<CollectionResponseDTO> GetPublicCollectionsForUser(Integer id) {
+        List<CollectionResponseDTO> collectionDTOS = new ArrayList<>();
+
+        ResponseEntity<CollectionResponseDTO[]> responseEntity = restTemplate.getForEntity("http://collection-service/api/collections/user/{id}/public", CollectionResponseDTO[].class, id);
+        CollectionResponseDTO[]  collectionDTOS1 = responseEntity.getBody();
+
+
+        for(CollectionResponseDTO collectionDTO : collectionDTOS1) {
             collectionDTOS.add(collectionDTO);
         }
 

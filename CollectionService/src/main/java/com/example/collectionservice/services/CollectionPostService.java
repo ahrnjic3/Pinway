@@ -12,4 +12,8 @@ public interface CollectionPostService {
     CollectionResponseDTO GetAllPostsForCollection(Integer id);
 
     void RemovePost(Integer collectionId, Long postId);
+
+    Iterable<CollectionResponseDTO> FindAllByUserId(Integer id);
+
+    Iterable<CollectionResponseDTO> FindPublicCollectionsForUser(Integer id);
 }

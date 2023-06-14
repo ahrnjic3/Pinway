@@ -55,11 +55,6 @@ public class CollectionServiceImp implements CollectionService{
         return  collections;
     }
 
-    @Override
-    public Iterable<Collection> FindAllByUserId(Integer id) {
-        Iterable<Collection> collections = collectionRepository.findAllByIsDeletedAndUserId(false, id);
-        return  collections;
-    }
 
     @Override
     public Collection Details(Integer id) {
@@ -129,12 +124,6 @@ public class CollectionServiceImp implements CollectionService{
 
         return collectionRepository.save(collection);
 
-    }
-
-    @Override
-    public Iterable<Collection> FindPublicCollectionsForUser(Integer id) {
-        Iterable<Collection> collections = collectionRepository.findAllByIsDeletedAndUserIdAndCollectionVisibilityType_Id(false, id, 2);
-        return  collections;
     }
 
 

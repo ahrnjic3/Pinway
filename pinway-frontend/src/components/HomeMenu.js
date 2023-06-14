@@ -64,6 +64,7 @@ const HomeMenu = () => {
         <div className="container-fluid">
           <a className="navbar-brand" href="/home">
             <img
+
               src={pinway_logo}
               alt=""
               width="132"
@@ -81,12 +82,13 @@ const HomeMenu = () => {
           </div>
           <div className="d-flex">
             <Notifications/>
+            {user && (
             <div className="dropdown col-3">
               <img
                 className="border-0 d-flex d-flex align-items-center justify-content-center dropdown-toggle rounded-circle"
                 // not sure if this is ok
-                // src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path}
-                src = {placeholder}
+                src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path}
+                //src = {placeholder}
                 alt=''
                 width="35"
                 height="35"
@@ -111,6 +113,7 @@ const HomeMenu = () => {
               </div>
 
             </div>
+            )}
           </div>
         </div>
       </nav>

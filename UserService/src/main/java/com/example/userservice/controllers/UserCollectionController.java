@@ -36,7 +36,7 @@ public class UserCollectionController {
     // mora post zbog bodya
     @PostMapping(path = "/users/collection")
     public  @ResponseBody ResponseEntity GetSharedAndPublicCollectionsForUserFromUser(@Valid @RequestBody CollectionRequestDTO collectionRequestDTO) {
-        Iterable<CollectionDTO> collectionDTOS = userCollectionService.GetSharedAndPublicCollectionsForUserFromUser(collectionRequestDTO.getActionUserId(), collectionRequestDTO.getUserId());
+        Iterable<CollectionResponseDTO> collectionDTOS = userCollectionService.GetSharedAndPublicCollectionsForUserFromUser(collectionRequestDTO.getActionUserId(), collectionRequestDTO.getUserId());
         return ResponseEntity.status(200).body(collectionDTOS);
     }
 

@@ -4,9 +4,9 @@ import java.util.List;
 
 public class UserResponseDTO {
     private UserDTO userDTO;
-    private List<CollectionDTO> collectionDTOS;
+    private List<CollectionResponseDTO> collectionDTOS;
 
-    public UserResponseDTO(UserDTO userDTO, List<CollectionDTO> collectionDTOS) {
+    public UserResponseDTO(UserDTO userDTO, List<CollectionResponseDTO> collectionDTOS) {
         this.userDTO = userDTO;
         this.collectionDTOS = collectionDTOS;
     }
@@ -22,11 +22,11 @@ public class UserResponseDTO {
         this.userDTO = userDTO;
     }
 
-    public List<CollectionDTO> getCollectionDTOS() {
+    public List<CollectionResponseDTO> getCollectionDTOS() {
         return collectionDTOS;
     }
 
-    public void setCollectionDTOS(List<CollectionDTO> collectionDTOS) {
+    public void setCollectionDTOS(List<CollectionResponseDTO> collectionDTOS) {
         this.collectionDTOS = collectionDTOS;
     }
 }

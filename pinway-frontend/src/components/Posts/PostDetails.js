@@ -32,17 +32,28 @@ const PostDetails = () => {
     const navigate = useNavigate();
 
     const handleOpenUserDetails = async (item) => {
-      // Handle item click event
-      console.log(`Clicked ${item.userDTO.id}`);
       const id = item.userDTO.id;
-      console.log("id", id);
-      console.log("logged", parseInt(localStorage.getItem("UserId")));
 
       if (id === parseInt(localStorage.getItem("UserId")))
         navigate("/users/profile");
       else 
         navigate("/users/details", { state: { id } });
     };
+
+    const handleOpenCreator = async () => {
+      const id = UserDetails.id;
+
+      if (id === parseInt(localStorage.getItem("UserId")))
+        navigate("/users/profile");
+      else 
+        navigate("/users/details", { state: { id } });
+    };
+
+    const handleOpenLogged = async () => {
+        navigate("/users/profile");
+    };
+
+
 
     const handleCommentChange = async(e) => {
       setNewCommentContent(e.target.value)
@@ -58,6 +69,8 @@ const PostDetails = () => {
 
         const comments = await getCommentsForPost(postDetails.postDTO.id)
         setPostComments(comments)
+
+        setNewCommentContent('');
 
       };
     
@@ -116,15 +129,6 @@ const PostDetails = () => {
           const collectResponse = await getCollectionsForUser(localStorage.getItem("UserId"));
           setUserCollections(collectResponse);
 
-          
-          const responseFollowers = await getFollowersForUser(UserDetails.id);
-          setFollowers(responseFollowers);
-          
-        
-          const containsId = responseFollowers.some(obj => obj.id === parseInt(localStorage.getItem("UserId")));
-          if(containsId !== true)
-            setIsVisible(true);
-
           if(userCollections.length > 0){
             setCollection(collectResponse[0].id)
             setSelectedCollectionName(collectResponse[0].name)
@@ -169,12 +173,12 @@ const PostDetails = () => {
                         <div className="dropdown-menu dropdown-menu-start" aria-labelledby="dropdownMenuButton">
                           {userCollections.map((collection) => (
                             <button
-                              key={collection.id}
+                              key={collection.collectionDTO.id}
                               className="dropdown-item"
                               type="button"
-                              onClick={() => handleCollectionItemClick(collection)}
+                              onClick={() => handleCollectionItemClick(collection.collectionDTO)}
                             >
-                              {`${collection.name}`}
+                              {`${collection.collectionDTO.name}`}
                             </button>
                           ))}
                         </div>
@@ -206,7 +210,7 @@ const PostDetails = () => {
                   
                 {/* user details of the post left side and a FOLLOW BUTTON */}
                   <div className="row w-100 mt-2">
-                    <div className="col-8 d-flex align-items-center">
+                    <div onClick={handleOpenCreator}  style={{cursor: 'pointer'}} className="col-8 d-flex align-items-center">
                       <div className="col-2 me-3">
                         <img 
                           src={"http://localhost:8083/user-photos/" + UserDetails.id + "/" + UserDetails.image_path}
@@ -244,7 +248,10 @@ const PostDetails = () => {
                                   <div className="card-header p-1">
                                     <div className="row">
                                       <div className="col-9">
-                                        <p className="text-center-left mb-0"  style={{ fontSize: 16}} onClick={() => {handleOpenUserDetails(comment)}} >{comment.userDTO.name + " " + comment.userDTO.surname}</p>
+                                        <p className="text-center-left mb-0"  
+                                          style={{ fontSize: 16, cursor: 'pointer'}}
+                                          onClick={() => {handleOpenUserDetails(comment)}} 
+                                        >{comment.userDTO.name + " " + comment.userDTO.surname}</p>
                                       </div>
                                       { !comment.commentDTO.likes.some(like => {
                                         return like.userId == localStorage.getItem("UserId")  && like.commentId === comment.commentDTO.id
@@ -276,12 +283,12 @@ const PostDetails = () => {
                               <div className="d-flex align-items-center flex-column" style={{width:"90%"}}>
                                 <div className="row w-100 mt-5">
                                   <div className="form-group">
-                                      <label htmlFor="textDesc" style={{color: "white", fontSize:20}}>Add a comment</label>
-                                      <textarea className="form-control" id="textDesc" rows="3" value={newCommentContent} onChange={handleCommentChange}></textarea>
+                                      <label htmlFor="textDesc"  style={{color: "white", fontSize:20}}>Add a comment</label>
+                                      <textarea className="form-control" id="textDesc" placeholder='Add a comment...' rows="3" value={newCommentContent} onChange={handleCommentChange}></textarea>
                                   </div>
                                 </div>
                                 <div className="row w-100 mt-2 w-100">
-                                  <div className="col-8 d-flex align-items-center ">
+                                  <div  onClick={handleOpenLogged} style={{cursor:'pointer'}} className="col-8 d-flex align-items-center ">
                                     <div className="col-2 me-3">
                                       <img src={"http://localhost:8083/user-photos/" + loggedInUserDetails.id + "/" + loggedInUserDetails.image_path } alt="" className="rounded-circle" style={{height:"50px", width:"50px"}}></img>
                                     </div>

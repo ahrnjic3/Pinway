@@ -103,4 +103,29 @@ public class CollectionPostServiceImpl implements CollectionPostService {
 
         return collectionResponseDTO;
     }
+
+
+    @Override
+    public Iterable<CollectionResponseDTO> FindPublicCollectionsForUser(Integer id) {
+        Iterable<Collection> collections = collectionRepository.findAllByIsDeletedAndUserIdAndCollectionVisibilityType_Id(false, id, 2);
+
+        List<CollectionResponseDTO> collectionResponseDTOS = new ArrayList<>();
+        for (Collection c : collections) {
+            CollectionResponseDTO collectionResponseDTO = GetAllPostsForCollection(c.getId());
+            collectionResponseDTOS.add(collectionResponseDTO);
+        }
+        return  collectionResponseDTOS;
+    }
+
+    @Override
+    public Iterable<CollectionResponseDTO> FindAllByUserId(Integer id) {
+        Iterable<Collection> collections = collectionRepository.findAllByIsDeletedAndUserId(false, id);
+        // za svaku kolekciju sada treba uzeti postove
+        List<CollectionResponseDTO> collectionResponseDTOS = new ArrayList<>();
+        for (Collection c : collections) {
+            CollectionResponseDTO collectionResponseDTO = GetAllPostsForCollection(c.getId());
+            collectionResponseDTOS.add(collectionResponseDTO);
+        }
+        return  collectionResponseDTOS;
+    }
 }

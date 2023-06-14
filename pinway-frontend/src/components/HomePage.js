@@ -102,7 +102,7 @@ const Root = () => {
     {posts && posts.map((post) => (
       <img
         key={post.postDTO.id}
-        width="231"
+        width="260"
         style={{ margin: '10px' }}
         className="rounded"
         src={"http://localhost:8080/post-photos/" + post.postDTO.id + "/" + post.postDTO.image_path}

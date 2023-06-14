@@ -3,13 +3,15 @@ import API from "./api";
 export const getCollectionsForUser = async (id) => {
   const response = await API.get(`/api/users/${id}/collection`);
   //const response = await API.get(`/api/users/${id}/collection`);
+  //console.log("Post for user are: ");
+  //console.log(response.data);
   return response.data;
 };
 
 export const getVisibleCollectionsForUser = async (data) => {
-  console.log("This is data: ", data);
+  //console.log("This is data: ", data);
   const response = await API.post(`/api/users/collection`, data, { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` } });
-  console.log("This is response.data: ", response.data);
+  // console.log("This is response.data: ", response.data);
   return response.data;
 }
 

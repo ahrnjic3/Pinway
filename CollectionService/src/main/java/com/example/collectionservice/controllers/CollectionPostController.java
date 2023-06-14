@@ -29,4 +29,17 @@ public class CollectionPostController {
         CollectionResponseDTO collection = collectionPostService.GetAllPostsForCollection(id);
         return ResponseEntity.status(200).body(collection);
     }
+
+    //users
+    @GetMapping(path="/api/collections/user/{id}")
+    public @ResponseBody ResponseEntity GetCollectionsForUser( @PathVariable("id") Integer id) {
+        Iterable<CollectionResponseDTO> collections = collectionPostService.FindAllByUserId(id);
+        return  ResponseEntity.status(200).body(collections);
+    }
+
+    @GetMapping(path="/api/collections/user/{id}/public")
+    public @ResponseBody ResponseEntity GetPublicCollectionsForUser( @PathVariable("id") Integer id) {
+        Iterable<CollectionResponseDTO> collections = collectionPostService.FindPublicCollectionsForUser(id);
+        return  ResponseEntity.status(200).body(collections);
+    }
 }

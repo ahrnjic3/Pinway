@@ -1,10 +1,8 @@
 package com.example.userservice.dto;
 
-
-import jakarta.validation.constraints.*;
-
-import java.time.LocalDate;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class CollectionDTO {
 
@@ -17,13 +15,15 @@ public class CollectionDTO {
     @NotNull
     private CollectionVisibilityTypeDTO collectionVisibilityTypeDTO;
 
-    @PastOrPresent
-    @NotNull
-    private LocalDate createdAt;
+    public CollectionDTO(Integer id, String name, CollectionVisibilityTypeDTO collectionVisibilityTypeDTO) {
+        this.id = id;
+        this.name = name;
+        this.collectionVisibilityTypeDTO = collectionVisibilityTypeDTO;
+    }
 
-    @Positive(message = "Number of posts must be positive ")
-    @NotNull
-    private Integer numOfPosts;
+
+    public CollectionDTO() {
+    }
 
     public Integer getId() {
         return id;
@@ -47,21 +47,5 @@ public class CollectionDTO {
 
     public void setCollectionVisibilityTypeDTO(CollectionVisibilityTypeDTO collectionVisibilityTypeDTO) {
         this.collectionVisibilityTypeDTO = collectionVisibilityTypeDTO;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Integer getNumOfPosts() {
-        return numOfPosts;
-    }
-
-    public void setNumOfPosts(Integer numOfPosts) {
-        this.numOfPosts = numOfPosts;
     }
 }
