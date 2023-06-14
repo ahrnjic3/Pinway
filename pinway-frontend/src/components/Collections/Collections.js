@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation  } from "react-router-dom";
 
 
-import { getPostsForCollection, deleteCollection } from "api/collections";
+import { deleteCollection } from "api/collections";
 import { getFollowersForUser, addUserToCollection } from "api/users";
 import Loader from "components/Loader";
 import CollectionDelete from "components/Collections/CollectionDelete";
@@ -27,7 +27,7 @@ const Collections = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const { id } = location.state;
+    const { item } = location.state;
 
     const handleClick = () => {
       setModal(!modal);
@@ -35,7 +35,7 @@ const Collections = () => {
 
     const handleDelete = async () => {
       try {
-        await deleteCollection(id);
+        await deleteCollection(item.collectionDTO.id);
         toast.success("Collection deleted!");
         navigate("/users/profile");
       } catch (err) {
@@ -67,14 +67,13 @@ const Collections = () => {
         const fetch = async () => {
           try {
             setLoading(true);
-            const response = await getPostsForCollection(id);
             // followers
             const followers = await getFollowersForUser(localStorage.getItem("UserId"),);
-            setCollection(response.collectionDTO);
-            setPosts(response.postDTO);
+            setCollection(item.collectionDTO);
+            setPosts(item.postDTO);
             setFollowers(followers);
             setData({
-              "collectionId": response.collectionDTO.id
+              "collectionId": item.collectionDTO.id
             })
           } catch (e) {
             setError("Unable to fetch collections!");
@@ -84,7 +83,7 @@ const Collections = () => {
         };
     
         fetch();
-      }, [id]);
+      }, [item]);
 
     if (error) {
       return (
@@ -104,14 +103,15 @@ const Collections = () => {
             <div className="row">
               <div className="col-md-3 h-25">
                 <div className="row">
-                  <div className="container rounded offset-2 col-8 p-4" style={{ backgroundColor: '#d7a8f5' }}>
+                  <div className="container offset-2 col-8 p-4" 
+                    style={{ borderRadius: '30px', background: '#d7a8f5'}}
+                  >
                     <div className="row">
                       <div className="col-md-12 text-center mb-3">
                         <button 
                           className="btn btn-light"
                           style={{ 
                             backgroundColor: '#ffffff', 
-                            color: 'grey', 
                             borderRadius: '30px', 
                             padding: '8px 16px', 
                             fontSize: '16px' 

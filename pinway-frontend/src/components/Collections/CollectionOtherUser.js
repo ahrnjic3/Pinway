@@ -18,9 +18,9 @@ const CollectionOtherUser = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const { id, userId } = location.state;
+    const { item, userId } = location.state;
 
-    const getRandomHeight = () => Math.floor(Math.random() * 31) + 190;
+    const getRandomHeight = () => Math.floor(Math.random() * 21) + 210;
 
     const handleProfile = () => {
       const id = userId;
@@ -32,11 +32,9 @@ const CollectionOtherUser = () => {
         const fetch = async () => {
           try {
             setLoading(true);
-            const response = await getPostsForCollection(id);
             const responseUser = await getUserById(userId);
-
-            setData(response.collectionDTO);
-            setPosts(response.postDTO);
+            setData(item.collectionDTO);
+            setPosts(item.postDTO);
             setUser(responseUser);
           } catch (e) {
             setError("Unable to fetch collection!");
@@ -46,7 +44,7 @@ const CollectionOtherUser = () => {
         };
     
         fetch();
-      }, [id,userId]);
+      }, [item, userId]);
 
     if (error) {
       return (
@@ -59,40 +57,39 @@ const CollectionOtherUser = () => {
     }
 
     return (
-        <div className="container" style={{padding: '20px'}}>
+        <div className="container">
           <Loader isLoading={loading} />
           {posts && (
             <div className="row">
-              <div className="col-md-3 h-25">
+              <div className="col-3">
                 <div className="row">
-
-                <div 
-                  className="container rounded offset-md-2 col-md-8 p-4" 
-                  style={{ background: '#d7a8f5'}}
-                >
+                  <div 
+                    className="container offset-1 col-9 p-4" 
+                    style={{ borderRadius: '30px', background: '#d7a8f5'}}
+                  >
                   <div className="row">
                     <div className="col-md-12 text-center mb-3">
                       <button 
                         className="btn btn-light" 
                         style={{ 
                           backgroundColor: '#ffffff', 
-                          color: 'grey', 
+                          //color: 'grey', 
                           borderRadius: '30px', 
                           padding: '8px 16px', 
-                          fontSize: '16px',
-                          
+                          fontSize: '18px',
                         }}
                       >
                         {data.name}
                       </button>
+                      <div className="text-secondary" style={{fontSize: '14px'}}>{posts.length} Pins</div>
                     </div>
 
                     <div className="d-flex align-items-center">
                       <img 
                         className="rounded-circle me-2" 
                         style={{cursor: 'pointer'}}
-                        src={placeholder}
-                        alt=''
+                        src={"http://localhost:8083/user-photos/" + user.id + "/" + user.image_path}
+                        alt={placeholder}
                         width="35" 
                         height="35" 
                         onClick={handleProfile}
@@ -102,7 +99,9 @@ const CollectionOtherUser = () => {
                         onClick={handleProfile}
                       >
                         {user.name} {user.surname}
+                        <div className="text-secondary" style={{fontSize: '14px'}}>@{user.username}</div>
                       </span>
+                      
                     </div>
 
                   </div>
@@ -111,7 +110,8 @@ const CollectionOtherUser = () => {
 
                 </div>
               </div>
-              <div className="col-md-9" style={{ border: '2px solid lightgrey', borderRadius: '10px', padding: '15px', textAlign: 'center' }}>
+              
+              <div className="col-9" style={{ border: '2px solid lightgrey', borderRadius: '10px', padding: '15px', textAlign: 'center' }}>
               {posts.length === 0 ? (
                 <div style={{ margin: 'auto',  width: '100%', height: '100%'}}>
                   <div style={{ color:'grey', textAlign: 'center' }}>There aren't any Pins on this board yet.</div>
@@ -121,8 +121,8 @@ const CollectionOtherUser = () => {
                   {posts.map((post) => (
                     <img
                       key={post.id}
-                      width="180"
-                      style={{ height: getRandomHeight(), margin: '10px' }}
+                      width="195"
+                      style={{ height: getRandomHeight(), margin: '5px' }}
                       className="rounded"
                       src={'http://localhost:8080/post-photos/' + post.id + '/' + post.image_path}
                       alt={placeholder}

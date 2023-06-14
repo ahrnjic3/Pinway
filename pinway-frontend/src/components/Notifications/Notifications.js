@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate  } from "react-router-dom";
 
 import { getNotificationsForUser, updateNotification } from "api/notifications";
+
+import pin from  "images/pin.svg";
+import follow from "images/person-add.svg";
+
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const [read, setRead] = useState(true);
   const [click, setClick] = useState(0);
-  const [disable, setDisable] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -15,7 +21,6 @@ const Notifications = () => {
           setNotifications(response);
           if (response && response.length > 0) {
             setRead(false);
-            setDisable(false);
           }
         } catch (error) {
           console.error('Error fetching notifications:', error);
@@ -57,8 +62,24 @@ const Notifications = () => {
 
   const handleDropdownClose = () => {
     setNotifications([]);
-    setDisable(true);
     console.log('Dropdown closed');
+  };
+
+  const handleItemClick = async (item) => {
+    // Handle item click event
+    console.log('Clicked ', item);
+
+    if(item.notificationType.id === 3) {
+      const id = item.actionUserId
+      console.log("id je: ", id);
+      navigate("/users/details", { state: { id } });
+    }
+    
+    if(item.notificationType.id === 4) {
+      const id = item.pinnedPost
+      console.log("id je: ", id);
+      navigate("/posts/details", { state: { id } });
+    }
   };
 
   return (
@@ -71,7 +92,6 @@ const Notifications = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
                 onClick={handleRingButtonClick}
-                disabled={disable}
             >
                 <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -85,15 +105,30 @@ const Notifications = () => {
                 </svg>
             </button>
                 <div className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                  {notifications.length === 0 ? (
+                    <button
+                    className="dropdown-item"
+                    type="button"
+                    >No unread notifications.
+                    </button> 
+                  ) : 
+                  (
+                    <div>
                     {notifications.map((notification) => (
                     <button
                         key={notification.id}
                         className="dropdown-item"
                         type="button"
+                        onClick={() => handleItemClick(notification)}
                     >
-                        {`${notification.content}`}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '5px' }}>
+                        {notification.notificationType.id === 3 ? (<img src={follow} alt='' />) : (<img src={pin} alt='' />)}
+                        {notification.content}
+                      </div>
                     </button>
                     ))}
+                    </div>
+                  )}
                 </div>
         </div>
     </div>
