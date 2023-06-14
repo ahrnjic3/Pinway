@@ -4,6 +4,7 @@ import axios from 'axios';
 import Logo from 'images/pinway_logo.png';
 import { addUSer } from 'api/users';
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import placeholder from  "images/place_holder.png";
 
@@ -57,33 +58,32 @@ function Registration(){
         if(error){
             return;
         }
+
+        error = false
         try
             {
-                addUSer({
-                    id:1,
+                console.log("mail " +email)
+                let a = await addUSer({
                     name: name,
                     surname: surname,
                     username: username,
                     email: email,
-                    password: password,
-                    userVisibilityType:{
-                        id:1,
-                        type: "PUBLIC"
-                    }
+                    password: password
                 })
+                console.log(a);
             }
         catch(err)
             {
-            alert("User Registration Failed");
+            console.log("error: "+ err )
+            toast.error("Username or email already taken");
+            error = true
             return;
             }
         finally{
-            alert("User Registration Successfully");
-            setName("");
-            setSurname("");
-            setUsername("");
-            setEmail("");
-            setPassword("");
+            if(error){
+                return;
+            }
+            toast.sucess("Registration confirmed");
             navigate("/login")
         }
    }
@@ -92,8 +92,10 @@ function Registration(){
         return (
         <div>
             <div className='form-container mx-auto mt-4'>
-                <div className='form-content-left rounded px-2'>
-                        <h2> <img className="image image-contain w-100" src={Logo} alt="Pinway logo"></img></h2>
+                <div className='form-content-left rounded px-5'>
+                    <div className=" text-center">
+                        <img className="image image-contain w-50 mt-2 mx-auto" src={Logo} alt="Pinway logo"></img>
+                    </div>
                         <h3>Please Sign Up</h3>
 
                         <div className='form-group'>

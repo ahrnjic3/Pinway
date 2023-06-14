@@ -33,7 +33,7 @@ export const getUserById = async (id) => {
 };
 
 export const addUSer = async(data) => {
-  const response = await API.post(`/api/users`, data,  { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` }});
+  const response = await API.post('/api/users', data,  { headers: { Authorization: `Bearer ${localStorage.getItem('Bearer')}` }});
   return response.data;
 }
 
