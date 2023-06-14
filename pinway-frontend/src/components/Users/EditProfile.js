@@ -19,6 +19,10 @@ const EditProfile = () => {
   const [surname, setSurname] = useState('');
   const [user, setUSer] = useState('');
 
+  const [nameError, setNameError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [surnameError, setSurnameError] = useState('');
+
   const navigate = useNavigate();
 
   const uploadFileHandler = (event) => {
@@ -42,16 +46,24 @@ const EditProfile = () => {
       userCollections:[]
   }
 
+  setUsernameError('');
+  setNameError('');
+  setSurnameError('');
+
+  let error = false 
   if(username.length == 0){
-    toast.error("Please set the username");
-    return;
+    setUsernameError("Please set the username");
+    error = true;
   }
   if(name.length == 0){
-    toast.error("Please set the name");
-    return;
+    setNameError("Please set the name");
+    error = true;
   }
   if(surname.length == 0){
-    toast.error("Please set the surname");
+    setSurnameError("Please set the surname");
+    error = true;
+  }
+  if (error){
     return;
   }
     try{
@@ -64,7 +76,9 @@ const EditProfile = () => {
     } catch(e){
       toast.error("Some changes might hot have been saved")
     } finally{
-      navigate("/users/profile")
+      if(!error){
+        navigate("/users/profile")
+      }
     }
   }
 
@@ -130,6 +144,7 @@ const EditProfile = () => {
            value={username}
            onChange = {handleUsernameChange}
          />
+         {usernameError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{usernameError}</p>}
        </div>
 
        <div className='form-group'>
@@ -143,6 +158,7 @@ const EditProfile = () => {
            value={name}
            onChange = {handleNameChange}
          />
+         {nameError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{nameError}</p>}
        </div>
 
        <div className='form-group'>
@@ -156,6 +172,7 @@ const EditProfile = () => {
            value={surname}
            onChange = {handleSurnameChange}
          />
+         {surnameError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{surnameError}</p>}
        </div>
 
 

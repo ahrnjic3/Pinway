@@ -107,6 +107,10 @@ public class PostServiceImp implements PostService{
                     contains = true;
                     break;
                 }
+                if (post.getHashtags().stream().anyMatch(h -> h.getName().toLowerCase().equals(word.toLowerCase()))){
+                    contains = true;
+                    break;
+                }
             }
             if(contains == true) {
 

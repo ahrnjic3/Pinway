@@ -9,19 +9,58 @@ import placeholder from  "images/place_holder.png";
 
 function Registration(){
 
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const [nameError, setNameError] = useState('');
+    const [surnameError, setSurnameError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [emailError, setEmailError]  = useState('');
+    const [passwordError, setPasswordError]  = useState('');
     const navigate = useNavigate();
 
     async function save(event)
         {
+        console.log("name", name)
         event.preventDefault();
+        setUsernameError("");
+        setNameError("");
+        setSurnameError("");
+        setPasswordError("");
+        setEmailError("")
+        let error = false;
+        let regName = new RegExp('.+[@].+[\\.].+')
+        if (username.length == 0){
+            setUsernameError('Username cannot be empty')
+            error = true;
+        }
+        if (name.length == 0){
+            setNameError('First name cannot be empty')
+            error = true;
+        }
+        if (surname.length == 0){
+            setSurnameError('Last name cannot be empty')
+            error = true;
+        }
+        if (password.length == 0){
+            setPasswordError('Password cannot be empty')
+            error = true;
+        }
+        if (!regName.test(email)){
+            setEmailError('Please enter a valid email')
+            error = true;
+        }
+
+        if(error){
+            return;
+        }
         try
             {
                 addUSer({
+                    id:1,
                     name: name,
                     surname: surname,
                     username: username,
@@ -30,12 +69,7 @@ function Registration(){
                     userVisibilityType:{
                         id:1,
                         type: "PUBLIC"
-                    },
-                    following:[],
-                    followers:[],
-                    numOfFollowing:0,
-                    numOfFollowers:0,
-                    userCollections:[]
+                    }
                 })
             }
         catch(err)
@@ -63,6 +97,7 @@ function Registration(){
                         <h3>Please Sign Up</h3>
 
                         <div className='form-group'>
+                            <label className='form-label'>First name</label>
                             <input
                                 className='form-control'
                                 type='text'
@@ -74,6 +109,7 @@ function Registration(){
                                     setName(event.target.value);
                                     }}
                             />
+                            {nameError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{nameError}</p>}
                         </div>
 
                         <div className='form-group'>
@@ -89,6 +125,7 @@ function Registration(){
                                         setSurname(event.target.value);
                                     }}
                             />
+                            {surnameError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{surnameError}</p>}
                         </div>     
 
                         <div className='form-group'>
@@ -104,6 +141,7 @@ function Registration(){
                                        setUsername(event.target.value);
                                 }}
                             />
+                            {usernameError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{usernameError}</p>}
                         </div>
 
                         <div className='form-group'>
@@ -119,6 +157,7 @@ function Registration(){
                                        setEmail(event.target.value);
                                    }}
                             />
+                            {emailError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{emailError}</p>}
                         </div>
 
                         <div className='form-group'>
@@ -134,6 +173,7 @@ function Registration(){
                                         setPassword(event.target.value);
                                     }}
                             />
+                            {passwordError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{passwordError}</p>}
                         </div>
 
                         <button className="button-login" onClick={save}>

@@ -26,33 +26,47 @@ const PostCreate = () => {
     const [postString, setPostString] = useState({})
     const [userCollections, setUserCollections] = useState()
     const [collection, setCollection] = useState(null)
-    const [selectedCollectionName, setSelectedCollectionName] = useState()
+    const [selectedCollectionName, setSelectedCollectionName] = useState('')
     const [loading, setLoading] = useState(true);
+
+    const [fileError, setFileError] = useState('');
+    const [descriptionError, setDescriptionError] = useState('');
+    const [titleError, setTitleError] = useState('');
+    const [collectionError, setCollectionError] = useState('');
     //base end point url
 
     const navigate = useNavigate();
 
     const handleFileUpload = async (e) => {
+        let error = false;
         e.preventDefault()
+        setTitleError('');
+        setDescriptionError('');
+        setCollectionError('');
+        setFileError('')
         if(files == null)
         {
-          toast.error("Please add an image you wish to upload");
-          return;
+          setFileError("Please add an image you wish to upload");
+          error = true;
         }
         if(title.length == 0){
-          toast.error("Please add a title");
-          return;
+          setTitleError("Please add a title");
+          error = true;
         }
         if(title.length > 50){
-          toast.error("Title must contain less than 50 characters");
-          return;
+          setTitleError("Title must contain less than 50 characters");
+          error = true;
         }
         if(description.length > 500){
-          toast.error("Description must contain less than 500 characters");
-          return;
+          setDescriptionError("Description must contain less than 500 characters");
+          error = true;
         }
-        if(collection == null){
-          toast.error("Please pick a collection");
+        if(selectedCollectionName == ''){
+          setCollectionError("Please pick a collection");
+          error = true;
+        }
+
+        if(error){
           return;
         }
 
@@ -71,7 +85,7 @@ const PostCreate = () => {
           toast.success("Post created!");
           navigate("/users/profile");
         } catch (err) {
-          toast.error("Post creation failed!");
+          toast.error("Post creation failed!" + err);
           console.log(postString)
         }
       };
@@ -81,9 +95,15 @@ const PostCreate = () => {
        };
 
     useEffect(() => {
-      setTitle("Title");
-      setDescription("Decription");
-      setHashtags([""]);
+      setTitle('');
+      setDescription('');
+      setHashtags(['']);
+      setSelectedCollectionName('')
+      setTitleError('');
+      setDescriptionError('');
+      setCollectionError('');
+      setFileError('')
+      setHashtags('');
 
       const fetch = async () => {
         try {
@@ -94,7 +114,7 @@ const PostCreate = () => {
             setSelectedCollectionName(userCollections[0].name)
           }
         }catch (e) {
-          setHashtags([]);
+          setHashtags('');
           //setError("Unable to fetch collections for user!");
         } finally {
           setLoading(false);
@@ -128,9 +148,10 @@ const PostCreate = () => {
                               <p>with to post</p>
                             </blockquote>
                           </figure>
-                        <div className="container rounded mt-auto mb-4 w-75" >
+                        <div className="container rounded mt-auto mb-2 w-75" >
                           <input className="form-control" type="file" onChange={uploadFileHandler} id="formFile"  style={{background: '#d7a8f5 100%', color: 'grey'}}/>
                         </div>
+                        {fileError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{fileError}</p>}
                         {!fileSize && <p style={{color:'red'}}>File size exceeded!!</p>}
                         {fileUploadProgress && <p style={{color:'red'}}>Uploading File(s)</p>}
                         {fileUploadResponse!=null && <p style={{color:'green'}}>{fileUploadResponse}</p>}
@@ -146,15 +167,17 @@ const PostCreate = () => {
                           type='text'
                           name='title'
                           value = {title}
-                          placeholder='Title'
+                          placeholder='Give your pin a title'
                           onChange = {handleTitleChange}
                       />
+                       {titleError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{titleError}</p>}
                     </div>
                   </div>
                   <div className="row w-100">
                     <div className="form-group">
                         <label htmlFor="textDesc" style={{color: "white", fontSize:20}}>Description</label>
-                        <textarea className="form-control" id="textDesc"  onChange = {handleDescriptionChange} rows="3"></textarea>
+                        <textarea className="form-control" id="textDesc"  onChange = {handleDescriptionChange} rows="3" placeholder="Say more about this pin"></textarea>
+                        {descriptionError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{descriptionError}</p>}
                       </div>
                     </div>
                   <div className="row w-100 mt-4">
@@ -164,11 +187,10 @@ const PostCreate = () => {
                             type='text'
                             name='collection'
                             value = {selectedCollectionName}
-                            placeholder='Collection'
+                            placeholder=''
                             disabled
                         />
                     </div>
-
                     <div className="dropdown col-3">
                       <button className="btn btn-light text-secondary mb-1 btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Share
@@ -186,12 +208,13 @@ const PostCreate = () => {
                         ))}
                       </div>
                     </div>
+                    {collectionError && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{collectionError}</p>}
                   </div>
 
                   <div className='form-inputs rounded mt-auto '>
                       <div className="form-group">
                         <label htmlFor="exampleFormControlTextarea1" style={{color: "white", fontSize:20}}>Hashtags</label>
-                        <textarea className="form-control" id="exampleFormControlTextarea1"  onChange = {handleHashtagChange} rows="3"></textarea>
+                        <textarea className="form-control" id="exampleFormControlTextarea1"  onChange = {handleHashtagChange} rows="3"  placeholder="Add tags that describe your pin"></textarea>
                       </div>
                   </div>
                 </div>

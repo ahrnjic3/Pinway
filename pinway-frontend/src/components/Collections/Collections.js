@@ -168,13 +168,19 @@ const Collections = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-9" style={{ border: '2px solid lightgrey', borderRadius: '10px', padding: '15px', textAlign: 'center' }}>
+              <div className="col-md-9 px-auto" style={{ border: '2px solid lightgrey', borderRadius: '10px', padding: '15px', textAlign: 'center' }}>
               {posts.length === 0 ? (
                 <div style={{ margin: 'auto',  width: '100%', height: '100%'}}>
                   <div style={{ color:'grey', textAlign: 'center' }}>There aren't any Pins on this board yet.</div>
                 </div>
               ) : (
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                <div
+                style={{display: "flex",
+                  "flex-wrap": "wrap",
+                  "justify-content": "flex-start",
+                  "align-items": "center",
+                  marginLeft: "7.5%"}}
+                  >
                   {posts.map((post) => (
                     <img
                       key={post.id}
