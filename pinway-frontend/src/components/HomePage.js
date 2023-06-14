@@ -9,6 +9,8 @@ import { useStore } from "./StoreContext";
 
 const Root = () => {
 
+    const {search: globalSearch, setSearch: setGlobalSearch} = useStore();
+
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -49,6 +51,7 @@ const Root = () => {
     const handleItemClick = async (item) => {
         // Handle item click event
         console.log(`Clicked ${item.name}`);
+        setGlobalSearch(item.name)
     };
 
     const handlePostClick = async (item) => {

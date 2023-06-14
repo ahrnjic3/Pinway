@@ -61,7 +61,6 @@ const PostDetails = () => {
 
     const addCommentHandle = async () => {
         if (newCommentContent.length === 0){
-          toast.error("Comment is empty!");
           return;
         }
         const data = {id:0, content:newCommentContent, post_id: postId, user_id: loggedInUserDetails.id}

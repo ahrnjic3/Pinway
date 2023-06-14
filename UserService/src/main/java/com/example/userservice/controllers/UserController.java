@@ -1,6 +1,7 @@
 package com.example.userservice.controllers;
 
 import com.example.postservice.utils.FileUploadUtil;
+import com.example.userservice.dto.RegistrationDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.dto.UserIdDTO;
 import com.example.userservice.models.User;
@@ -31,7 +32,7 @@ public class UserController {
 
 
     @PostMapping(path = "/users") // Map ONLY POST Requests
-    public @ResponseBody ResponseEntity AddUser (@Valid @RequestBody User requestBody) {
+    public @ResponseBody ResponseEntity AddUser (@Valid @RequestBody RegistrationDTO requestBody) {
         User user = userService.Create(requestBody);
         return ResponseEntity.status(201).body(user);
 
@@ -90,7 +91,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
+    public ResponseEntity<User> registerUser(@RequestBody RegistrationDTO user) {
         User newUser = userService.registerUser(user);
         return ResponseEntity.status(201).body(newUser);
     }

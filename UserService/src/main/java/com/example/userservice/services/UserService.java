@@ -1,5 +1,6 @@
 package com.example.userservice.services;
 
+import com.example.userservice.dto.RegistrationDTO;
 import com.example.userservice.dto.UserDTO;
 import com.example.userservice.models.User;
 import com.example.userservice.models.UserVisibilityType;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-        User Create(User user);
+        User Create(RegistrationDTO user);
 
         Iterable<User> List();
 
@@ -27,7 +28,7 @@ public interface UserService {
         User addRoleToUser(String username, String name);
         Mono<User> getByUsername(String username);
 
-        User registerUser(User user);
+        User registerUser(RegistrationDTO user);
 
         User updateImage(Integer userId, String fileName);
 }

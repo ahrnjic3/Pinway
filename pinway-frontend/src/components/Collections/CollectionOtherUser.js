@@ -27,6 +27,13 @@ const CollectionOtherUser = () => {
       navigate("/users/details", { state: { id } });
     }
 
+    const handlePostClick = async (item) => {
+      // Handle item click event
+      console.log(`Clicked ${item.id}`);
+      const id = item.id;
+      navigate("/posts/details", { state: { id } });
+    };
+
 
     useEffect(() => {
         const fetch = async () => {
@@ -117,12 +124,18 @@ const CollectionOtherUser = () => {
                   <div style={{ color:'grey', textAlign: 'center' }}>There aren't any Pins on this board yet.</div>
                 </div>
               ) : (
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                <div  style={{display: "flex",
+                "flex-wrap": "wrap",
+                "justify-content": "flex-start",
+                "align-items": "center",
+                marginLeft: "7.5%"}}
+                >
                   {posts.map((post) => (
                     <img
                       key={post.id}
                       width="195"
                       style={{ height: getRandomHeight(), margin: '5px' }}
+                      onClick={() => handlePostClick(post)}
                       className="rounded"
                       src={'http://localhost:8080/post-photos/' + post.id + '/' + post.image_path}
                       alt={placeholder}

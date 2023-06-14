@@ -8,7 +8,7 @@ const ShowHomeMenu = ({children}) => {
 
     useEffect(() => {
         console.log("location: " + location)
-        if(location.pathname == '/login' || location.pathname == '/register'){
+        if(location.pathname == '/login' || location.pathname == '/registration'){
             setShowNavbar(false)
         } else {
             setShowNavbar(true)
